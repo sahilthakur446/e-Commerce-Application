@@ -1,0 +1,29 @@
+<div class="w-screen h-screen flex flex-row bg-blue-50 justify-center items-center">
+    <form class="w-100 flex flex-col gap-2 bg-white shadow-md" [formGroup]="formGroup" (ngSubmit)="post()">
+        <div class="flex ">
+            <label class="text-xl " for="firstname">First Name:</label>
+            <input class="outline-8" type="text" name="firstname" id="firstname" formControlName="firstname">
+        </div>
+        <div class="flex form-group">
+            <label class="label" for="lastname">Last Name:</label>
+            <input class="input" type="text" name="lastname" id="lastname" formControlName="lastname">
+        </div>
+
+        <div class="flex form-group">
+            <label class="label" for="email">Email:</label>
+            <input class="input" type="email" name="email" id="email" formControlName="email">
+        </div>
+
+        <div class="flex form-group">
+            <label class="label" for="pass">Password:</label>
+            <input class="input" type="password" name="password" id="pass" formControlName="password">
+        </div>
+
+        <div class="flex form-group">
+            <label class="label" for="cpassword">Confirm Password:</label>
+            <input class="" type="" name="" id="" formControlName="confirmpassword">
+        </div>
+
+        <input type="submit" value="Submit">
+    </form>
+</div>
