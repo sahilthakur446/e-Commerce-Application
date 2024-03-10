@@ -10,20 +10,24 @@ import { RegisterComponent } from './account/register/register.component';
 import { HomepageComponent } from './homepage/homepage.component'
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http';
+import { AddProductComponent } from './admin-components/add-product/add-product.component';
+import { TestingComponent } from './testing/testing.component'
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     LoginComponent,
     RegisterComponent,
-    HomepageComponent
+    HomepageComponent,
+    AddProductComponent,
+    TestingComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgHeroiconsModule,
-    FormsModule,
+    FormsModule, 
     HttpClientModule,
     ReactiveFormsModule
   ],

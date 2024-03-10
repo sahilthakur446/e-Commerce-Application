@@ -34,7 +34,12 @@ post(){
 
 getProducts(){
   let url = "https://localhost:7248/api/Product/GetAllProducts"
-  this.http.get(url).subscribe((response:any)=> { this.products = Object.entries(response.$values)
+  this.http.get(url).subscribe((response:any)=> {
+    console.log(response);
+    
+    this.products = Object.entries(response)
+    console.log(this.products);
+    
   for (const iterator of this.products) {
     console.log(iterator[1]);
     console.log(`Product Name = ${iterator[1].productName}`);
