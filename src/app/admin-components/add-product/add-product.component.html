@@ -1,10 +1,15 @@
-<div class="w-full pt-14 mb-5">
-  <h1 class="text-2xl mb-5 text-slate-800 font-semibold ml-44 mt-8">Add Product</h1>
+<div class="w-full pt-16 mb-5 flex flex-col">
+  <div>
+  <h1 class="text-2xl mb-5 text-slate-800 font-semibold ml-48 mt-8">Add Product</h1>
+</div>
   <div class="flex justify-center ml-1">
-    <div class="w-2/4 flex flex-col gap-2">
+    <div ngForm #form="ngForm" class="w-2/4 flex flex-col gap-2">
       <div class="w-3/4 flex flex-col">
-      <label class="text-slate-700 font-semibold mb-1" for="name">Name</label>
-      <input type="text" id="name" class="p-1 block w-full rounded border border-gray-600" [(ngModel)]="productName">
+        <div class="flex gap-4">
+          <label for="name" class="text-slate-700 font-semibold mb-1">Name</label>
+          <span class="text-red-400" *ngIf="name.invalid && name.touched">Required</span>
+        </div>
+      <input type="text" id="name" name="productName" class="p-1 block w-full rounded border border-gray-600" [placeholder]="" #name="ngModel" required [(ngModel)]="productName">
       </div>
       <div class="w-3/4 flex flex-col">
         <label class="text-slate-700 font-semibold mb-1" for="product description">Product Description</label>
@@ -23,13 +28,13 @@
         </div>
         <div class="flex flex-col">
           <label for="Price" class="text-slate-700 font-semibold mb-1">Price</label>
-          <input id="Price" name="price" [(ngModel)]="price" type="text" class="p-1 block w-full rounded border border-gray-600" />
+          <input id="Price" name="price" [(ngModel)]="price" type="number" class="p-1 block w-full rounded border border-gray-600" />
         </div>
     
         <!-- Stock Quantity -->
         <div class="flex flex-col">
           <label for="StockQuantity" class="text-slate-700 font-semibold mb-1">Stock Quantity</label>
-          <input id="StockQuantity" name="stockquantity" [(ngModel)]="stockQuantity" type="text" class="p-1 block w-full rounded border border-gray-600" />
+          <input id="StockQuantity" name="stockquantity" [(ngModel)]="stockQuantity" type="number" class="p-1 block w-full rounded border border-gray-600" />
         </div>
         </div>
         <div class="flex flex-col">
@@ -48,15 +53,15 @@
             <option *ngFor="let item of BrandList" value={{item.brandId}}>{{item.brandName}}</option>
           </select>
         </div>
-        <button type="submit" class="bg-slate-800 w-3/4 text-white px-4 py-1 rounded text-xl" (click)="onSubmit()">Submit</button>
+        <button type="submit" class="bg-slate-800 w-3/4 text-white px-4 py-1 rounded text-xl hover:shadow-2xl hover:bg-slate-900" [disabled]="form.invalid" (click)="onSubmit()">Submit</button>
     </div>
     <div class="w-1/4 overflow-hidden max-h-96">
       <div class="flex flex-col gap-2">
       <div class="mb-4">
-        <label for="Image" class="text-slate-700 font-semibold mb-1">Product Image</label>
-        <input id="Image" name="Image" type="file" class=" p-1 block w-full rounded-md border-gray-300" (change)="onFileChange($event)"/>
+        <label for="Image" class="text-slate-700 font-semibold mb-1">Product Image </label><span class="text-red-400" *ngIf="image.invalid && image.touched">Please Select Image</span>
+        <input id="Image" name="Image" type="file" class=" p-1 block w-full rounded-md border-gray-300" #image="ngModel" ngModel required (change)="onFileChange($event)"/>
         <div *ngIf="!previewImage">
-          <img *ngIf="selectedImageUrl" [src]="selectedImageUrl" alt="" class="object-clip w-full h-auto" >
+          <img *ngIf="selectedImageUrl" [src]="selectedImageUrl" alt="" class=" scale-100 w-full h-auto" >
       </div>
     </div>
     </div>

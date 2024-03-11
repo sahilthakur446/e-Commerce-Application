@@ -1,18 +1,23 @@
-
-<label class="text-xl font-semibold" for="brandName">BrandName</label>
-<input class="border-black border-2 rounded" type="text" id="brandName" name="brandName" [(ngModel)]="brandName">
-<button (click)="getProductswithSpecificBrand()">GetProductlistaccordingto brand</button>
-    <button type="button" (click)="getProducts()">getProducts</button>
-    <div class="w-screen h-screen grid grid-cols-3 ">
-        
-        
-    <ng-container *ngIf="products">
-    <div *ngFor="let item of products">
-        <img class="h-36 w-auto" src="https://localhost:7248/{{item[1].imagePath}}" alt="">
-        <p class="font-semibold text-sm underline">{{item[1].brandName}}</p>
-        <h1 class="text-xl font-semibold">{{item[1].productName}}</h1>
-        <h3 class="text-sm">{{item[1].productDescription}}</h3>
-        <p class="text-red-500">{{item[1].stockQuantity}}</p>
+<div class="w-full pt-16 ">
+    <div class="flex flex-row justify-center items-center mt-8">
+        <form class="w-1/3 flex justify-center items-center mt-5">
+            <div class="w-5/6 h-5/6 flex flex-col gap-2 bg-slate-100 p-10 rounded-md shadow-2xl">
+            <h1 class="text-3xl mb-5 text-center text-slate-800 font-bold">Login</h1>
+           
+              <div class="flex flex-col">
+                <label class="text-slate-700 font-semibold mb-1" for="email">Email</label>
+                <input class="p-1 block w-full rounded border border-gray-600" type="text" name="email" id="email" [(ngModel)]="email">
+            </div>
+            <div class="flex flex-col">
+                <label class="text-slate-700 font-semibold mb-1" for="password">Password</label>
+                <div class="flex justify-center items-center">
+                    <input class="p-1 block w-full rounded border border-gray-600" [type]="passwordFieldType" name="password" id="password" [(ngModel)]="password">
+                    <button class="bg-slate-100" (click)="togglePasswordVisibility()"><i [ngClass]="passwordViewIconClass"></i></button>
+                </div>
+            </div>  
+            <button type="submit" (click)="onSubmit()" class="bg-slate-800 text-white px-4 py-1 rounded text-xl font-medium hover:shadow-2xl hover:bg-slate-900">Login</button>  
+            <a routerLink="Register" class="bg-indigo-900 text-center w-2/5 text-white font-medium px-4 py-1 rounded text-xl hover:shadow-2xl hover:bg-indigo-950">Signup</a>        
+        </div>
+        </form>
     </div>
-    </ng-container>
 </div>

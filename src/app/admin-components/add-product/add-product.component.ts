@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component,OnInit } from '@angular/core';
-import {FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-add-product',
@@ -20,27 +19,31 @@ brand = ''
 CategoryList:any;
 BrandList:any;
 previewImage:boolean = false;
+inputTextClass = "p-1 block w-full rounded border border-gray-600"
+validationErrorInputTextClass = "p-1 block w-full rounded border border-gray-600 text-red-500"
+nameValidationError:boolean = false;
+ifImageSelected:boolean = false;
+
+
+constructor(private http:HttpClient) {
+}
 
 ngOnInit(): void {
   let categoryListUrl ="https://localhost:7248/api/Category/GetCategoryList";
   let brandListUrl ="https://localhost:7248/api/Brand/GetBrandList";
   this.http.get(categoryListUrl).subscribe((response:any) =>{this.CategoryList = response
     console.log(this.CategoryList)});
-  
-  
   this.http.get(brandListUrl).subscribe((response:any) =>{this.BrandList = response
     console.log(this.BrandList)});
   
-  
 }
-
-constructor(private http:HttpClient) {
-  
-}
-
 
 onFileChange(event: any) {
-
+if(event.target.files.length == 0)
+{
+  this.selectedImageUrl = ""
+}
+  
   if (event.target.files && event.target.files.length > 0) {
     this.selectedImage = event.target.files[0];
     this.previewImage = true;
@@ -51,6 +54,7 @@ onFileChange(event: any) {
     };
     if (this.selectedImage) {
       reader.readAsDataURL(this.selectedImage);
+      this.ifImageSelected = true;
     }
 }
 }
