@@ -1,6 +1,6 @@
 <div class="w-full pt-16 mb-5 flex flex-col">
     <div>
-    <h1 class="text-2xl mb-5 text-slate-800 font-semibold ml-48 mt-8">Add Product</h1>
+    <h1 class="text-2xl mb-5 text-slate-800 font-semibold ml-48 mt-8">Edit Product</h1>
   </div>
     <div class="flex justify-center ml-1">
       <div ngForm #form="ngForm" class="w-2/4 flex flex-col gap-2">
@@ -58,10 +58,14 @@
       <div class="w-1/4 overflow-hidden max-h-96">
         <div class="flex flex-col gap-2">
         <div class="mb-4">
-          <label for="Image" class="text-slate-700 font-semibold mb-1">Product Image </label><span class="text-red-400" *ngIf="image.invalid && image.touched">Please Select Image</span>
-          <input id="Image" name="Image" type="file" class=" p-1 block w-full rounded-md border-gray-300" #image="ngModel" ngModel required (change)="onFileChange($event)"/>
+          <div class="flex" >
+          <label for="newImage" class="text-slate-700 font-semibold mb-1">Product Image</label>
+          <img [src]="imagePath" alt="noimage" style="width: 100%; height: auto; max-height: 150px; object-fit: contain;">
+        </div>
+          <label for="oldImage" class="text-slate-700 font-semibold mb-1">New Product Image </label><span class="text-red-400" *ngIf="image.invalid && image.touched">Please Select Image</span>
+          <input id="oldImage" name="Image" type="file" class=" p-1 block w-full rounded-md border-gray-300" #image="ngModel" ngModel required (change)="onFileChange($event)"/>
           <div *ngIf="!previewImage">
-            <img *ngIf="selectedImageUrl" [src]="selectedImageUrl" alt="" class=" scale-100 w-full h-auto" >
+            <img *ngIf="selectedImageUrl" [src]="selectedImageUrl" alt="" style="width: 100%; height: auto; max-height: 150px; object-fit: contain;">
         </div>
       </div>
       </div>

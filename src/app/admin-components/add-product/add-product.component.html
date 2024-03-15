@@ -9,11 +9,11 @@
           <label for="name" class="text-slate-700 font-semibold mb-1">Name</label>
           <span class="text-red-400" *ngIf="name.invalid && name.touched">Required</span>
         </div>
-      <input type="text" id="name" name="productName" class="p-1 block w-full rounded border border-gray-600" [placeholder]="" #name="ngModel" required [(ngModel)]="productName">
+      <input type="text" id="name" name="productName" class="p-1 block w-full rounded border border-gray-600 focus:outline-1 outline-slate-500" [placeholder]="" #name="ngModel" required [(ngModel)]="productName">
       </div>
       <div class="w-3/4 flex flex-col">
         <label class="text-slate-700 font-semibold mb-1" for="product description">Product Description</label>
-        <textarea class="p-1 block w-full rounded border border-gray-600 min-h-16 max-h-16" 
+        <textarea class="p-1 block w-full rounded border border-gray-600 min-h-16 max-h-16 focus:ring-4 focus:outline-none focus:ring-slate-500 focus:border-0" 
         name="product description" id="product description" cols="30" rows="4" [(ngModel)]="productDescription"></textarea>
         </div>
         <div class="flex w-3/4 gap-2 justify-between">
@@ -37,8 +37,6 @@
           <input id="StockQuantity" name="stockquantity" [(ngModel)]="stockQuantity" type="number" class="p-1 block w-full rounded border border-gray-600" />
         </div>
         </div>
-
-        //Category 
 
         <div class="flex flex-col">
           <label for="Category" class="text-slate-700 font-semibold mb-1">Category</label>
@@ -65,7 +63,7 @@
         <label for="Image" class="text-slate-700 font-semibold mb-1">Product Image </label><span class="text-red-400" *ngIf="image.invalid && image.touched">Please Select Image</span>
         <input id="Image" name="Image" type="file" class=" p-1 block w-full rounded-md border-gray-300" #image="ngModel" ngModel required (change)="onFileChange($event)"/>
         <div *ngIf="!previewImage">
-          <img *ngIf="selectedImageUrl" [src]="selectedImageUrl" alt="" class=" scale-100 w-full h-auto" >
+          <img *ngIf="selectedImageUrl" [src]="selectedImageUrl" alt="" class=" scale-100 w-full h-auto" style="width: 100%; height: auto; max-height: 200px; object-fit: contain;">
       </div>
     </div>
     </div>

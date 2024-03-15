@@ -6,5 +6,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./homepage.component.css']
 })
 export class HomepageComponent {
+isModelOpen:boolean = false
+isModelOpenn:boolean = false
 
+openModal(){
+  this.isModelOpenn = true;
+}
+closeModal(){
+  this.isModelOpenn = false;
+}
 }

@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component,OnInit } from '@angular/core';
+import { Product } from 'src/app/models/product.model';
 
 @Component({
   selector: 'app-add-product',
@@ -73,7 +74,7 @@ onSubmit(): void {
   formData.append('brandId',this.brand)
 
   let url: string = "https://localhost:7248/api/Product/AddProduct";
-  this.http.post(url, formData).subscribe({
+  this.http.post<Product>(url, formData).subscribe({
   next: (response) => console.log(response),
   error: (error) => console.log(error)
   });

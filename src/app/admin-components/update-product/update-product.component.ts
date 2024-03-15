@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-update-product',
@@ -7,6 +8,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./update-product.component.css']
 })
 export class UpdateProductComponent {
+  fetchedProductId : string | null = ''
   selectedImage:File | undefined;
   selectedImageUrl:any;
   productName = ''
@@ -16,6 +18,7 @@ export class UpdateProductComponent {
   stockQuantity = ''
   category = ''
   brand = ''
+  imagePath = ''
   CategoryList:any;
   BrandList:any;
   previewImage:boolean = false;
@@ -25,16 +28,37 @@ export class UpdateProductComponent {
   ifImageSelected:boolean = false;
   
   
-  constructor(private http:HttpClient) {
+  constructor(private http:HttpClient, private route: ActivatedRoute) {
   }
   
   ngOnInit(): void {
+
+    let productId = this.route.snapshot.paramMap.get('productid')
+    console.log("productId: ",productId);
+    
+    this.fetchedProductId = productId
+    console.log("fetchedId: ",this.fetchedProductId);
+    
+    let url = `https://localhost:7248/api/Product/GetProduct/${productId}`
+    this.http.get(url).subscribe({
+      next:(response:any)=>{console.log(response)
+        this.brand = response.brandId;
+        this.productName = response.productName;
+        this.productDescription = response.productDescription;
+        this.stockQuantity = response.stockQuantity;
+        this.price = response.price;
+        this.imagePath = `https://localhost:7248/${response.imagePath}`;
+        this.category = response.categoryId
+      },
+      error:(error) => (console.log(error)),
+      complete:() => (console.log("completed")
+      )
+    })
+
     let categoryListUrl ="https://localhost:7248/api/Category/GetCategoryList";
     let brandListUrl ="https://localhost:7248/api/Brand/GetBrandList";
-    this.http.get(categoryListUrl).subscribe((response:any) =>{this.CategoryList = response
-      console.log(this.CategoryList)});
-    this.http.get(brandListUrl).subscribe((response:any) =>{this.BrandList = response
-      console.log(this.BrandList)});
+    this.http.get(categoryListUrl).subscribe((response:any) =>{this.CategoryList = response});
+    this.http.get(brandListUrl).subscribe((response:any) =>{this.BrandList = response});
     
   }
   
@@ -71,9 +95,9 @@ export class UpdateProductComponent {
     formData.append('stockQuantity',this.stockQuantity)
     formData.append('categoryId',this.category)
     formData.append('brandId',this.brand)
-  
-    let url: string = "https://localhost:7248/api/Product/AddProduct";
-    this.http.post(url, formData).subscribe({
+    
+    let url: string = `https://localhost:7248/api/Product/UpdateProduct/${this.fetchedProductId}`;
+    this.http.put(url, formData).subscribe({
     next: (response) => console.log(response),
     error: (error) => console.log(error)
     });

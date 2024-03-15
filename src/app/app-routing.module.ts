@@ -5,13 +5,18 @@ import { RegisterComponent } from './account/register/register.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { AddProductComponent } from './admin-components/add-product/add-product.component';
 import { ProductManagementComponent } from './admin-components/product-management/product-management.component';
+import { UpdateProductComponent } from './admin-components/update-product/update-product.component';
 
 const routes: Routes = [
-  {path:"Login",component:LoginComponent},
-  {path:"Login/Register",component:RegisterComponent},
-  {path:"AddProduct",component:AddProductComponent},
-  {path:"ProductManager",component:ProductManagementComponent},
-  {path:"Home",component:HomepageComponent}
+  { path: "", redirectTo:"/Home",pathMatch: 'full'},
+  { path: "Home", component: HomepageComponent},
+  { path: "Login", component: LoginComponent,pathMatch:'full' },
+  { path: "Login/Register", component: RegisterComponent },
+  { path: "UpdateProduct", component: UpdateProductComponent},
+  { path: "ProductManager/UpdateProduct/:productid", component: UpdateProductComponent},
+  { path: "ProductManager/AddProduct", component: AddProductComponent },
+  { path: "ProductManager", component: ProductManagementComponent },
+  { path: "Home", component: HomepageComponent }
 ];
 
 @NgModule({
