@@ -1,18 +1,17 @@
-<nav class="fixed z-10 bg-white w-full h-16 md:flex md:justify-between md:items-center px-5">
-    <div class="flex">
-        <img src="assets/images/logo.svg" alt="">
-        <p class="text-2xl font-bold">Elliye</p>
+<nav class="fixed z-10 bg-white w-full h-16 flex flex-row  md:justify-between md:items-center px-5">
+    <div class="flex justify-center items-center">
+        <img src="assets/images/logo.svg" alt="" class="hidden md:block">
+        <p class="text-lg md:text-2xl font-bold">Elliye</p>
     </div>
-    <ul class="flex gap-16 justify-between items-center">
-        <a href="" class="font-semibold text-xl text-slate-700 hover:text-slate-900">Categories</a>
-        <a href="" class="font-semibold text-xl text-slate-700 hover:text-slate-900">New Arrival</a>
-        <a href="" class="font-semibold text-xl text-slate-700 hover:text-slate-900">Features</a>
-        <a href="" class="font-semibold text-xl text-slate-700 hover:text-slate-900">Collections</a>
-        
+    <ul class="flex gap-2 md:gap-16 md:justify-between items-center">
+        <a href="" class="font-semibold text-base md:text-xl text-slate-700 hover:text-slate-900">Categories</a>
+        <a href="" class="font-semibold text-base md:text-xl text-slate-700 hover:text-slate-900">New Arrival</a>
+        <a href="" class="font-semibold text-base md:text-xl text-slate-700 hover:text-slate-900">Features</a>
+        <a href="" class="font-semibold text-base md:text-xl text-slate-700 hover:text-slate-900">Collections</a> 
     </ul>
-    <div class="flex gap-4">
-        <button><i class="bi bi-cart2 text-slate-700 font-extrabold text-2xl"></i></button>
-        <button><i class="bi bi-search text-slate-700 font-extrabold text-2xl"></i></button>
-        <a class="bg-slate-800 rounded text-white px-4 py-2 font-semibold" routerLink="Login">Login</a>
+    <div class="flex flex-row justify-center items-center gap-1 md:gap-4">
+        <button><i class="bi bi-cart2 text-slate-700 font-extrabold text-base md:text-2xl"></i></button>
+        <button><i class="bi bi-search text-slate-700 font-extrabold text-base md:text-2xl"></i></button>
+        <a class="bg-slate-800 rounded text-white px-2 py-1 md:px-4 md:py-2 font-semibold" routerLink="Login">Login</a>
     </div>
 </nav>
