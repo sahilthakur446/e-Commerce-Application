@@ -5,7 +5,7 @@
             Category Management
         </h1>
         <div class="w-1/3 flex justify-end items-end">
-            <button (click)="openModal('Create')" class="bg-blue-500 text-white text-base md:text-lg font-medium hover:bg-blue-600 rounded px-4 py-2">
+            <button (click)="openModal('Create')" class="bg-blue-900 text-white text-base md:text-lg font-medium hover:bg-blue-950 rounded px-4 py-2">
                 <i class="bi bi-plus-circle text-xl mr-2"></i>Add Category
             </button>
         </div>
@@ -13,16 +13,16 @@
     <table class="mt-20 w-11/12 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-                <th scope="col" class="px-6 py-3 text-center">
+                <th scope="col" class="px-6 py-3 text-lg text-center">
                     Category Name
                 </th>
-                <th scope="col" class="px-6 py-3 text-center">
+                <th scope="col" class="px-6 py-3 text-lg text-center">
                     Target Gender
                 </th>
-                <th scope="col" class="px-6 py-3 text-center">
+                <th scope="col" class="px-6 py-3 text-lg text-center">
                     Product Count
                 </th>
-                <th scope="col" colspan="2" class="py-3 text-center">
+                <th scope="col" colspan="2" class="py-3 text-lg text-center">
                     Action
                 </th>
             </tr>
@@ -30,20 +30,20 @@
         <tbody>
             <ng-container *ngFor="let item of categoryList">
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                    <th scope="row" class="px-6 py-4 text-center font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <th scope="row" class="px-6 py-4 text-center text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{item.categoryName | titlecase}}
                     </th>
-                    <td class="px-6 py-4 text-center">
+                    <td class="px-6 py-4 text-center text-base">
                         {{item.targetGender}}
                     </td>
-                    <td class="px-6 py-4 text-center">
+                    <td class="px-6 py-4 text-center text-base">
                         {{item.productCount}}
                     </td>
                     <td colspan="2" class="py-4 flex justify-center gap-2">
-                        <button (click)="selectCategoryForEdit(item)" (click)="openModal('Edit')" class="bg-green-700 py-2 px-4 rounded text-lg text-white font-normal hover:bg-green-800">
+                        <button (click)="selectCategoryForEdit(item)" (click)="openModal('Edit')" class="bg-green-700 py-2 px-4 rounded text-lg text-white font-medium hover:bg-green-800">
                             Edit
                         </button>
-                        <button (click)="selectCategoryForDeletion(item)" (click)="openModal('Delete')" type="button" class="bg-red-600 py-2 px-4 rounded text-lg text-white font-normal hover:bg-red-700">
+                        <button (click)="selectCategoryForDeletion(item)" (click)="openModal('Delete')" type="button" class="bg-red-700 py-2 px-4 rounded text-lg text-white font-medium hover:bg-red-800">
                             Delete
                         </button>
                     </td>
@@ -78,9 +78,17 @@
                     <option value="Unisex">Unisex</option>
                 </select>
             </div>
-            <button (click)="addCategory()" type="submit" class="bg-slate-800 font-medium text-white px-4 py-1 mt-1 rounded text-xl hover:shadow-2xl hover:bg-slate-900">
-                Add
-            </button>
+            <div class="flex justify-start items-center gap-1">
+                <button (click)="addCategory()" [disabled]="isLoading" type="submit" class="bg-slate-800 font-medium text-white px-4 py-1 mt-1 rounded text-xl hover:shadow-2xl hover:bg-slate-900">
+                    Add
+                </button>
+                <ng-container *ngIf="this.isLoading">
+                <div class="border-4 h-5 w-5 mr-3 animate-spin bg-transparent border-l-blue-600 border-y-white border-r-black rounded-full">
+                </div>
+                <div class="text-slate-700 text-xl font-medium">{{loadingStatus}}</div>
+            </ng-container>
+            </div>
+              
         </div>
     </form>
 </div>
@@ -111,13 +119,14 @@
                 </select>
             </div>
             <div class="flex justify-start items-center gap-1">
-            <button (click)="updateCategory(selectedCategoryId)" type="submit" class="bg-slate-800 font-medium text-white px-4 py-1 mt-1 rounded text-xl hover:shadow-2xl hover:bg-slate-900">
+            <button (click)="updateCategory(selectedCategoryId)" [disabled]="isLoading" type="submit" class="bg-slate-800 font-medium text-white px-4 py-1 mt-1 rounded text-xl hover:shadow-2xl hover:bg-slate-900">
                 Edit
             </button>
-            <div *ngIf="this.isLoading" class="  border-4 h-5 w-5 mr-3 animate-spin bg-transparent border-l-blue-600 border-y-white border-r-black rounded-full">
-            </div>
-        
-            <div *ngIf="this.isLoading" class="text-slate-700 text-xl font-medium">Loading...</div>
+            <ng-container *ngIf="this.isLoading">
+                <div class="border-4 h-5 w-5 mr-3 animate-spin bg-transparent border-l-blue-600 border-y-white border-r-black rounded-full">
+                </div>
+                <div class="text-slate-700 text-xl font-medium">{{loadingStatus}}</div>
+            </ng-container>
           </div>
         </div>
     </form>
@@ -135,11 +144,27 @@
                 Are you sure you want to delete this Category?
             </h1>
             <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                <button (click)="deleteCategory(selectedCategoryId)" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none
+                <button (click)="deleteCategory(selectedCategoryId)" [disabled]="isLoading" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none
                  focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">Yes, I'm sure</button>
-                <button (click)="closeModal('Delete')" type="button"class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg
+                 <div *ngIf="this.isLoading" class="border-4 h-5 w-5 mr-3 ml-3 animate-spin bg-transparent border-l-red-600 border-y-white border-r-black rounded-full">
+                </div>
+                <div *ngIf="this.isLoading" class="text-slate-700 text-xl ml-3 font-medium">{{loadingStatus}}</div>
+                <button *ngIf="!this.isLoading" (click)="closeModal('Delete')" type="button"class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg
                  border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">No, cancel</button>
             </div>
         </div>
     </div>
+</div>
+
+<div class="fixed w-full z-50 bg-white p-4 rounded-lg flex justify-center ease-in-out duration-500"
+    [ngClass]="{'-top-48':!deletedSuccessfully ,'top-0':deletedSuccessfully}">
+    <h1 [ngClass]="responseClass">{{responseMessage}}</h1>
+</div>
+<div class="fixed w-full z-50 bg-white p-4 rounded-lg flex justify-center ease-in-out duration-500"
+    [ngClass]="{'-top-48':!updatedSuccessfully ,'top-0':updatedSuccessfully}">
+    <h1 [ngClass]="responseClass">{{responseMessage}}</h1>
+</div>
+<div class="fixed w-full z-50 bg-white p-4 rounded-lg flex justify-center ease-in-out duration-500"
+    [ngClass]="{'-top-48':!createdSuccessfully ,'top-0':createdSuccessfully}">
+    <h1 [ngClass]="responseClass">{{responseMessage}}</h1>
 </div>
