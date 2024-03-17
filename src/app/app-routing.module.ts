@@ -8,6 +8,7 @@ import { ProductManagementComponent } from './admin-components/product-managemen
 import { UpdateProductComponent } from './admin-components/update-product/update-product.component';
 import { CategoryManagerComponent } from './admin-components/category-manager/category-manager.component';
 import { BrandManagerComponent } from './admin-components/brand-manager/brand-manager.component';
+import { authGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   { path: "", redirectTo:"/Home",pathMatch: 'full'},
@@ -17,9 +18,9 @@ const routes: Routes = [
   { path: "UpdateProduct", component: UpdateProductComponent},
   { path: "ProductManager/UpdateProduct/:productid", component: UpdateProductComponent},
   { path: "ProductManager/AddProduct", component: AddProductComponent },
-  { path: "ProductManager", component: ProductManagementComponent },
-  { path: "CategoryManager", component: CategoryManagerComponent },
-  { path: "BrandManager", component: BrandManagerComponent },
+  { path: "ProductManager", component: ProductManagementComponent, canActivate:[authGuard] },
+  { path: "CategoryManager", component: CategoryManagerComponent, canActivate:[authGuard] },
+  { path: "BrandManager", component: BrandManagerComponent, canActivate:[authGuard] },
   { path: "Home", component: HomepageComponent }
 ];
 

@@ -1,7 +1,5 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormGroup,FormControl, Validators} from '@angular/forms'
-import { AccountServiceService } from 'src/app/services/account-service/account-service.service';
+import { AuthService } from 'src/app/services/auth-service/auth.service';
 
 
 @Component({
@@ -17,9 +15,15 @@ email:string = ""
 password:string = ""
 confirmpassword:string = "" 
 passwordFieldType:string = "password"
-passwordViewIconClass  = "bi bi-eye-slash-fill text-slate-700 text-xl bg-slate-100 px-1"
+passwordViewIconClass  = "bi bi-eye-slash-fill text-slate-700 text-xl px-1"
 isPasswordVisible:boolean = false;
-constructor(private accountService: AccountServiceService) {
+isModalVisible:boolean = false;
+responseMessage:string = '';
+responseClass: string = '';
+responseSuccessClass: string = 'text-3xl font-bold text-green-700';
+responseFailureClass: string = 'text-3xl font-bold text-red-700';
+
+constructor(private authService: AuthService) {
 }
 
 togglePasswordVisibility()
@@ -27,12 +31,12 @@ togglePasswordVisibility()
   this.isPasswordVisible = !this.isPasswordVisible
   if (this.isPasswordVisible) {
     this.passwordFieldType = "text"
-    this.passwordViewIconClass = "bi bi-eye-fill text-slate-700 text-xl bg-slate-100 px-1"
+    this.passwordViewIconClass = "bi bi-eye-fill text-slate-700 text-xl px-1"
   }
   else
   {
     this.passwordFieldType = "password"
-    this.passwordViewIconClass = "bi bi-eye-slash-fill text-slate-700 text-xl bg-slate-100 px-1"
+    this.passwordViewIconClass = "bi bi-eye-slash-fill text-slate-700 text-xl px-1"
   }
 }
 
@@ -48,11 +52,25 @@ onSubmit()
   formData.append('Password',this.password)
   formData.append('ConfirmPassword',this.confirmpassword)
   
-  this.accountService.registerUser(formData).subscribe({
-    next:(response) => console.log(response),
-    error:(error) => console.log(error),
-    complete:() => console.log("completed")
-  })
+  this.authService.registerUser(formData).subscribe({
+    next: (response: any) => {console.log(response)
+      this.responseMessage = response.message;
+      this.responseClass = this.responseSuccessClass;
+      this.isModalVisible = true;
+      setTimeout(() => {
+        this.isModalVisible = false;
+      }, 2000);
+      },
+      error: (response) => {console.log(response)
+        response.error.message?this.responseMessage = response.error.message:this.responseMessage = "Signup Failed Due to Internal Server Issue"
+        this.responseClass = this.responseFailureClass;
+        this.isModalVisible = true;
+        setTimeout(() => {
+          this.isModalVisible = false;
+        }, 4000);
+        },
+      complete: () => console.log("Completed")  
+    })
 }
 
 }

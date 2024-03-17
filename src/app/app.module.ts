@@ -12,7 +12,6 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AddProductComponent } from './admin-components/add-product/add-product.component';
-import { TestingComponent } from './testing/testing.component';
 import { UpdateProductComponent } from './admin-components/update-product/update-product.component';
 import { ProductManagementComponent } from './admin-components/product-management/product-management.component';
 import { CategoryManagerComponent } from './admin-components/category-manager/category-manager.component';
@@ -25,7 +24,6 @@ import { BrandManagerComponent } from './admin-components/brand-manager/brand-ma
     RegisterComponent,
     HomepageComponent,
     AddProductComponent,
-    TestingComponent,
     UpdateProductComponent,
     ProductManagementComponent,
     CategoryManagerComponent,

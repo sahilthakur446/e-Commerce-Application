@@ -1,4 +1,4 @@
-<nav class="fixed z-10 bg-white w-full h-16 flex flex-row  md:justify-between md:items-center px-5">
+<nav class="fixed bg-white w-full h-16 flex flex-row  md:justify-between md:items-center px-5">
     <div class="flex justify-center items-center">
         <img src="assets/images/logo.svg" alt="" class="hidden md:block">
         <p class="text-lg md:text-2xl font-bold">Elliye</p>
@@ -12,6 +12,7 @@
     <div class="flex flex-row justify-center items-center gap-1 md:gap-4">
         <button><i class="bi bi-cart2 text-slate-700 font-extrabold text-base md:text-2xl"></i></button>
         <button><i class="bi bi-search text-slate-700 font-extrabold text-base md:text-2xl"></i></button>
-        <a class="bg-slate-800 rounded text-white px-2 py-1 md:px-4 md:py-2 font-semibold" routerLink="Login">Login</a>
+        <a *ngIf="!isLoggedIn" class="bg-slate-800 rounded text-white px-2 py-1 md:px-4 md:py-2 font-semibold" routerLink="Login">Login</a>
+        <button *ngIf="isLoggedIn" (click)="logout()" class="bg-slate-800 rounded text-white px-2 py-1 md:px-4 md:py-2 font-semibold">Logout</button>
     </div>
 </nav>
