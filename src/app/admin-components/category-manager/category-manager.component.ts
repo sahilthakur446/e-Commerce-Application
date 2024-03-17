@@ -20,9 +20,7 @@ export class CategoryManagerComponent implements OnInit {
   showDeleteModal: boolean = false;
   isLoading: boolean = false;
   loadingStatus: string = '';
-  deletedSuccessfully: boolean = false;
-  updatedSuccessfully: boolean = false;
-  createdSuccessfully: boolean = false;
+  isModalVisible: boolean = false;
   responseMessage: string = '';
   responseClass: string = '';
   responseSuccessClass: string = 'text-3xl font-bold text-green-700';
@@ -102,9 +100,9 @@ export class CategoryManagerComponent implements OnInit {
         this.closeModal('Create');
         this.responseMessage = 'Created successfully';
         this.responseClass = this.responseSuccessClass;
-        this.deletedSuccessfully = true;
+        this.isModalVisible = true;
         setTimeout(() => {
-          this.deletedSuccessfully = false;
+          this.isModalVisible = false;
         }, 3000);
       },
       error: (error) => {
@@ -114,9 +112,9 @@ export class CategoryManagerComponent implements OnInit {
         this.fetchCategoriesWithProductCounts();
         this.responseClass = this.responseFailureClass;
         this.responseMessage = 'Failed to Create';
-        this.deletedSuccessfully = true;
+        this.isModalVisible = true;
         setTimeout(() => {
-          this.deletedSuccessfully = false;
+          this.isModalVisible = false;
         }, 3000);
       }
     })
@@ -140,9 +138,9 @@ export class CategoryManagerComponent implements OnInit {
 
         this.responseMessage = 'Updated successfully';
         this.responseClass = this.responseSuccessClass;
-        this.deletedSuccessfully = true;
+        this.isModalVisible = true;
         setTimeout(() => {
-          this.deletedSuccessfully = false;
+          this.isModalVisible = false;
         }, 3000);
       },
       error: (error) => {
@@ -152,9 +150,9 @@ export class CategoryManagerComponent implements OnInit {
         this.fetchCategoriesWithProductCounts();
         this.responseClass = this.responseFailureClass;
         this.responseMessage = 'Failed to Update';
-        this.deletedSuccessfully = true;
+        this.isModalVisible = true;
         setTimeout(() => {
-          this.deletedSuccessfully = false;
+          this.isModalVisible = false;
         }, 3000);
       }
     })
@@ -171,9 +169,9 @@ export class CategoryManagerComponent implements OnInit {
         this.fetchCategoriesWithProductCounts();
         this.responseClass = this.responseSuccessClass;
         this.responseMessage = 'Deleted successfully';
-        this.deletedSuccessfully = true;
+        this.isModalVisible = true;
         setTimeout(() => {
-          this.deletedSuccessfully = false;
+          this.isModalVisible = false;
         }, 3000);
       },
       error: (error) => {
@@ -183,9 +181,9 @@ export class CategoryManagerComponent implements OnInit {
         this.fetchCategoriesWithProductCounts();
         this.responseClass = this.responseFailureClass;
         this.responseMessage = 'Failed to Delete';
-        this.deletedSuccessfully = true;
+        this.isModalVisible = true;
         setTimeout(() => {
-          this.deletedSuccessfully = false;
+          this.isModalVisible = false;
         }, 3000);
       }
     })

@@ -135,14 +135,6 @@
 </div>
 
 <div class="fixed w-full z-50 bg-white p-4 rounded-lg flex justify-center ease-in-out duration-500"
-    [ngClass]="{'-top-48':!deletedSuccessfully ,'top-0':deletedSuccessfully}">
-    <h1 [ngClass]="responseClass">{{responseMessage}}</h1>
-</div>
-<div class="fixed w-full z-50 bg-white p-4 rounded-lg flex justify-center ease-in-out duration-500"
-    [ngClass]="{'-top-48':!updatedSuccessfully ,'top-0':updatedSuccessfully}">
-    <h1 [ngClass]="responseClass">{{responseMessage}}</h1>
-</div>
-<div class="fixed w-full z-50 bg-white p-4 rounded-lg flex justify-center ease-in-out duration-500"
-    [ngClass]="{'-top-48':!createdSuccessfully ,'top-0':createdSuccessfully}">
+    [ngClass]="{'-top-48':!isModalVisible ,'top-0':isModalVisible}">
     <h1 [ngClass]="responseClass">{{responseMessage}}</h1>
 </div>
