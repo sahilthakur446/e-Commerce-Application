@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { map } from 'rxjs';
-import { addCategory, categoryWithProductCount, updateCategory } from 'src/app/models/category/category.model';
-import { CategoryManagerService } from 'src/app/services/category-service/category-manager.service';
+import { brandWithProductCount, createUpdateBrand } from 'src/app/models/brand/brand.model';
+import { BrandManagerService } from 'src/app/services/brand-service/brand-manager.service';
 
 @Component({
   selector: 'app-brand-manager',
@@ -9,12 +9,12 @@ import { CategoryManagerService } from 'src/app/services/category-service/catego
   styleUrls: ['./brand-manager.component.css']
 })
 export class BrandManagerComponent {
-  categoryName: string = '';
+  brandName: string = '';
   targetGender: string = '';
-  categoryList: categoryWithProductCount[] = [];
-  selectedCategoryId: number | string = '';
-  selectedCategoryName: string = '';
-  selectedCategoryTargetGender: string = '';
+  brandList: brandWithProductCount[] = [];
+  selectedBrandId: number | string = '';
+  selectedBrandName: string = '';
+  selectedBrandTargetGender: string = '';
   showCreateModal: boolean = false;
   showEditModal: boolean = false;
   showDeleteModal: boolean = false;
@@ -28,21 +28,21 @@ export class BrandManagerComponent {
   responseSuccessClass: string = 'text-3xl font-bold text-green-700';
   responseFailureClass: string = 'text-3xl font-bold text-red-700';
 
-  constructor(private categoryManager: CategoryManagerService) { }
+  constructor(private brandManager: BrandManagerService) { }
 
   ngOnInit() {
     this.fetchCategoriesWithProductCounts();
   }
 
   fetchCategoriesWithProductCounts() {
-    this.categoryManager.fetchCategoriesWithProductCounts()
+    this.brandManager.fetchCategoriesWithProductCounts()
       .pipe(
-        map(response => response as categoryWithProductCount[])
+        map(response => response as brandWithProductCount[])
       )
       .subscribe({
         next: (response) => {
           console.log(response);
-          this.categoryList = response;
+          this.brandList = response;
         },
         error: (error) => console.log(error),
         complete: () => console.log("completed")
@@ -76,25 +76,23 @@ export class BrandManagerComponent {
     }
   }
 
-  selectCategoryForEdit(input: categoryWithProductCount) {
-    this.selectedCategoryId = input.categoryId;
-    this.selectedCategoryName = input.categoryName;
-    this.selectedCategoryTargetGender = input.targetGender;
+  selectBrandForEdit(input: brandWithProductCount) {
+    this.selectedBrandId = input.brandId;
+    this.selectedBrandName = input.brandName;
   }
 
-  selectCategoryForDeletion(input: categoryWithProductCount) {
-    this.selectedCategoryId = input.categoryId;
+  selectBrandForDeletion(input: brandWithProductCount) {
+    this.selectedBrandId = input.brandId;
   }
 
-  addCategory() {
+  addBrand() {
     this.isLoading = true;
     this.loadingStatus = 'Creating...';
-    let newCategory: addCategory = {
-      categoryName: this.categoryName,
-      targetGender: this.targetGender
+    let newBrand: createUpdateBrand = {
+      brandName: this.brandName,
     }
 
-    this.categoryManager.addCategory(newCategory).subscribe({
+    this.brandManager.addBrand(newBrand).subscribe({
       next: (response) => {
         console.log(response);
         this.isLoading = false;
@@ -122,15 +120,14 @@ export class BrandManagerComponent {
     })
   }
 
-  updateCategory(categoryId: string | number) {
+  updateBrand(brandId: string | number) {
     this.isLoading = true;
     this.loadingStatus = 'Updating..';
-    let updatedCategory: updateCategory = {
-      categoryName: this.selectedCategoryName,
-      targetGender: this.selectedCategoryTargetGender
+    let updatedBrand: createUpdateBrand = {
+      brandName: this.selectedBrandName,
     }
 
-    this.categoryManager.updateCategory(categoryId, updatedCategory).subscribe({
+    this.brandManager.updateBrand(brandId, updatedBrand).subscribe({
       next: (response) => {
         console.log(response);
         this.isLoading = false;
@@ -160,10 +157,10 @@ export class BrandManagerComponent {
     })
   }
 
-  deleteCategory(categoryId: string | number) {
+  deleteBrand(brandId: string | number) {
     this.isLoading = true;
     this.loadingStatus = 'Deleting...';
-    this.categoryManager.deleteCategory(categoryId).subscribe({
+    this.brandManager.deleteBrand(brandId).subscribe({
       next: (response) => {
         console.log(response);
         this.isLoading = false;
