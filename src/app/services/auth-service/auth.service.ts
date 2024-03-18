@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt'
+import { UserService } from '../user-profile-service/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,8 +10,8 @@ export class AuthService {
   registerApiUrl = "https://localhost:7248/api/Users/Register";
   loginApiUrl = "https://localhost:7248/api/Users/Login";
 
-  constructor(private http: HttpClient) { }
-
+  constructor(private http: HttpClient, private userService: UserService) { }
+  
   registerUser(formData:FormData) {
     return this.http.post(this.registerApiUrl, formData)
       
@@ -25,6 +27,7 @@ export class AuthService {
 
   removeToken(){
     localStorage.clear()
+    this.userService.setIsLoggedIn(false)
   }
 
   getToken(){
@@ -32,6 +35,17 @@ export class AuthService {
   }
 
   isLoggedIn():boolean{
-    return this.getToken() ? true : false;
+    let x =  this.getToken() ? true : false;
+    this.userService.setIsLoggedIn(x)
+    return x
+  }
+
+  decodedToken(){
+    const jwtHelperService = new JwtHelperService()
+    const token = this.getToken()!
+    const decodedToken = jwtHelperService.decodeToken(token)
+    console.log(decodedToken);
+    this.userService.setUserName(decodedToken.name)
+    this.userService.setUserRole(decodedToken.userRole)
   }
 }

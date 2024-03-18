@@ -1,4 +1,4 @@
-<div class="p-16 flex flex-col my-4 bg-blue-50">
+<div class="p-14 flex flex-col my-4 bg-blue-50">
     <h1 class="text-8xl font-serif text-w" style="color: #393D46;">Summer Sale</h1>
     <h1 class="text-6xl font-bold" style="color: #393D46;">50% off</h1>
     <p class="my-8">Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime fugit 
@@ -32,3 +32,12 @@
     </div>
 </div>
 
+<!-- Modal -->
+
+<div *ngIf="welcome" class="w-full opacity-100 h-full top-0 left-0 fixed z-50 bg-white flex justify-center items-center ease-out duration-1000"
+ [ngClass]="{'opacity-0':!welcome, 'opacity-100':welcome}">
+<div>
+    <h1 class="text-4xl text-slate-800 font-bold">Hello, {{userName | titlecase}}</h1>
+    <h2 class="text-2xl text-slate-700 font-bold">Welcome to our Website</h2>
+</div>
+</div>

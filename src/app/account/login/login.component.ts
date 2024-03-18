@@ -49,12 +49,15 @@ onSubmit(){
   this.authService.loginUser(formData).subscribe({
     next: (response: any) => {console.log(response)
     this.authService.storeToken(response.jwtToken)
+    this.authService.decodedToken()
+    this.authService.isLoggedIn()
     this.responseMessage = response.message;
     this.displayResponseModal('success')
     },
     error: (response) => {console.log(response)
       response.error.message? this.responseMessage = response.error.message: this.responseMessage = "Login Failed Due to Internal Server Issue"
       this.displayResponseModal('failure')
+      this.authService.isLoggedIn()
       },
     complete: () => console.log("Completed")  
   })
@@ -67,8 +70,9 @@ displayResponseModal(result:string){
     this.isLoading = false;
     setTimeout(() => {
       this.isModalVisible = false;
+      this.router.navigate(['Home'])
     }, 2000);
-    this.router.navigate(['Home'])
+    
   }else{
     this.responseClass = this.responseFailureClass;
       this.isModalVisible = true;
