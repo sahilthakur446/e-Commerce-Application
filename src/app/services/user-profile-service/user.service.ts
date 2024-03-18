@@ -5,41 +5,33 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-private userName$ = new BehaviorSubject<string>('')
-private userRole$ = new BehaviorSubject<string>('')
-private isLoggedIn$ = new BehaviorSubject<boolean>(false)
+  private userName$ = new BehaviorSubject<string>('');
+  private userRole$ = new BehaviorSubject<string>('');
+  private loggedInStatus$ = new BehaviorSubject<boolean>(false); // More descriptive
 
-  constructor() {
-   }
+  constructor() { }
 
-  public setIsLoggedIn(value:boolean){
-    this.isLoggedIn$.next(value)
+  setIsLoggedIn(isLoggedIn: boolean) { // Updated method name
+    this.loggedInStatus$.next(isLoggedIn);
   }
 
-  public getIsLoggedIn(value:boolean){
-    
-    return this.isLoggedIn$.asObservable();
+  getIsLoggedIn() { 
+    return this.loggedInStatus$.asObservable();
   }
 
-  public getUserName(){
-    
+  getUserName() {
     return this.userName$.asObservable();
   }
 
-  public setUserName(name:string){
-    
-    this.userName$.next(name)
+  setUserName(name: string) {
+    this.userName$.next(name);
   }
 
-  public getUserRole(){
+  getUserRole() {
     return this.userRole$.asObservable();
   }
 
-  public setUserRole(role:string){
-    this.userRole$.next(role)
-  }
-
-  public isUserLoggedIn(){
-    return this.isLoggedIn$.asObservable();
+  setUserRole(role: string) {
+    this.userRole$.next(role);
   }
 }

@@ -1,7 +1,7 @@
 <nav class="fixed bg-white w-full h-14 flex flex-row  md:justify-between md:items-center px-5">
     <div class="flex justify-center items-center">
         <img src="assets/images/logo.svg" alt="" class="hidden md:block">
-        <p class="text-lg md:text-2xl font-bold">Elliye</p>
+        <a routerLink="Home" class="text-lg md:text-2xl font-bold">Elliye</a>
     </div>
     <ul class="flex gap-2 md:gap-16 md:justify-between items-center">
         <a href="" class="font-semibold text-base md:text-xl text-slate-700 hover:text-slate-900">Categories</a>
@@ -11,8 +11,17 @@
     </ul>
     <div class="flex flex-row justify-center items-center gap-1 md:gap-4">
         <button><i class="bi bi-cart2 text-slate-700 font-extrabold text-base md:text-2xl"></i></button>
-        <button><i class="bi bi-search text-slate-700 font-extrabold text-base md:text-2xl"></i></button>
+        <button (click)="openSearchBar()"><i class="bi bi-search text-slate-700 font-extrabold text-base md:text-2xl"></i></button>
         <a *ngIf="!isLoggedIn" class="bg-slate-800 rounded text-white px-2 py-1 md:px-4 md:py-2 font-semibold" routerLink="Login">Login</a>
         <button *ngIf="isLoggedIn" (click)="logout()" class="bg-slate-800 rounded text-white px-2 py-1 md:px-4 md:py-2 font-semibold">Logout</button>
     </div>
 </nav>
+
+<!-- Search Modal -->
+
+<div (click)="openSearchBar()" class="fixed w-full h-full z-1 bg-transparent flex justify-center ease-in-out duration-500"
+    [ngClass]="{'-top-full':!isSearchBarVisible ,'top-0':isSearchBarVisible}">
+    <div (click)="$event.stopPropagation()" class="w-full h-14 bg-gradient-to-b from-blue-50 to-white p-4">
+    <input class="w-full h-12 text-xl text-slate-800 p-2 rounded-md outline-none ring-2 ring-slate-700" type="text" name="search" id="searchBar" placeholder="Search">
+</div>
+</div>

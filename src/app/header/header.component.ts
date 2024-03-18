@@ -10,11 +10,12 @@ import { UserService } from '../services/user-profile-service/user.service';
 })
 export class HeaderComponent implements OnInit{
 isLoggedIn:boolean = false;
+isSearchBarVisible:boolean = false;
 constructor(private authService:AuthService,private userService:UserService, private router:Router,) {
  }
 
  ngOnInit(): void {
-  this.userService.isUserLoggedIn().subscribe({
+  this.userService.getIsLoggedIn().subscribe({
     next: (response) => {
       if (response == true) {
         setTimeout(() => {
@@ -29,14 +30,15 @@ constructor(private authService:AuthService,private userService:UserService, pri
 
 
 logout(){
-  this.authService.removeToken()
+  this.authService.removeJwtToken()
   
   this.router.navigate(['Login'])
-  this.userService.isUserLoggedIn().subscribe({
+  this.userService.getIsLoggedIn().subscribe({
     next:(response)=> response == true?this.isLoggedIn=true:this.isLoggedIn=false
   })
 }
-checkIfLoggedIn(){
-  
+
+openSearchBar(){
+  this.isSearchBarVisible = !this.isSearchBarVisible;
 }
 }

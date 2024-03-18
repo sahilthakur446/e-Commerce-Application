@@ -48,8 +48,8 @@ onSubmit(){
   formData.append("Password",this.password)
   this.authService.loginUser(formData).subscribe({
     next: (response: any) => {console.log(response)
-    this.authService.storeToken(response.jwtToken)
-    this.authService.decodedToken()
+    this.authService.storeJwtToken(response.jwtToken)
+    this.authService.decodeJwtToken()
     this.authService.isLoggedIn()
     this.responseMessage = response.message;
     this.displayResponseModal('success')

@@ -11,15 +11,14 @@ export class HomepageComponent implements OnInit{
 welcome:boolean = false
 userName:string = ''
 userRole:string =''
-constructor(private authService:AuthService,private userService:UserService) {
-
+constructor(private userService:UserService) {
 }
+
   ngOnInit(): void {
-    this.userService.isUserLoggedIn().subscribe({
+    this.userService.getIsLoggedIn().subscribe({
       next:(response)=> {response == true?this.welcome=true:this.welcome=false
       console.log(response);
-      }
-      
+      }  
   });
   this.userService.getUserName().subscribe({
     next:(response)=> {this.userName = response
@@ -31,6 +30,6 @@ constructor(private authService:AuthService,private userService:UserService) {
   })
   setTimeout(() => {
     this.welcome = false;
-  }, 1000);
+  }, 2500);
 }
 }

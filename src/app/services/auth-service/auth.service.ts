@@ -11,41 +11,39 @@ export class AuthService {
   loginApiUrl = "https://localhost:7248/api/Users/Login";
 
   constructor(private http: HttpClient, private userService: UserService) { }
-  
-  registerUser(formData:FormData) {
-    return this.http.post(this.registerApiUrl, formData)
-      
+
+  registerUser(registrationFormData: FormData) {
+    return this.http.post(this.registerApiUrl, registrationFormData);
   }
 
-  loginUser(formData:FormData) {
-    return this.http.post(this.loginApiUrl, formData)
+  loginUser(loginFormData: FormData) {
+    return this.http.post(this.loginApiUrl, loginFormData);
   }
 
-  storeToken(token:string){
-    localStorage.setItem('jwtToken',token)
+  storeJwtToken(token: string) {
+    localStorage.setItem('jwtToken', token);
   }
 
-  removeToken(){
-    localStorage.clear()
-    this.userService.setIsLoggedIn(false)
+  removeJwtToken() {
+    localStorage.clear();
+    this.userService.setIsLoggedIn(false);
   }
 
-  getToken(){
-    return localStorage.getItem('jwtToken')
+  retrieveJwtToken() {
+    return localStorage.getItem('jwtToken');
   }
 
-  isLoggedIn():boolean{
-    let x =  this.getToken() ? true : false;
-    this.userService.setIsLoggedIn(x)
-    return x
+  isLoggedIn(): boolean {
+    const hasToken = this.retrieveJwtToken() !== null;
+    this.userService.setIsLoggedIn(hasToken); 
+    return hasToken;
   }
 
-  decodedToken(){
-    const jwtHelperService = new JwtHelperService()
-    const token = this.getToken()!
-    const decodedToken = jwtHelperService.decodeToken(token)
-    console.log(decodedToken);
-    this.userService.setUserName(decodedToken.name)
-    this.userService.setUserRole(decodedToken.userRole)
+  decodeJwtToken() {
+    const jwtHelperService = new JwtHelperService();
+    const token = this.retrieveJwtToken()!; // Assume token exists
+    const decodedToken = jwtHelperService.decodeToken(token);
+    this.userService.setUserName(decodedToken.name);
+    this.userService.setUserRole(decodedToken.userRole);
   }
 }
