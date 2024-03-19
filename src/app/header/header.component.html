@@ -13,7 +13,7 @@
         <button><i class="bi bi-cart2 text-slate-700 font-extrabold text-base md:text-2xl"></i></button>
         <button (click)="openSearchBar()"><i class="bi bi-search text-slate-700 font-extrabold text-base md:text-2xl"></i></button>
         <a *ngIf="!isLoggedIn" class="bg-slate-800 rounded text-white px-2 py-1 md:px-4 md:py-2 font-semibold" routerLink="Login">Login</a>
-        <button *ngIf="isLoggedIn" (click)="logout()" class="bg-slate-800 rounded text-white px-2 py-1 md:px-4 md:py-2 font-semibold">Logout</button>
+        <button *ngIf="isLoggedIn" (click)="toggleLogoutModal()" class="bg-slate-800 rounded text-white px-2 py-1 md:px-4 md:py-2 font-semibold">Logout</button>
     </div>
 </nav>
 
@@ -22,6 +22,28 @@
 <div (click)="openSearchBar()" class="fixed w-full h-full z-1 bg-transparent flex justify-center ease-in-out duration-500"
     [ngClass]="{'-top-full':!isSearchBarVisible ,'top-0':isSearchBarVisible}">
     <div (click)="$event.stopPropagation()" class="w-full h-14 bg-gradient-to-b from-blue-50 to-white p-4">
-    <input class="w-full h-12 text-xl text-slate-800 p-2 rounded-md outline-none ring-2 ring-slate-700" type="text" name="search" id="searchBar" placeholder="Search">
+    <input class="w-full h-12 text-xl font-medium text-slate-800 p-2 rounded-md outline-none ring-2 ring-slate-700" type="text" name="search" id="searchBar" placeholder="Search">
 </div>
+</div>
+
+<!-- Logout Modal -->
+
+<div (click)="toggleLogoutModal()" class="bg-black bg-opacity-20  overflow-y-auto
+ overflow-x-hidden flex fixed top-0 right-0 left-0 -z-50 justify-center
+  items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+  [ngClass]="{'opacity-100':showLogoutModal ,'z-50':showLogoutModal ,'opacity-0':!showLogoutModal,'-z-50':!showLogoutModal}">
+    <div (click)="$event.stopPropagation()" class="z-50 w-1/4 flex ease-in-out duration-300 shadow-lg"
+    [ngClass]="{'opacity-0':!showLogoutModal ,'opacity-100':showLogoutModal}">
+        <div class="w-full h-5/6 flex flex-col gap-2 bg-slate-100 p-8 rounded-md shadow-2xl">
+            <h1 class="text-3xl mb-4 text-center text-slate-800 font-bold">
+                Are you sure you want to Logout?
+            </h1>
+            <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <button (click)="logout()" (click)="toggleLogoutModal()" type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none
+                 focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">Yes, I'm sure</button>
+                <button (click)="toggleLogoutModal()" type="button"class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg
+                 border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">No, cancel</button>
+            </div>
+        </div>
+    </div>
 </div>
