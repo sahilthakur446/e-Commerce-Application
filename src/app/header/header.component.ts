@@ -28,7 +28,6 @@ constructor(private authService:AuthService,private userService:UserService, pri
 
 logout(){
   this.authService.removeJwtToken()
-  
   this.router.navigate(['Login'])
   this.userService.getIsLoggedIn().subscribe({
     next:(response)=> response == true?this.isLoggedIn=true:this.isLoggedIn=false

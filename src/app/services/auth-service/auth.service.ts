@@ -9,6 +9,7 @@ import { UserService } from '../user-profile-service/user.service';
 export class AuthService {
   registerApiUrl = "https://localhost:7248/api/Users/Register";
   loginApiUrl = "https://localhost:7248/api/Users/Login";
+  private userRole:string =''
 
   constructor(private http: HttpClient, private userService: UserService) { }
 
@@ -32,6 +33,21 @@ export class AuthService {
   retrieveJwtToken() {
     return localStorage.getItem('jwtToken');
   }
+  
+  isUserAdmin():boolean{
+    if (this.userRole == 'Admin') {
+      console.log('Admin');
+      
+      return true;
+    }
+    else{
+      console.log('userRole', this.userRole);
+      
+      console.log('Not Admin');
+    return false;
+    }
+
+  }
 
   isLoggedIn(): boolean {
     const hasToken = this.retrieveJwtToken() !== null;
@@ -43,7 +59,8 @@ export class AuthService {
     const jwtHelperService = new JwtHelperService();
     const token = this.retrieveJwtToken()!; // Assume token exists
     const decodedToken = jwtHelperService.decodeToken(token);
+    this.userRole = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
     this.userService.setUserName(decodedToken.name);
-    this.userService.setUserRole(decodedToken.userRole);
+    this.userService.setUserRole(decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]);
   }
 }
