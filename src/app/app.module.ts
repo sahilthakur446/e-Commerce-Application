@@ -10,12 +10,13 @@ import { RegisterComponent } from './account/register/register.component';
 import { HomepageComponent } from './homepage/homepage.component'
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AddProductComponent } from './admin-components/add-product/add-product.component';
 import { UpdateProductComponent } from './admin-components/update-product/update-product.component';
 import { ProductManagementComponent } from './admin-components/product-management/product-management.component';
 import { CategoryManagerComponent } from './admin-components/category-manager/category-manager.component';
 import { BrandManagerComponent } from './admin-components/brand-manager/brand-manager.component'
+import { TokenInterceptor } from './interceptors/token.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +38,10 @@ import { BrandManagerComponent } from './admin-components/brand-manager/brand-ma
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi:true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
