@@ -51,8 +51,7 @@ onSubmit(){
     this.authService.storeJwtToken(response.jwtToken)
     this.authService.decodeJwtToken()
     this.authService.isLoggedIn()
-    let x = this.authService.isUserAdmin()
-    console.log('UserROleisAdmin: ',x);
+    this.authService.isUserAdmin()
     
     this.responseMessage = response.message;
     this.displayResponseModal('success')

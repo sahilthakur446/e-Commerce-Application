@@ -1,4 +1,8 @@
-<nav class="fixed bg-white w-full h-14 flex flex-row  md:justify-between md:items-center px-5">
+<style>
+
+</style>
+
+<nav class="fixed z-10 bg-white w-full h-14 flex flex-row  md:justify-between md:items-center px-5">
     <div class="flex justify-center items-center">
         <img src="assets/images/logo.svg" alt="" class="hidden md:block">
         <a routerLink="Home" class="text-lg md:text-2xl font-bold">Elliye</a>
@@ -8,12 +12,12 @@
         <a href="" class="font-semibold text-base md:text-xl text-slate-700 hover:text-slate-900">New Arrival</a>
         <a href="" class="font-semibold text-base md:text-xl text-slate-700 hover:text-slate-900">Features</a>
         <a href="" class="font-semibold text-base md:text-xl text-slate-700 hover:text-slate-900">Collections</a> 
-        <div id="parent" class="font-semibold text-base md:text-xl text-slate-700 hover:text-slate-900 cursor-pointer relative">
+        <div *ngIf="isUserAdmin" class="group font-semibold text-base md:text-xl text-slate-700 hover:text-slate-900 hover: cursor-pointer relative">
             Admin<span><i class="ml-0.5 bi bi-caret-down-fill text-base"></i></span>
-            <div id="child" class="absolute w-48 p-1 top-8 left-0 rounded flex flex-col shadow-md">
-                <a routerLink="ProductManager" class="font-semibold text-base md:text-xl text-slate-700 hover:text-slate-900">Manage Products</a>
-                <a routerLink="BrandManager" class="font-semibold text-base md:text-xl text-slate-700 hover:text-slate-900">Manage Brands</a>
-                <a routerLink="CategoryManager" class="font-semibold text-base md:text-xl text-slate-700 hover:text-slate-900">Manage Categories</a>
+            <div id="child" class="absolute bg-white w-52 p-1 top-7 left-0 rounded hidden flex-col shadow-md group-hover:flex group-hover:z-20">
+                <a routerLink="ProductManager" class="font-semibold text-base md:text-lg text-slate-800 hover:text-slate-900">Manage Products</a>
+                <a routerLink="BrandManager" class="font-semibold text-base md:text-lg text-slate-800 hover:text-slate-900">Manage Brands</a>
+                <a routerLink="CategoryManager" class="font-semibold text-base md:text-lg text-slate-800 hover:text-slate-900">Manage Categories</a>
             </div>
         </div>
     </ul>
@@ -21,8 +25,10 @@
     <div class="flex flex-row justify-center items-center gap-1 md:gap-4">
         <button><i class="bi bi-cart2 text-slate-700 font-extrabold text-base md:text-2xl"></i></button>
         <button (click)="openSearchBar()"><i class="bi bi-search text-slate-700 font-extrabold text-base md:text-2xl"></i></button>
+        <ng-container *ngIf="showLoginLogout">
         <a *ngIf="!isLoggedIn" class="bg-slate-800 rounded text-white px-2 py-1 md:px-4 md:py-2 font-semibold" routerLink="Login">Login</a>
         <button *ngIf="isLoggedIn" (click)="toggleLogoutModal()" class="bg-slate-800 rounded text-white px-2 py-1 md:px-4 md:py-2 font-semibold">Logout</button>
+        </ng-container>
     </div>
 </nav>
 
