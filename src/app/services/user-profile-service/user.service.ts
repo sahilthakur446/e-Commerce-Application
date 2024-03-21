@@ -7,7 +7,8 @@ import { BehaviorSubject } from 'rxjs';
 export class UserService {
   private userName$ = new BehaviorSubject<string>('');
   private userRole$ = new BehaviorSubject<string>('');
-  private loggedInStatus$ = new BehaviorSubject<boolean>(false); // More descriptive
+  private loggedInStatus$ = new BehaviorSubject<boolean>(false);
+ 
 
   constructor() { }
 

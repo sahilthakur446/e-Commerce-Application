@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth-service/auth.service';
+import { UserService } from 'src/app/services/user-profile-service/user.service';
+import { WelcomeService } from 'src/app/services/welcome-service/welcome.service';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +23,7 @@ responseClass: string = '';
 responseSuccessClass: string = 'text-3xl font-bold text-green-700';
 responseFailureClass: string = 'text-3xl font-bold text-red-700';
 
-constructor(private authService: AuthService, private router:Router) {
+constructor(private authService: AuthService,private welcomeService:WelcomeService, private router:Router) {
 }
 
 togglePasswordVisibility()
@@ -52,8 +54,8 @@ onSubmit(){
     this.authService.decodeJwtToken()
     this.authService.isLoggedIn()
     this.authService.isUserAdmin()
-    
     this.responseMessage = response.message;
+    this.welcomeService.setShowWelcome(true)
     this.displayResponseModal('success')
     },
     error: (response) => {console.log(response)

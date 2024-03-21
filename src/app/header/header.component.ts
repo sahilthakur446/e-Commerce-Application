@@ -22,11 +22,11 @@ constructor(private authService:AuthService,private userService:UserService, pri
     filter(event => event instanceof NavigationEnd)
   ).subscribe((event:any) => {
     this.showLoginLogout = event.url !== '/Login';
-    console.log(event.url);
-    console.log('route path: ',this.showLoginLogout);
   });
  this.userService.getUserRole().pipe(delay(2000)).subscribe({
   next:(response)=> {
+    console.log(response);
+    
     if (response === 'Admin') {
       this.isUserAdmin = true;
     }
