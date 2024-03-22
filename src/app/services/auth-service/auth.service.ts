@@ -38,7 +38,6 @@ export class AuthService {
   isUserAdmin():boolean{
     if (this.userRole == 'Admin') {
       console.log('Admin');
-      
       return true;
     }
     else{
@@ -60,7 +59,7 @@ export class AuthService {
 
   decodeJwtToken() {
     const jwtHelperService = new JwtHelperService();
-    const token = this.retrieveJwtToken()!; // Assume token exists
+    const token = this.retrieveJwtToken()!;
     const decodedToken = jwtHelperService.decodeToken(token);
     this.userRole = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
     this.userService.setUserName(decodedToken.name);

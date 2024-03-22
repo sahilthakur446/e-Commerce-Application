@@ -9,11 +9,13 @@ import { UpdateProductComponent } from './admin-components/update-product/update
 import { CategoryManagerComponent } from './admin-components/category-manager/category-manager.component';
 import { BrandManagerComponent } from './admin-components/brand-manager/brand-manager.component';
 import { authGuard } from './guards/auth.guard';
+import { UserDashboardComponent } from './user-profile/user-dashboard/user-dashboard.component';
 
 const routes: Routes = [
   { path: "", redirectTo:"/Home",pathMatch: 'full'},
   { path: "Home", component: HomepageComponent},
   { path: "Login", component: LoginComponent,pathMatch:'full' },
+  { path:"userdashboard",component:UserDashboardComponent},
   { path: "Login/Register", component: RegisterComponent },
   { path: "UpdateProduct", component: UpdateProductComponent},
   { path: "ProductManager/UpdateProduct/:productid", component: UpdateProductComponent},
@@ -21,7 +23,8 @@ const routes: Routes = [
   { path: "ProductManager", component: ProductManagementComponent, canActivate:[authGuard] },
   { path: "CategoryManager", component: CategoryManagerComponent, canActivate:[authGuard]},
   { path: "BrandManager", component: BrandManagerComponent, canActivate:[authGuard] },
-  { path: "Home", component: HomepageComponent }
+  { path: "Home", component: HomepageComponent },
+  { path: "**", component: HomepageComponent }
 ];
 
 @NgModule({

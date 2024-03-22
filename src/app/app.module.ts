@@ -17,6 +17,7 @@ import { ProductManagementComponent } from './admin-components/product-managemen
 import { CategoryManagerComponent } from './admin-components/category-manager/category-manager.component';
 import { BrandManagerComponent } from './admin-components/brand-manager/brand-manager.component'
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { UserDashboardComponent } from './user-profile/user-dashboard/user-dashboard.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +29,8 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
     UpdateProductComponent,
     ProductManagementComponent,
     CategoryManagerComponent,
-    BrandManagerComponent
+    BrandManagerComponent,
+    UserDashboardComponent
   ],
   imports: [
     BrowserModule,
