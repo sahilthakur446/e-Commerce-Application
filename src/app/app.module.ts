@@ -18,6 +18,10 @@ import { CategoryManagerComponent } from './admin-components/category-manager/ca
 import { BrandManagerComponent } from './admin-components/brand-manager/brand-manager.component'
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { UserDashboardComponent } from './user-profile/user-dashboard/user-dashboard.component';
+import { UserDetailsComponent } from './user-profile/user-details/user-details.component';
+import { UserWishlistComponent } from './user-profile/user-wishlist/user-wishlist.component';
+import { AddressManagementComponent } from './user-profile/address-management/address-management.component';
+import { ProductShowcaseComponent } from './product-showcase/product-showcase.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +34,11 @@ import { UserDashboardComponent } from './user-profile/user-dashboard/user-dashb
     ProductManagementComponent,
     CategoryManagerComponent,
     BrandManagerComponent,
-    UserDashboardComponent
+    UserDashboardComponent,
+    UserDetailsComponent,
+    UserWishlistComponent,
+    AddressManagementComponent,
+    ProductShowcaseComponent
   ],
   imports: [
     BrowserModule,

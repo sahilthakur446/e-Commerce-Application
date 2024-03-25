@@ -31,10 +31,15 @@ export class AuthService {
     this.userService.setIsLoggedIn(false);
   }
 
-  retrieveJwtToken() {
-    return localStorage.getItem('jwtToken');
+  retrieveJwtToken(token:string) {
+    return localStorage.getItem(token);
   }
   
+getUserID()
+{
+
+}
+
   isUserAdmin():boolean{
     if (this.userRole == 'Admin') {
       console.log('Admin');
@@ -50,7 +55,7 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    const hasToken = this.retrieveJwtToken() !== null;
+    const hasToken = this.retrieveJwtToken('jwtToken') !== null;
     const userName = localStorage.getItem('userName');
     this.userService.setUserName(userName!);
     this.userService.setIsLoggedIn(hasToken); 
@@ -59,10 +64,11 @@ export class AuthService {
 
   decodeJwtToken() {
     const jwtHelperService = new JwtHelperService();
-    const token = this.retrieveJwtToken()!;
+    const token = this.retrieveJwtToken('jwtToken')!;
     const decodedToken = jwtHelperService.decodeToken(token);
     this.userRole = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
     this.userService.setUserName(decodedToken.name);
+    localStorage.setItem('userId',decodedToken.userid);
     localStorage.setItem('userName',decodedToken.name);
     this.userService.setUserRole(decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]);
   }

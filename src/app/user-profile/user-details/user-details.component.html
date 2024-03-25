@@ -1,0 +1,197 @@
+<div class="pt-14 relative h-screen w-screen flex flex-col items-center gap-3">
+    <h1 class="text-3xl text-slate-800 font-semibold mt-10">
+      Login and Security
+    </h1>
+    <div class="w-4/5 md:w-2/5 rounded-lg border-2 border-slate-400">
+      <div class="flex w-full justify-between p-5">
+        <div class="flex flex-col justify-center gap-px">
+          <h1 class="text-slate-700 font-semibold text-base">Name</h1>
+          <h2 class="text-slate-700 text-base">{{fullName | titlecase}}</h2>
+        </div>
+        <div class="flex items-center">
+          <button
+            (click)="openModal('Name')"
+            class="py-px px-10 rounded-md text-slate-800 font-medium border border-slate-200 bg-white shadow-md hover:bg-slate-100"
+          >
+            Edit
+          </button>
+        </div>
+      </div>
+      <hr />
+      <div class="flex w-full justify-between p-5">
+        <div class="flex flex-col justify-center gap-px">
+          <h1 class="text-slate-700 font-semibold text-base">Email</h1>
+          <h2 class="text-slate-700 text-base">{{email}}</h2>
+        </div>
+        <div class="flex items-center">
+          <button
+            (click)="openModal('Email')"
+            class="py-px px-10 rounded-md text-slate-800 font-medium border border-slate-200 bg-white shadow-md hover:bg-slate-100"
+          >
+            Edit
+          </button>
+        </div>
+      </div>
+      <hr />
+      <div class="flex w-full justify-between p-5">
+        <div class="flex flex-col justify-center gap-px">
+          <h1 class="text-slate-700 font-semibold text-base">Gender</h1>
+          <h2 class="text-slate-700 text-base">{{gender | titlecase}}</h2>
+        </div>
+        <div class="flex items-center">
+          <button
+            (click)="openModal('Gender')"
+            class="py-px px-10 rounded-md text-slate-800 font-medium border border-slate-200 bg-white shadow-md hover:bg-slate-100"
+          >
+            Edit
+          </button>
+        </div>
+      </div>
+      <hr />
+      <div class="flex w-full justify-between p-5">
+        <div class="flex flex-col justify-center gap-px">
+          <h1 class="text-slate-700 font-semibold text-base">Password</h1>
+          <h2 class="text-slate-700 font-medium text-base">******</h2>
+        </div>
+        <div class="flex items-center">
+          <button
+            (click)="openModal('Password')"
+            class="py-px px-10 rounded-md text-slate-800 font-medium border border-slate-200 bg-white shadow-md hover:bg-slate-100"
+          >
+            Edit
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!--Edit Modal -->
+    <div
+      *ngIf="isModalOpen"
+      class="z-10 absolute top-0 left-0 w-screen h-screen flex justify-center items-center bg-black bg-opacity-20 opacity-100"
+    >
+      <form
+        (click)="$event.stopPropagation()"
+        class="z-50 w-3/4 md:w-1/4 flex shadow-lg transition-opacity ease-in-out duration-300"
+      >
+        <div
+          class="w-full h-5/6 flex flex-col gap-2 bg-slate-100 p-8 rounded-md shadow-2xl"
+        >
+          <h1 class="text-3xl mb-4 text-center text-slate-800 font-bold">
+            Edit {{ modalInputFieldName }}
+          </h1>
+  
+          <div *ngIf="type == 'Name'" class="flex flex-col">
+            <label class="text-slate-700 font-semibold mb-1" for="firstNameInput">
+                First {{ modalInputFieldName }}
+              </label>
+              <input
+                class="p-1 block w-full rounded border border-gray-600"
+                type="text"
+                name="firstNameInput"
+                id="firstNameInput"
+                [(ngModel)]="firstName"
+              />
+              <label class="text-slate-700 font-semibold mb-1" for="lastNameInput">
+                Last {{ modalInputFieldName }}
+              </label>
+              <input
+                class="p-1 block w-full rounded border border-gray-600"
+                type="text"
+                name="lastNameInput"
+                id="lastNameInput"
+                [(ngModel)]="lastName"
+              />
+          </div>
+
+          <div *ngIf="type == 'Email'" class="flex flex-col">
+              <label class="text-slate-700 font-semibold mb-1" for="email">
+                {{ modalInputFieldName }}
+              </label>
+              <input
+                class="p-1 block w-full rounded border border-gray-600"
+                type="text"
+                name="email"
+                id="email"
+                [(ngModel)]="email"
+              />
+          </div>
+  
+          <div *ngIf="type == 'Gender'" class="flex flex-col">
+            <label class="text-slate-700 font-semibold mb-1" for="genderSelect">
+              {{ modalInputFieldName }}
+            </label>
+            <select
+              class="p-1 block w-full rounded border border-gray-600"
+              name="genderSelect"
+              id="genderSelect"
+              [(ngModel)]="gender"
+            >
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+  
+          <div *ngIf="type == 'Password'" class="flex flex-col">
+            <div class="flex gap-2 mb-1">
+            <label class="text-slate-700 font-semibold mb-1" for="oldPasswordInput">
+              Old {{ modalInputFieldName }}
+            </label>
+            <span class="text-red-600 font-semibold" *ngIf="(oldPswd.invalid && oldPswd.touched)">*Required</span>
+                </div>
+            <input
+              class="p-1 block w-full rounded border border-gray-600"
+              type="password"
+              name="oldPasswordInput"
+              id="oldPasswordInput"
+              #oldPswd="ngModel"
+              required
+              [(ngModel)]="oldPassword"
+            />
+            <div class="flex gap-2 mb-1">
+            <label class="text-slate-700 font-semibold mb-1" for="newPasswordInput">
+              New {{ modalInputFieldName }}
+            </label>
+            <span class="text-red-600 font-semibold" *ngIf="(newPswd.invalid && newPswd.touched)">*Required</span>
+                </div>
+            <input
+              class="p-1 block w-full rounded border border-gray-600"
+              type="password"
+              name="newPasswordInput"
+              id="newPasswordInput"
+              #newPswd="ngModel"
+              required
+              [(ngModel)]="newPassword"
+            />
+          </div>
+  
+          <div class="flex justify-between items-center gap-1">
+            <button
+            (click)="update(modalInputFieldName!)"
+              type="submit"
+              class="bg-slate-800 font-medium text-white px-2 py-1 mt-1 rounded text-base hover:shadow-2xl hover:bg-slate-900 w-32 h-10"
+            >
+              Save Changes
+            </button>
+            <div *ngIf="this.isLoading" class="border-4 h-5 w-5 mr-1 ml-1 animate-spin bg-transparent border-l-red-600 border-y-white border-r-black rounded-full">
+            </div>
+            <div *ngIf="this.isLoading" class="text-slate-700 text-xl ml-3 font-medium">{{loadingStatus}}</div>
+            <button
+            *ngIf="!this.isLoading"
+              (click)="closeModal()"
+              type="button"
+              class="bg-red-800 font-medium text-white px-2 py-1 mt-1 rounded text-base hover:shadow-2xl hover:bg-red-900 w-32 h-10"
+            >
+              No, cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- ResponeModal -->
+    <div class="absolute w-full z-50 bg-white p-4 rounded-lg flex justify-center ease-in-out duration-500"
+    [ngClass]="{'-top-full':!isResponseModalVisible ,'top-0':isResponseModalVisible}">
+    <h1 [ngClass]="responseClass">{{responseMessage}}</h1>
+</div>
+  </div>
+  

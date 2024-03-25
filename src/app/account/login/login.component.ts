@@ -10,6 +10,7 @@ import { WelcomeService } from 'src/app/services/welcome-service/welcome.service
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  number:string = '1'
 email:string = ""
 password:string = ""
 passwordFieldType:string = "password"

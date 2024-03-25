@@ -14,7 +14,7 @@ export class TokenInterceptor implements HttpInterceptor {
   constructor(private authService:AuthService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    const token = this.authService.retrieveJwtToken();
+    const token = this.authService.retrieveJwtToken('jwtToken');
     if (token) {
       request = request.clone({
         setHeaders: {Authorization: `Bearer ${token}`}

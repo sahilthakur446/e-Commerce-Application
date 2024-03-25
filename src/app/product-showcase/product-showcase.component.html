@@ -1,0 +1,48 @@
+<div class="pt-14 pb-10">
+<h1 class="text-center text-xl md:text-start md:text-lg font-semibold px-7 pt-4">Men T-Shirts</h1>
+<div class="hidden md:flex justify-between px-7 py-4">
+    <p class="text-base font-bold">FILTERS</p>
+    <div>
+    <label for="sort" class="text-slate-700 font-semibold mr-2">Sort by:</label>
+    <select name="sort" id="sort" class="outline-1 focus:outline-2 outline outline-slate-400 rounded font-medium text-slate-700 w-32">
+        <option value="">x</option>
+        <option value="">d</option>
+    </select>
+</div>
+</div>
+<hr>
+<div class="flex w-full">
+    <div class="hidden md:block w-1/6  gap-3 border-r pl-7 py-3">
+        <div class="flex flex-col gap-2 w-11/12">
+        <label for="" class="text-slate-700 font-semibold" >Categories</label>
+        <select name="" id="" class="outline-1 focus:outline-2 outline outline-slate-400 rounded font-medium text-slate-700">
+            <option value="">a</option>
+        </select>
+    
+        <label for="" class="text-slate-700 font-semibold">Brands</label>
+        <select name="" id="" class="outline-1 focus:outline-2 outline outline-slate-400 rounded font-medium text-slate-700">
+            <option value="">a</option>
+        </select>
+        <div class="flex flex-col">
+        <p class="text-slate-700 font-semibold" >Price</p>
+        <button class="text-start text-sm text-slate-700 rounded hover:text-slate-900 hover:font-medium ease-in duration-50">Under 299</button>
+        <button class="text-start text-sm text-slate-700 rounded hover:text-slate-900 hover:font-medium ease-in duration-50">Under 299</button>
+        <button class="text-start text-sm text-slate-700 rounded hover:text-slate-900 hover:font-medium ease-in duration-50">Under 299</button>
+    </div>
+    </div>
+    </div>
+    <div class="w-full grid-cols-2 md:w-5/6 grid md:grid-cols-4 gap-2 px-7 py-4">
+        <ng-container *ngFor="let product of productList">
+        <div class=" h-80 w-52 relative">
+           <img src="https://localhost:7248/{{product.imagePath}}" alt="a" class="h-64 w-48 ml-auto mr-auto rounded-sm block">
+           <div class="px-3">
+           <h1 class="font-medium">{{product.brandName}}</h1>
+           <p class="text-sm text-slate-900">{{product.productName}}</p>
+           <p class="text-sm text-slate-900 font-bold">{{product.price}}</p>
+            </div>
+           <div class="absolute text-xs font-semibold left-3 rounded top-60 text-center bg-white bg-opacity-50 ">3.4</div>
+        </div>
+    </ng-container>
+    </div>
+</div>
+</div>

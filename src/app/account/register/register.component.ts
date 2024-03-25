@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth-service/auth.service';
 
 
@@ -22,8 +23,8 @@ responseMessage:string = '';
 responseClass: string = '';
 responseSuccessClass: string = 'text-3xl font-bold text-green-700';
 responseFailureClass: string = 'text-3xl font-bold text-red-700';
-
-constructor(private authService: AuthService) {
+isLoading:boolean = false;
+constructor(private authService: AuthService, private router:Router) {
 }
 
 togglePasswordVisibility()
@@ -54,23 +55,37 @@ onSubmit()
   
   this.authService.registerUser(formData).subscribe({
     next: (response: any) => {console.log(response)
-      this.responseMessage = response.message;
+      this.responseMessage = response.message
       this.responseClass = this.responseSuccessClass;
-      this.isModalVisible = true;
-      setTimeout(() => {
-        this.isModalVisible = false;
-      }, 2000);
+      this.displayResponseModal('success');
       },
       error: (response) => {console.log(response)
         response.error.message?this.responseMessage = response.error.message:this.responseMessage = "Signup Failed Due to Internal Server Issue"
-        this.responseClass = this.responseFailureClass;
-        this.isModalVisible = true;
-        setTimeout(() => {
-          this.isModalVisible = false;
-        }, 4000);
+        this.displayResponseModal('failure');
         },
       complete: () => console.log("Completed")  
-    })
-}
+    });
+  }
+    displayResponseModal(result:string){
+      if (result === 'success') {
+        this.responseClass = this.responseSuccessClass;
+        this.isModalVisible = true;
+        this.isLoading = false;
+        setTimeout(() => {
+          this.isModalVisible = false;
+          this.router.navigate(['Login'])
+        }, 2000);
+        
+      }else{
+        this.responseClass = this.responseFailureClass;
+          this.isModalVisible = true;
+          this.isLoading = false;
+          setTimeout(() => {
+            this.isModalVisible = false;
+          }, 2000);
+      }
+    
+    }
+
 
 }

@@ -1,28 +1,37 @@
 <div class="w-full pt-14 ">
     <div class="flex flex-row justify-center items-center mt-8">
-        <form class="w-1/3 flex justify-center items-center mt-5">
+        <form class="w-4/5 md:w-1/3 flex justify-center items-center mt-5" ngForm #form="ngForm">
             <div class="w-5/6 h-5/6 flex flex-col gap-2 bg-slate-100 p-8 rounded-md shadow-2xl">
             <h1 class="text-3xl mb-4 text-center text-slate-800 font-bold">Signup</h1>
             <div class="flex flex-col">
+                <div class="flex gap-2 mb-1">
                 <label class="text-slate-700 font-semibold mb-1" for="firstName">First Name</label>
-                <input class="p-1 block w-full rounded border border-gray-600" type="text" name="firstName" id="firstName" [(ngModel)]="firstName">
+                <span class="text-red-600 font-semibold" *ngIf="(firstname.invalid && firstname.touched)">*Required</span>
+                </div>
+                <input class="p-1 block w-full rounded border border-gray-600" type="text" name="firstName" id="firstName" #firstname="ngModel" required [(ngModel)]="firstName">
             </div>
             <div class="flex flex-col">
                 <label class="text-slate-700 font-semibold mb-1" for="lastName">Last Name</label>
                 <input class="p-1 block w-full rounded border border-gray-600" type="text" name="lastName" id="lastName" [(ngModel)]="lastName">
             </div>
+              <div class="flex flex-col">
+                <div class="flex gap-2 mb-1">
+                    <label class="text-slate-700 font-semibold mb-1" for="email">Email</label>
+                    <span class="text-red-600 font-semibold" *ngIf="(mail.invalid && mail.touched)">*Required</span>
+                    </div>
+                <input class="p-1 block w-full rounded border border-gray-600" type="text" name="email" id="email" #mail="ngModel" required  [(ngModel)]="email">
+            </div>
             <div class="flex flex-col">
+                <div class="flex gap-2 mb-1">
                 <label for="targetGender" class="text-slate-700 font-semibold mb-1">Gender</label>
-                <select id="targetGender" name="targetGender" type="text" class="p-1 block w-full rounded border text-slate-800 font-semibold border-gray-600" [(ngModel)]="gender">
+                <span class="text-red-600 font-semibold" *ngIf="gendr.value =='' && gendr.touched">*Required</span>
+                </div>
+                <select id="targetGender" name="targetGender" type="text" class="p-1 block w-full rounded border text-slate-800 font-semibold border-gray-600" #gendr="ngModel" required [(ngModel)]="gender">
                 <option value="">Select Gender</option>
                 <option value="0">Male</option>
                 <option value="1">Female</option>
                 </select>
               </div>
-              <div class="flex flex-col">
-                <label class="text-slate-700 font-semibold mb-1" for="email">Email</label>
-                <input class="p-1 block w-full rounded border border-gray-600" type="text" name="email" id="email" [(ngModel)]="email">
-            </div>
             <div class="flex flex-col">
                 <label class="text-slate-700 font-semibold mb-1" for="password">Password</label>
                 <div class="flex justify-center items-center">
@@ -37,17 +46,17 @@
                     
                 </div>
                 <div *ngIf="(pswd.value != confirmpswd.value) && pswd.touched && confirmpswd.touched">
-                    <p class="text-base text-red-400">Password and Confirm Password does not match</p>
+                    <p class="text-base text-red-600 font-semibold">Password and Confirm Password does not match</p>
                 </div>
             </div>            
-            <button type="submit" (click)="onSubmit()" class="bg-slate-800 font-medium text-white px-4 py-1 rounded text-xl hover:shadow-2xl hover:bg-slate-900">Signup</button>          
+            <button type="submit" (click)="onSubmit()" [disabled]="form.invalid" class="bg-slate-800 font-medium text-white px-4 py-1 rounded text-xl hover:shadow-2xl hover:bg-slate-900">Signup</button>          
         </div>
         </form>
     </div>
 </div>
 
 <!-- Modal -->
-<div class="fixed w-full z-1 bg-white p-4 rounded-lg flex justify-center ease-in-out duration-500"
+<div class="fixed w-full z-10 bg-white p-4 rounded-lg flex justify-center ease-in-out duration-500"
     [ngClass]="{'-top-full':!isModalVisible ,'top-0':isModalVisible}">
     <h1 [ngClass]="responseClass">{{responseMessage}}</h1>
 </div>

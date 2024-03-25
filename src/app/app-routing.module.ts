@@ -10,12 +10,18 @@ import { CategoryManagerComponent } from './admin-components/category-manager/ca
 import { BrandManagerComponent } from './admin-components/brand-manager/brand-manager.component';
 import { authGuard } from './guards/auth.guard';
 import { UserDashboardComponent } from './user-profile/user-dashboard/user-dashboard.component';
+import { UserDetailsComponent } from './user-profile/user-details/user-details.component';
+import { UserWishlistComponent } from './user-profile/user-wishlist/user-wishlist.component';
+import { AddressManagementComponent } from './user-profile/address-management/address-management.component';
 
 const routes: Routes = [
   { path: "", redirectTo:"/Home",pathMatch: 'full'},
   { path: "Home", component: HomepageComponent},
   { path: "Login", component: LoginComponent,pathMatch:'full' },
   { path:"userdashboard",component:UserDashboardComponent},
+  { path: "userdashboard/accountdetails", component: UserDetailsComponent },
+  {path:"userdashboard/addresses", component:AddressManagementComponent},
+  { path: "wishlist", component:UserWishlistComponent},
   { path: "Login/Register", component: RegisterComponent },
   { path: "UpdateProduct", component: UpdateProductComponent},
   { path: "ProductManager/UpdateProduct/:productid", component: UpdateProductComponent},

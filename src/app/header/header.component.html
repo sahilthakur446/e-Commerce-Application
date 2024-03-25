@@ -1,4 +1,4 @@
-<nav class="fixed z-10 bg-white w-full h-14 flex flex-row  md:justify-between md:items-center px-5">
+<nav class="fixed z-10 bg-white w-full h-14 flex flex-row shadow-sm  md:justify-between md:items-center px-5">
     <div class="flex justify-center items-center">
         <img src="assets/images/logo.svg" alt="" class="hidden md:block">
         <a routerLink="Home" class="text-lg md:text-2xl font-bold">Elliye</a>
@@ -27,9 +27,7 @@
         <div *ngIf="isLoggedIn" class="relative group text-slate-800 bg-transparent text-2xl font-semibold"><i class="bi bi-person-circle"></i>
             <div id="child" class="absolute bg-white w-32 p-2 top-7 -right-2 gap-1 rounded hidden flex-col items-center shadow-md group-hover:flex group-hover:z-20">
                 <a routerLink="userdashboard" class="font-semibold text-base md:text-lg text-slate-800 hover:text-slate-900 hover:font-bold">Profile</a>
-                
                 <button *ngIf="isLoggedIn" (click)="toggleLogoutModal()" class="bg-slate-700 hover:bg-slate-800 rounded ease-in-out duration-200 hover:text-lg text-white px-2 py-1 md:px-2 md:py-1 text-base font-semibold">Logout</button>
-        
             </div>
         </div>
         </ng-container>
@@ -47,7 +45,7 @@
 
 <!-- Logout Modal -->
 
-<div (click)="toggleLogoutModal()" class="bg-black bg-opacity-20  overflow-y-auto
+<div class="bg-black bg-opacity-20  overflow-y-auto
  overflow-x-hidden flex fixed top-0 right-0 left-0 -z-50 justify-center
   items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
   [ngClass]="{'opacity-100':showLogoutModal ,'z-50':showLogoutModal ,'opacity-0':!showLogoutModal,'-z-50':!showLogoutModal}">

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { Product } from 'src/app/models/product.model'; 
 import { GenderApplicability } from 'src/app/models/genderApplicability.enum';
+import { ProductManagementService } from 'src/app/services/product-management-service/product-management.service';
 
 @Component({
   selector: 'app-product-management',
@@ -19,21 +20,13 @@ export class ProductManagementComponent implements OnInit{
   selectedBrand:string = "";
   isLoading:boolean = false;
   isModelOpen:boolean = false
-  constructor(private http: HttpClient,private router:Router) {
+  constructor(private http: HttpClient,private productMgrService:ProductManagementService,private router:Router) {
   }
 
   ngOnInit(): void {
-    let url = "https://localhost:7248/api/Product/GetAllProducts"
-    this.http.get<Product>(url).subscribe({
-      next:(product:Product) => {this.productList = product},
-      error:(error) => console.log(error),
-      complete:() => console.log("Completed") 
-    })
-
-    let categoryListUrl ="https://localhost:7248/api/Category/GetCategoryList";
-    let brandListUrl ="https://localhost:7248/api/Brand/GetBrandList";
-    this.http.get(categoryListUrl).subscribe((response:any) =>{this.categoryList = response});
-    this.http.get(brandListUrl).subscribe((response:any) =>{this.BrandList = response
+    this.getAllProduct();
+    this.productMgrService.getCategoryList().subscribe((response:any) =>{this.categoryList = response});
+    this.productMgrService.getBrandsList().subscribe((response:any) =>{this.BrandList = response
     console.log(this.BrandList)});
   }
 
@@ -60,14 +53,11 @@ export class ProductManagementComponent implements OnInit{
     }, 1000);
   }
 getAllProduct(){
-let url = "https://localhost:7248/api/Product/GetAllProducts"
-    this.http.get(url).subscribe({
-      next:(response) => {this.productList = response
-      console.log(response);
-      },
-      error:(error) => console.log(error),
-      complete:() => console.log("Completed") 
-    })
+  this.productMgrService.getAllProducts().subscribe({
+    next:(product:Product[]) => {this.productList = product},
+    error:(error) => console.log(error),
+    complete:() => console.log("Completed") 
+  })
   }
   editProduct(id:any)
   {
