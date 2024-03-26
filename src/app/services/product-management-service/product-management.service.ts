@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Form } from '@angular/forms';
 import { map } from 'rxjs';
-import { Product } from 'src/app/models/product/product.model';
+import { AddProduct, ProductInfo } from 'src/app/models/product/product.model';
 
 
 @Injectable({
@@ -13,11 +14,11 @@ export class ProductManagementService {
 
   getAllProducts(){
     let apiUrl = `${this.BaseUrl}Product/GetAllProducts`
-    return this.http.get<Product[]>(apiUrl).pipe(
-      map(response => response as Product[])
+    return this.http.get<ProductInfo[]>(apiUrl).pipe(
+      map(response => response as ProductInfo[])
     );
   }
-  getCategoryList(){
+  getCategoryList(){ 
     let apiUrl = `${this.BaseUrl}Category/GetCategoryList`
     return this.http.get(apiUrl)
   }
@@ -26,7 +27,8 @@ export class ProductManagementService {
     return this.http.get(apiUrl)
   }
 
-  addProduct(){
+  addProduct(product:FormData){
     let apiUrl =  `${this.BaseUrl}Product/AddProduct`
+    return this.http.post(apiUrl,product)
   }
 }

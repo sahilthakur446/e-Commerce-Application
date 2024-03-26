@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductManagementService } from '../services/product-management-service/product-management.service';
-import { Product } from '../models/product/product.model';
+import { ProductInfo } from '../models/product/product.model';
 
 @Component({
   selector: 'app-product-showcase',
@@ -8,7 +8,7 @@ import { Product } from '../models/product/product.model';
   styleUrls: ['./product-showcase.component.css']
 })
 export class ProductShowcaseComponent implements OnInit{
-productList:Product[] = [];
+productList:ProductInfo[] = [];
 constructor(private productMngmntservice:ProductManagementService) {
 }
   ngOnInit(): void {
@@ -16,7 +16,7 @@ constructor(private productMngmntservice:ProductManagementService) {
   }
 getAllProducts(){
   this.productMngmntservice.getAllProducts().subscribe({
-    next:(response:Product[]) => { console.log(response)
+    next:(response:ProductInfo[]) => { console.log(response)
     this.productList = response;}
   })
 }

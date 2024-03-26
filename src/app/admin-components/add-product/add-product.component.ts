@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component,OnInit } from '@angular/core';
-import { Product } from 'src/app/models/product/product.model';
+import { AddProduct } from 'src/app/models/product/product.model';
 import { ProductManagementService } from 'src/app/services/product-management-service/product-management.service';
 
 @Component({
@@ -62,20 +62,20 @@ if(event.target.files.length == 0)
 }
 
 onSubmit(): void {
-  const formData = new FormData();
+  const productData = new FormData();
   if (this.selectedImage) {
-    formData.append('Image',this.selectedImage,this.selectedImage.name)
+    productData.append('Image',this.selectedImage,this.selectedImage.name)
   }
-  formData.append('ProductName',this.productName)
-  formData.append('ProductDescription',this.productDescription)
-  formData.append('targetGender',this.targetGender)
-  formData.append('price',this.price)
-  formData.append('stockQuantity',this.stockQuantity)
-  formData.append('categoryId',this.category)
-  formData.append('brandId',this.brand)
+  productData.append('ProductName',this.productName)
+  productData.append('ProductDescription',this.productDescription)
+  productData.append('targetGender',this.targetGender)
+  productData.append('price',this.price)
+  productData.append('stockQuantity',this.stockQuantity)
+  productData.append('categoryId',this.category)
+  productData.append('brandId',this.brand)
 
-  let url: string = "https://localhost:7248/api/Product/AddProduct";
-  this.http.post<Product>(url, formData).subscribe({
+  
+  this.productMgrService.addProduct(productData).subscribe({
   next: (response) => console.log(response),
   error: (error) => console.log(error)
   });
