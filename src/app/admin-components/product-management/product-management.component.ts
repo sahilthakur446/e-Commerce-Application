@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
-import { Product } from 'src/app/models/product.model'; 
+import { Product } from 'src/app/models/product/product.model'; 
 import { GenderApplicability } from 'src/app/models/genderApplicability.enum';
 import { ProductManagementService } from 'src/app/services/product-management-service/product-management.service';
 

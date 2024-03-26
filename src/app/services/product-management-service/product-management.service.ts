@@ -1,16 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
-import { Product } from 'src/app/models/product.model';
+import { Product } from 'src/app/models/product/product.model';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductManagementService {
   private BaseUrl:string = 'https://localhost:7248/api/'
- private GetAllProductsApiUrl = 'https://localhost:7248/api/Product/GetAllProducts';
- categoryListUrl ="https://localhost:7248/api/Category/GetCategoryList";
- brandListUrl ="https://localhost:7248/api/Brand/GetBrandList";
   constructor(private http: HttpClient) { }
 
   getAllProducts(){
@@ -26,5 +24,9 @@ export class ProductManagementService {
   getBrandsList(){
     let apiUrl = `${this.BaseUrl}Brand/GetBrandList`
     return this.http.get(apiUrl)
+  }
+
+  addProduct(){
+    let apiUrl =  `${this.BaseUrl}Product/AddProduct`
   }
 }

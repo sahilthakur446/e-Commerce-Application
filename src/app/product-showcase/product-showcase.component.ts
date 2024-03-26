@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductManagementService } from '../services/product-management-service/product-management.service';
-import { Product } from '../models/product.model';
+import { Product } from '../models/product/product.model';
 
 @Component({
   selector: 'app-product-showcase',

@@ -13,6 +13,7 @@ import { UserDashboardComponent } from './user-profile/user-dashboard/user-dashb
 import { UserDetailsComponent } from './user-profile/user-details/user-details.component';
 import { UserWishlistComponent } from './user-profile/user-wishlist/user-wishlist.component';
 import { AddressManagementComponent } from './user-profile/address-management/address-management.component';
+import { ProductShowcaseComponent } from './product-showcase/product-showcase.component';
 
 const routes: Routes = [
   { path: "", redirectTo:"/Home",pathMatch: 'full'},
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: "wishlist", component:UserWishlistComponent},
   { path: "Login/Register", component: RegisterComponent },
   { path: "UpdateProduct", component: UpdateProductComponent},
+  { path:"prductshowcase",component:ProductShowcaseComponent},
   { path: "ProductManager/UpdateProduct/:productid", component: UpdateProductComponent},
   { path: "ProductManager/AddProduct", component: AddProductComponent },
   { path: "ProductManager", component: ProductManagementComponent, canActivate:[authGuard] },

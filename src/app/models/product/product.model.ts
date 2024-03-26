@@ -9,6 +9,5 @@ export interface Product {
     imagePath?: string;
     categoryId?: number;
     brandId?: number;
-    brandName?: string;
   }
   
