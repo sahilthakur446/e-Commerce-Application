@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Form } from '@angular/forms';
 import { map } from 'rxjs';
+import { BrandList } from 'src/app/models/brand/brand.model';
+import { categoryList } from 'src/app/models/category/category.model';
 import { AddProduct, ProductInfo } from 'src/app/models/product/product.model';
 
 
@@ -20,15 +22,20 @@ export class ProductManagementService {
   }
   getCategoryList(){ 
     let apiUrl = `${this.BaseUrl}Category/GetCategoryList`
-    return this.http.get(apiUrl)
+    return this.http.get<categoryList[]>(apiUrl)
   }
   getBrandsList(){
     let apiUrl = `${this.BaseUrl}Brand/GetBrandList`
-    return this.http.get(apiUrl)
+    return this.http.get<BrandList[]>(apiUrl)
   }
 
   addProduct(product:FormData){
     let apiUrl =  `${this.BaseUrl}Product/AddProduct`
     return this.http.post(apiUrl,product)
+  }
+
+  updateProduct(product:FormData,productId:string | null){
+    let apiUrl = `${this.BaseUrl}Product/UpdateProduct/${productId}`;
+    return this.http.put(apiUrl,product)
   }
 }

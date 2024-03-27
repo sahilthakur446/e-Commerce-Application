@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UpdateProduct } from 'src/app/models/product/product.model';
+import { ProductManagementService } from 'src/app/services/product-management-service/product-management.service';
 
 @Component({
   selector: 'app-update-product',
@@ -8,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./update-product.component.css']
 })
 export class UpdateProductComponent {
-  fetchedProductId : string | null = ''
+  fetchedProductId : string | null= ''
   selectedImage:File | undefined;
   selectedImageUrl:any;
   productName = ''
@@ -19,16 +21,22 @@ export class UpdateProductComponent {
   category = ''
   brand = ''
   imagePath = ''
-  CategoryList:any;
-  BrandList:any;
+  categoryList:any;
+  brandList:any;
   previewImage:boolean = false;
   inputTextClass = "p-1 block w-full rounded border border-gray-600"
   validationErrorInputTextClass = "p-1 block w-full rounded border border-gray-600 text-red-500"
   nameValidationError:boolean = false;
   ifImageSelected:boolean = false;
+  isLoading: boolean = false;
+  showResponseModal: boolean = false;
+  responseMessage: string = '';
+  responseClass: string = '';
+  responseSuccessClass: string = 'text-3xl font-bold text-green-700';
+  responseFailureClass: string = 'text-3xl font-bold text-red-700';
+  submitButtonText: string = "Submit"
   
-  
-  constructor(private http:HttpClient, private route: ActivatedRoute) {
+  constructor(private http:HttpClient,private productManagementService:ProductManagementService, private route: ActivatedRoute, private router:Router) {
   }
   
   ngOnInit(): void {
@@ -55,10 +63,12 @@ export class UpdateProductComponent {
       )
     })
 
-    let categoryListUrl ="https://localhost:7248/api/Category/GetCategoryList";
-    let brandListUrl ="https://localhost:7248/api/Brand/GetBrandList";
-    this.http.get(categoryListUrl).subscribe((response:any) =>{this.CategoryList = response});
-    this.http.get(brandListUrl).subscribe((response:any) =>{this.BrandList = response});
+    this.productManagementService.getCategoryList().subscribe({
+      next: (response: any) => this.categoryList = response,
+    });
+    this.productManagementService.getBrandsList().subscribe({
+      next: (response: any) => this.brandList = response,
+    });
     
   }
   
@@ -84,25 +94,51 @@ export class UpdateProductComponent {
   }
   
   onSubmit(): void {
-    const formData = new FormData();
+    const updatedProduct = new FormData();
     if (this.selectedImage) {
-      formData.append('Image',this.selectedImage,this.selectedImage.name)
+      updatedProduct.append('Image',this.selectedImage,this.selectedImage.name)
     }
-    formData.append('ProductName',this.productName)
-    formData.append('ProductDescription',this.productDescription)
-    formData.append('targetGender',this.targetGender)
-    formData.append('price',this.price)
-    formData.append('stockQuantity',this.stockQuantity)
-    formData.append('categoryId',this.category)
-    formData.append('brandId',this.brand)
+    updatedProduct.append('ProductName',this.productName)
+    updatedProduct.append('ProductDescription',this.productDescription)
+    updatedProduct.append('targetGender',this.targetGender)
+    updatedProduct.append('price',this.price)
+    updatedProduct.append('stockQuantity',this.stockQuantity)
+    updatedProduct.append('categoryId',this.category)
+    updatedProduct.append('brandId',this.brand)
     
-    let url: string = `https://localhost:7248/api/Product/UpdateProduct/${this.fetchedProductId}`;
-    this.http.put(url, formData).subscribe({
-    next: (response) => console.log(response),
-    error: (error) => console.log(error)
+    this.productManagementService.updateProduct(updatedProduct,this.fetchedProductId).subscribe({
+      next: (response: any) => {
+        this.handleSuccessfulProductCreation(response.message);
+      },
+      error: (error) => {
+        this.handleProductCreationError(error);
+      }
     });
-  
   }
-  
+
+  handleSuccessfulProductCreation(message: string) {
+    this.responseMessage = message;
+    this.responseClass = this.responseSuccessClass;
+    this.submitButtonText = 'Submit';
+    this.isLoading = false;
+    this.showResponseModal = true;
+
+    setTimeout(() => {
+      this.showResponseModal = false;
+      this.router.navigate(['/ProductManager'])
+    }, 3000);
   }
+
+  handleProductCreationError(error: any) {
+    this.responseMessage = error.error.message || "Failed to create Product Due to Internal Server Issue";
+    this.responseClass = this.responseFailureClass;
+    this.submitButtonText = 'Submit';
+    this.isLoading = false;
+    this.showResponseModal = true;
+
+    setTimeout(() => {
+      this.showResponseModal = false;
+    }, 3000);
+  }
+}
   

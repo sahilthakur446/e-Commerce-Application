@@ -61,7 +61,7 @@ getAllProduct(){
   }
   editProduct(id:any)
   {
-    this.router.navigate(['ProductManager/UpdateProduct',id])
+    this.router.navigate(['ProductManager','UpdateProduct',id])
   }
   SavingProductId(id:any)
   {

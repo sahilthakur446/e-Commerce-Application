@@ -1,0 +1,20 @@
+<div class="pt-14 md:w-screen md:h-screen">
+<div class="grid grid-cols-1 md:grid-cols-2">
+<div>
+    <img src="https://localhost:7248/{{productDetails.imagePath}}" alt="" class="h-[500px] w-96 ml-auto mr-auto">
+</div>
+<div>
+    <h1 class="text-xl text-slate-700 font-bold">{{productDetails.brandName}}</h1>
+    <h2 class="text-xl text-slate-400">{{productDetails.productName}}</h2>
+    <h1 class="text-xl text-slate-900 font-bold">₹{{productDetails.price}} <span class="line-through">₹1823</span></h1>
+    <h1 class="text-lg text-slate-900 font-medium">Product Details</h1>
+    <p class="textbase text-slate-800 font-medium">
+        {{productDetails.productDescription}}
+    </p>
+    <div class="flex">
+        <button class="px-4 py-2 text-white bg-slate-800 rounded font-semibold">Add to Cart</button>
+        <button class="px-4 py-2 text-white bg-slate-800 rounded font-semibold">Wishlist</button>
+    </div>
+</div>
+</div>
+</div>

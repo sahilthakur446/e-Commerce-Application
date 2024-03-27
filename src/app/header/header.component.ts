@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from '../services/auth-service/auth.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -16,7 +16,8 @@ isSearchBarVisible:boolean = false;
 showLogoutModal:boolean = false;
 showLoginLogout:boolean = false;
 isUserAdmin:boolean =  false;
-
+isLogoutModalOpen = false;
+  
 constructor(private authService:AuthService,private userService:UserService, private router:Router, private location:Location) {
   this.router.events.pipe(
     filter(event => event instanceof NavigationEnd)
@@ -43,6 +44,9 @@ constructor(private authService:AuthService,private userService:UserService, pri
   console.log(this.router.url);
 }
 
+toggleUserModal() {
+  this.isLogoutModalOpen = !this.isLogoutModalOpen;
+}
 
 logout(){
   this.authService.removeJwtToken()
