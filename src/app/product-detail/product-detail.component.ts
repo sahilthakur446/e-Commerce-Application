@@ -12,6 +12,9 @@ import { ProductInfo } from '../models/product/product.model';
 export class ProductDetailComponent implements OnInit{
 productId:string|null =''
 productDetails!:ProductInfo;
+addedToWishList:boolean = false;
+wishlistText:string = 'Wishlist'
+addedToCart:boolean = false;
 constructor(route:ActivatedRoute ,private productShowcaseService:ProductShowcaseService) {
   this.productId = route.snapshot.paramMap.get('productid')
 }
@@ -21,4 +24,14 @@ constructor(route:ActivatedRoute ,private productShowcaseService:ProductShowcase
     })
   }
 
+  wishlishButton(){
+    this.addedToWishList = !this.addedToWishList
+    this.wishlistText = this.wishlistText == 'Wishlist'?'Wishlisted':'Wishlist'
+  }
+
+  toogleCartButton(){
+    console.log(this.addedToCart);
+    
+    this.addedToCart = !this.addedToCart
+  }
 }
