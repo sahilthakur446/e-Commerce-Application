@@ -6,10 +6,10 @@
     <ul class="hidden md:flex gap-2 md:gap-16 md:justify-between items-center">
         <a href="" class="font-semibold text-base md:text-xl text-slate-700 hover:text-slate-900">Categories</a>
         <a href="" class="font-semibold text-base md:text-xl text-slate-700 hover:text-slate-900">New Arrival</a>
-        <a href="" class="font-semibold text-base md:text-xl text-slate-700 hover:text-slate-900">Features</a>
         <a href="" class="font-semibold text-base md:text-xl text-slate-700 hover:text-slate-900">Collections</a> 
         <a routerLink="products" class="font-semibold text-base md:text-xl text-slate-700 hover:text-slate-900">Products</a>
-        <div *ngIf="isUserAdmin" class="group font-semibold text-base md:text-xl text-slate-700 hover:text-slate-900 hover: cursor-pointer relative">
+        <!-- *ngIf="isUserAdmin" -->
+        <div  class="group font-semibold text-base md:text-xl text-slate-700 hover:text-slate-900 hover: cursor-pointer relative">
             Admin<span><i class="ml-0.5 bi bi-caret-down-fill text-base"></i></span>
             <div id="child" class="absolute bg-white w-52 p-1 top-7 left-0 rounded hidden flex-col shadow-md group-hover:flex group-hover:z-20">
                 <a routerLink="ProductManager" class="font-semibold text-base md:text-lg text-slate-800 hover:text-slate-900 hover:font-bold">Manage Products</a>

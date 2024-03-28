@@ -38,4 +38,9 @@ export class ProductManagementService {
     let apiUrl = `${this.BaseUrl}Product/UpdateProduct/${productId}`;
     return this.http.put(apiUrl,product)
   }
+
+  deleteProduct(productId:string){
+    let apiUrl = `${this.BaseUrl}Product/DeleteProduct/${productId}`
+    return this.http.delete(apiUrl)
+  }
 }

@@ -1,1 +1,51 @@
-<p>user-wishlist works!</p>
+<div class="relative md:h-screen md:w-screen pt-14 pb-6 px-14">
+    <div class="absolute hidden left-20 md:flex gap-2 top-20 font-medium text-lg text-slate-800">
+      <a routerLink="/Home"><i class="bi bi-house-fill"></i></a>
+      <p><</p>
+      <a routerLink="../">user dashboard</a>
+      <p><</p>
+      <a routerLink="/userdashboard/addresses" routerLinkActive="active text-sky-700">addresses</a>
+    </div>
+    <h1 class="px-10 text-3xl text-center text-slate-800 font-semibold mt-10">Your Addresses</h1>
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 w-full justify-items-center">
+      <div class="rounded-md flex flex-col cursor-pointer items-center justify-center h-64 w-80 outline-2 outline-dashed outline-slate-400">
+        <h1 class="text-gray-300 text-7xl font-semibold">+</h1>
+        <h1 class="text-gray-600 text-2xl font-semibold">Add address</h1>
+      </div>
+      <div class="rounded-md flex flex-col shadow-md justify-between py-3 px-5 h-64 w-80 outline-1 outline outline-slate-400"> 
+          <div>  
+          <p class="text-center text-sm text-slate-600 font-medium">Default</p>
+            <hr class="my-2">
+            <p class="font-semibold">Sahil Thakur</p>
+            <p>1</p>
+            <p>Tiukry</p>
+            <p>Jawali,Himachal Pradesh 176023</p>
+            <p>India</p>
+            <p>Phone number: 8894800317</p>
+          </div>
+            <div class="flex gap-2 mt-4">
+            <button class="text-slate-800 font-medium">Edit</button>
+            <p class="text-slate-600 font-medium">|</p>
+            <button class="text-red-600 font-medium">Remove</button>
+          </div>
+      </div>
+      <div class="rounded-md flex flex-col shadow-md justify-between py-3 px-5 h-64 w-80 outline-1 outline outline-slate-400"> 
+          <div>
+          <p class="font-semibold">Sahil Thakur</p>
+          <p>1</p>
+          <p>Tiukry</p>
+          <p>Jawali,Himachal Pradesh 176023</p>
+          <p>India</p>
+          <p>Phone number: 8894800317</p>
+      </div>
+          <div class="flex gap-2 mt-4">
+          <button class="text-slate-800 font-medium">Edit</button>
+          <p class="text-slate-600 font-medium">|</p>
+          <button class="text-red-600 font-medium">Remove</button>
+          <p class="text-slate-600 font-medium">|</p>
+          <button class="text-sky-700 font-medium">Set as Default</button>
+        </div>
+    </div>
+    </div>
+  </div>
+  

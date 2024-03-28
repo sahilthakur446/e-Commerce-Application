@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { changePassword } from 'src/app/models/user/change-password.model';
 import { updateUser } from 'src/app/models/user/update-user.model';
 import { AuthService } from 'src/app/services/auth-service/auth.service';
@@ -22,13 +23,14 @@ export class UserDetailsComponent implements OnInit {
   isModalOpen: boolean = false;
   type: string = '';
   isLoading: boolean = false;
+  showDeleteModal:boolean = false;
   loadingStatus: string = 'Updating...'
   isResponseModalVisible: boolean = false;
   responseMessage: string = '';
   responseClass: string = '';
   responseSuccessClass: string = 'text-3xl font-bold text-green-700';
   responseFailureClass: string = 'text-3xl font-bold text-red-700';
-  constructor(private userProfileManagement: UserProfileManagementService, private authService: AuthService) {
+  constructor(private userProfileManagement: UserProfileManagementService, private authService: AuthService, private router:Router) {
   }
   ngOnInit(): void {
     this.getUserInfo();
@@ -92,7 +94,6 @@ export class UserDetailsComponent implements OnInit {
 
     })
   }
-
   changePassword() {
     console.log('old: ', this.oldPassword);
     console.log('new: ', this.newPassword);
@@ -112,6 +113,20 @@ export class UserDetailsComponent implements OnInit {
           this.displayResponseModal('failure')
         }
       })
+  }
+  
+  deleteAccount(){
+    this.userProfileManagement.deleteAccount(this.userId)
+    .subscribe({
+      next: (response:any) => {
+        this.responseMessage = response.message
+        this.displayDeleteResponseModal('success')
+      },
+      error:(response:any) =>{
+        response.error.message? this.responseMessage = response.error.message: this.responseMessage = "Failed Due to Internal Server Issue"
+        this.displayDeleteResponseModal('failure')
+      }
+    })
   }
 
   openModal(type: string) {
@@ -139,7 +154,12 @@ export class UserDetailsComponent implements OnInit {
   closeModal() {
     this.isModalOpen = false;
   }
-
+  openDeleteModal(){
+    this.showDeleteModal = true;
+  }
+  closeDeleteModal(){
+    this.showDeleteModal = false
+  }
   displayResponseModal(result: string) {
     if (result === 'success') {
       this.responseClass = this.responseSuccessClass;
@@ -155,6 +175,28 @@ export class UserDetailsComponent implements OnInit {
       this.responseClass = this.responseFailureClass;
       this.isResponseModalVisible = true;
       this.isLoading = false;
+      setTimeout(() => {
+        this.isResponseModalVisible = false;
+      }, 2000);
+    }
+  }
+
+  displayDeleteResponseModal(result: string) {
+    if (result === 'success') {
+      this.responseClass = this.responseSuccessClass;
+      this.isResponseModalVisible = true;
+      this.isLoading = false;
+      this.closeDeleteModal();
+      setTimeout(() => {
+        this.isResponseModalVisible = false;
+        this.router.navigate(['Login']);
+      }, 2000);
+
+    } else {
+      this.responseClass = this.responseFailureClass;
+      this.isResponseModalVisible = true;
+      this.isLoading = false;
+      this.closeDeleteModal();
       setTimeout(() => {
         this.isResponseModalVisible = false;
       }, 2000);

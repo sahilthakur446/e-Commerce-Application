@@ -15,13 +15,20 @@ productDetails!:ProductInfo;
 addedToWishList:boolean = false;
 wishlistText:string = 'Wishlist'
 addedToCart:boolean = false;
+originalMRP:number = 0
+discount:number = 0
 constructor(route:ActivatedRoute ,private productShowcaseService:ProductShowcaseService) {
   this.productId = route.snapshot.paramMap.get('productid')
 }
   ngOnInit(): void {
     this.productShowcaseService.getProduct(this.productId!).subscribe({
-      next:(response:ProductInfo)=> this.productDetails = response
+      next:(response:ProductInfo)=> {this.productDetails = response
+        this.originalMRP = Math.floor(this.productDetails.price * (Math.random() + 1))
+        this.discount = Math.ceil((this.productDetails.price/this.originalMRP)*100)
+        
+      }
     })
+    
   }
 
   wishlishButton(){

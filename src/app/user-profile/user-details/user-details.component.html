@@ -70,7 +70,14 @@
         </div>
       </div>
     </div>
-
+    <div class="flex items-center">
+      <button
+        (click)="openDeleteModal()"
+        class="py-px px-10 rounded-md text-red-800 font-medium border border-slate-200 bg-white shadow-md ease-in-out duration-150 hover:bg-red-700 hover:text-white hover:border-red-700 "
+      >
+        Delete Account
+      </button>
+  </div>
     <!--Edit Modal -->
     <div
       *ngIf="isModalOpen"
@@ -201,4 +208,25 @@
     <h1 [ngClass]="responseClass">{{responseMessage}}</h1>
 </div>
   </div>
-  
+  <div (click)="closeDeleteModal()" class="bg-black bg-opacity-20  overflow-y-auto
+ overflow-x-hidden flex fixed top-0 right-0 left-0 -z-50 justify-center
+  items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+  [ngClass]="{'opacity-100':showDeleteModal ,'z-10':showDeleteModal ,'opacity-0':!showDeleteModal,'-z-50':!showDeleteModal}">
+    <div (click)="$event.stopPropagation()" class="z-50 w-1/4 flex ease-in-out duration-300 shadow-lg"
+    [ngClass]="{'opacity-0':!showDeleteModal ,'opacity-100':showDeleteModal}">
+        <div class="w-full h-5/6 flex flex-col gap-2 bg-slate-100 p-8 rounded-md shadow-2xl">
+            <h1 class="text-3xl mb-4 text-center text-slate-800 font-bold">
+                Are you sure you want to delete your Account?
+            </h1>
+            <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <button (click)="deleteAccount()" [disabled]="isLoading" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none
+                 focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">Yes, I'm sure</button>
+                 <div *ngIf="this.isLoading" class="border-4 h-5 w-5 mr-3 ml-3 animate-spin bg-transparent border-l-red-600 border-y-white border-r-black rounded-full">
+                </div>
+                <div *ngIf="this.isLoading" class="text-slate-700 text-xl ml-3 font-medium">Deleting...</div>
+                <button *ngIf="!this.isLoading" (click)="closeDeleteModal()" type="button"class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg
+                 border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">No, cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

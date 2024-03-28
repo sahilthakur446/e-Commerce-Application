@@ -23,6 +23,8 @@ import { UserWishlistComponent } from './user-profile/user-wishlist/user-wishlis
 import { AddressManagementComponent } from './user-profile/address-management/address-management.component';
 import { ProductShowcaseComponent } from './product-showcase/product-showcase.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { AddAddressComponent } from './user-profile/add-address/add-address.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +42,8 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
     UserWishlistComponent,
     AddressManagementComponent,
     ProductShowcaseComponent,
-    ProductDetailComponent
+    ProductDetailComponent,
+    AddAddressComponent
   ],
   imports: [
     BrowserModule,

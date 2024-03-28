@@ -15,6 +15,7 @@ import { UserWishlistComponent } from './user-profile/user-wishlist/user-wishlis
 import { AddressManagementComponent } from './user-profile/address-management/address-management.component';
 import { ProductShowcaseComponent } from './product-showcase/product-showcase.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { AddAddressComponent } from './user-profile/add-address/add-address.component';
 
 const routes: Routes = [
   { path: "", redirectTo:"/Home",pathMatch: 'full'},
@@ -23,6 +24,8 @@ const routes: Routes = [
   { path: "userdashboard",component:UserDashboardComponent},
   { path: "userdashboard/accountdetails", component: UserDetailsComponent },
   { path: "userdashboard/addresses", component:AddressManagementComponent},
+  { path: "userdashboard/addresses/addaddress", component:AddAddressComponent},
+  // { path: "userdashboard/addresses/editaddress", component:AddAddressComponent},
   { path: "wishlist", component:UserWishlistComponent},
   { path: "Login/Register", component: RegisterComponent },
   { path: "UpdateProduct", component: UpdateProductComponent},
@@ -30,7 +33,7 @@ const routes: Routes = [
   { path: "products/productdetail/:productid",component:ProductDetailComponent},
   { path: "ProductManager/UpdateProduct/:productid", component: UpdateProductComponent},
   { path: "ProductManager/AddProduct", component: AddProductComponent },
-  { path: "ProductManager", component: ProductManagementComponent, canActivate:[authGuard] },
+  { path: "ProductManager", component: ProductManagementComponent },
   { path: "CategoryManager", component: CategoryManagerComponent, canActivate:[authGuard]},
   { path: "BrandManager", component: BrandManagerComponent, canActivate:[authGuard] },
   { path: "**", component: HomepageComponent }

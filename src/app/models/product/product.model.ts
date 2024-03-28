@@ -2,7 +2,7 @@ export interface ProductInfo {
     productId: number;
     productName: string;
     productDescription: string;
-    targetGender: number;
+    targetGender: string;
     price: number;
     stockQuantity: number;
     imagePath: string;
