@@ -1,4 +1,4 @@
-export interface AddAddress{
+export interface UserAddress{
     fullName:string,
     mobileNumber:number 
     houseNumber?:string 
@@ -7,5 +7,5 @@ export interface AddAddress{
     city:string
     state:string 
     pincode:number 
-    isDefault?:boolean
+    isDefault:boolean
 }

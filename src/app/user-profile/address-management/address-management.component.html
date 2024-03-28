@@ -16,12 +16,12 @@
         <div>  
         <p class="text-center text-sm text-slate-600 font-medium">Default</p>
           <hr class="my-2">
-          <p class="font-semibold">Sahil Thakur</p>
-          <p>1</p>
-          <p>Tiukry</p>
-          <p>Jawali,Himachal Pradesh 176023</p>
+          <p class="font-semibold">{{defaultAddress.fullName | titlecase}}</p>
+          <p>{{defaultAddress.houseNumber}}</p>
+          <p>{{defaultAddress.area}}</p>
+          <p>{{defaultAddress.city | titlecase}} {{defaultAddress.state}} {{defaultAddress.pincode}}</p>
           <p>India</p>
-          <p>Phone number: 8894800317</p>
+          <p>Phone number: {{defaultAddress.mobileNumber}}</p>
         </div>
           <div class="flex gap-2 mt-4">
           <button class="text-slate-800 font-medium">Edit</button>
@@ -29,14 +29,14 @@
           <button class="text-red-600 font-medium">Remove</button>
         </div>
     </div>
-    <div class="rounded-md flex flex-col shadow-md justify-between py-3 px-5 h-64 w-80 outline-1 outline outline-slate-400"> 
+    <div *ngFor="let address of otherAddresses" class="rounded-md flex flex-col shadow-md justify-between py-3 px-5 h-64 w-80 outline-1 outline outline-slate-400"> 
         <div>
-        <p class="font-semibold">Sahil Thakur</p>
-        <p>1</p>
-        <p>Tiukry</p>
-        <p>Jawali,Himachal Pradesh 176023</p>
-        <p>India</p>
-        <p>Phone number: 8894800317</p>
+          <p class="font-semibold">{{address.fullName | titlecase}}</p>
+          <p>{{address.houseNumber}}</p>
+          <p>{{address.area}}</p>
+          <p>{{address.city | titlecase}} {{address.state}} {{address.pincode}}</p>
+          <p>India</p>
+          <p>Phone number: {{address.mobileNumber}}</p>
     </div>
         <div class="flex gap-2 mt-4">
         <button class="text-slate-800 font-medium">Edit</button>

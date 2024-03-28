@@ -2,12 +2,18 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { updateUser } from '../../models/user/update-user.model';
 import { changePassword } from '../../models/user/change-password.model';
+import { AuthService } from '../auth-service/auth.service';
+import { filter, map } from 'rxjs';
+import { UserAddress } from 'src/app/models/address/getUserAddress.model';
 @Injectable({
   providedIn: 'root'
 })
 export class UserProfileManagementService {
   private BaseApiUrl:string ='https://localhost:7248/';
-  constructor(private http:HttpClient) { }
+  private UserId;
+  constructor(private http:HttpClient, private authService:AuthService) { 
+    this.UserId = this.authService.retrieveJwtToken('userId')!
+  }
 
   getUserInfo(id:string){
     let url = `${this.BaseApiUrl}api/Users/GetUserInfo/${id}`;
@@ -29,8 +35,21 @@ export class UserProfileManagementService {
     return this.http.delete(url);
   }
 
-  addAddress(userId:string,addAddress:any){
-  let url =`${this.BaseApiUrl}api/UserProfile/SaveUserAddress/${userId}`;
+  addAddress(addAddress:any){
+  let url =`${this.BaseApiUrl}api/UserProfile/SaveUserAddress/${this.UserId}`;
   return this.http.post(url,addAddress);
   }
+
+  getUserDefaultAddress(){
+    let url = `${this.BaseApiUrl}api/UserProfile/GetDefaultUserAddress/${this.UserId}`
+    return this.http.get<UserAddress>(url);
+  }
+
+  getUserAddressesExcludingDefault() {
+    let url = `${this.BaseApiUrl}api/UserProfile/GetUserAllAddresses/${this.UserId}`;
+    return this.http.get<UserAddress[]>(url).pipe(
+        map(response => response.filter(userAddress => userAddress.isDefault == false))
+    );
+}
+
 }
