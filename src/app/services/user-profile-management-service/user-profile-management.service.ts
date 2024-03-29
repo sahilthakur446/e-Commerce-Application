@@ -5,14 +5,16 @@ import { changePassword } from '../../models/user/change-password.model';
 import { AuthService } from '../auth-service/auth.service';
 import { filter, map } from 'rxjs';
 import { UserAddress } from 'src/app/models/address/getUserAddress.model';
+import { AddAddress } from 'src/app/models/address/add-address.model';
+import { UpdateAddress } from 'src/app/models/address/update_address.model';
 @Injectable({
   providedIn: 'root'
 })
 export class UserProfileManagementService {
   private BaseApiUrl:string ='https://localhost:7248/';
-  private UserId;
+ 
   constructor(private http:HttpClient, private authService:AuthService) { 
-    this.UserId = this.authService.retrieveJwtToken('userId')!
+   
   }
 
   getUserInfo(id:string){
@@ -35,18 +37,33 @@ export class UserProfileManagementService {
     return this.http.delete(url);
   }
 
-  addAddress(addAddress:any){
-  let url =`${this.BaseApiUrl}api/UserProfile/SaveUserAddress/${this.UserId}`;
+  addAddress(addAddress:AddAddress,userId:string){
+  let url =`${this.BaseApiUrl}api/UserProfile/SaveUserAddress/${userId}`;
   return this.http.post(url,addAddress);
   }
 
-  getUserDefaultAddress(){
-    let url = `${this.BaseApiUrl}api/UserProfile/GetDefaultUserAddress/${this.UserId}`
+  updateAddress(updateAddress:UpdateAddress,addressId:number){
+    let url = `${this.BaseApiUrl}api/UserProfile/UpdateUserAddress/${addressId}`;
+    return this.http.put(url,updateAddress)
+  }
+
+  deleteAddress(addressId:number){
+    let url = `${this.BaseApiUrl}api/UserProfile/DeleteUserAddress/${addressId}`;
+    return this.http.delete(url);
+  }
+
+  getAddress(addressId:string|null){
+    let url = `${this.BaseApiUrl}api/UserProfile/GetAddress/${addressId}`
     return this.http.get<UserAddress>(url);
   }
 
-  getUserAddressesExcludingDefault() {
-    let url = `${this.BaseApiUrl}api/UserProfile/GetUserAllAddresses/${this.UserId}`;
+  getUserDefaultAddress(userId:string){
+    let url = `${this.BaseApiUrl}api/UserProfile/GetDefaultUserAddress/${userId}`
+    return this.http.get<UserAddress>(url);
+  }
+
+  getUserAddressesExcludingDefault(userId:string) {
+    let url = `${this.BaseApiUrl}api/UserProfile/GetUserAllAddresses/${userId}`;
     return this.http.get<UserAddress[]>(url).pipe(
         map(response => response.filter(userAddress => userAddress.isDefault == false))
     );

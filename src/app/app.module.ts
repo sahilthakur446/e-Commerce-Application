@@ -24,6 +24,7 @@ import { AddressManagementComponent } from './user-profile/address-management/ad
 import { ProductShowcaseComponent } from './product-showcase/product-showcase.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { AddAddressComponent } from './user-profile/add-address/add-address.component';
+import { UpdateAddressComponent } from './user-profile/update-address/update-address.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { AddAddressComponent } from './user-profile/add-address/add-address.comp
     AddressManagementComponent,
     ProductShowcaseComponent,
     ProductDetailComponent,
-    AddAddressComponent
+    AddAddressComponent,
+    UpdateAddressComponent
   ],
   imports: [
     BrowserModule,

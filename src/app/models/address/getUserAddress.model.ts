@@ -1,4 +1,5 @@
 export interface UserAddress{
+    userAddressId:number,
     fullName:string,
     mobileNumber:number 
     houseNumber?:string 
