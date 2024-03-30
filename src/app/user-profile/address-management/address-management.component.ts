@@ -9,7 +9,7 @@ import { UserProfileManagementService } from 'src/app/services/user-profile-mana
   styleUrls: ['./address-management.component.css']
 })
 export class AddressManagementComponent implements OnInit {
-  userId!:string
+  userId!: string
   selectedAddressId!: number
   defaultAddress!: UserAddress
   otherAddresses!: UserAddress[]
@@ -29,10 +29,10 @@ export class AddressManagementComponent implements OnInit {
     this.getUserAddressesExcludingDefault();
   }
   getUserDefaultAddress() {
-    console.log('hey',this.userId);
-    
+    console.log('hey', this.userId);
+
     this.userProfileService.getUserDefaultAddress(this.userId).subscribe({
-      next: (response: UserAddress) =>  this.defaultAddress = response
+      next: (response: UserAddress) => this.defaultAddress = response
     })
   }
   getUserAddressesExcludingDefault() {
@@ -41,15 +41,35 @@ export class AddressManagementComponent implements OnInit {
     })
   }
 
-  deleteAddress(addressId:number){
-  this.isLoading =true;
-  this.userProfileService.deleteAddress(addressId).subscribe({
-    next:(response:any) => {this.responseMessage = response.message
-      console.log(response.message);
-      
-    this.displayResponseModal('success')}
-  })
+  deleteAddress(addressId: number) {
+    this.isLoading = true;
+    this.userProfileService.deleteAddress(addressId).subscribe({
+      next: (response: any) => {
+        this.responseMessage = response.message
+        this.displayResponseModal('success')
+      },
+      error: (error: any) => {
+        this.responseMessage = error.error.message
+        this.displayResponseModal('failure')
+      }
+    })
   }
+
+  setDefaultAddress(addressId: number) {
+    this.userProfileService.setDefaultAddress(addressId).subscribe({
+      next: (response: any) => {
+        this.responseMessage = response.message
+        this.displayResponseModal('success')
+      },
+      error: (error: any) => {
+        console.log(error);
+        
+        this.responseMessage = error.error.message
+        this.displayResponseModal('failure')
+      }
+    })
+  }
+
   saveAddressId(addressId: number) {
     this.selectedAddressId = addressId
   }
@@ -62,13 +82,15 @@ export class AddressManagementComponent implements OnInit {
       this.responseClass = this.responseSuccessClass;
       this.isResponseModalVisible = true;
       this.isLoading = false;
-      this.toggleDeleteModal();
-      this.getUserAddressesExcludingDefault()
+      this.getUserDefaultAddress()
+      if (this.showDeleteModal) {
+        this.toggleDeleteModal()
+      }
       this.getUserAddressesExcludingDefault()
       setTimeout(() => {
         this.isResponseModalVisible = false;
       }, 2000);
-  
+
     } else {
       this.responseClass = this.responseFailureClass;
       this.isResponseModalVisible = true;

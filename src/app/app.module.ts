@@ -25,6 +25,7 @@ import { ProductShowcaseComponent } from './product-showcase/product-showcase.co
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { AddAddressComponent } from './user-profile/add-address/add-address.component';
 import { UpdateAddressComponent } from './user-profile/update-address/update-address.component';
+import { UserCartComponent } from './user-profile/user-cart/user-cart.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { UpdateAddressComponent } from './user-profile/update-address/update-add
     ProductShowcaseComponent,
     ProductDetailComponent,
     AddAddressComponent,
-    UpdateAddressComponent
+    UpdateAddressComponent,
+    UserCartComponent
   ],
   imports: [
     BrowserModule,

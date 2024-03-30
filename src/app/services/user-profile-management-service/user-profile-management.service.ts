@@ -7,6 +7,8 @@ import { filter, map } from 'rxjs';
 import { UserAddress } from 'src/app/models/address/getUserAddress.model';
 import { AddAddress } from 'src/app/models/address/add-address.model';
 import { UpdateAddress } from 'src/app/models/address/update_address.model';
+import { UserWishlist } from 'src/app/models/wishlist/user-wishlist.model';
+import { AddWishlist } from 'src/app/models/wishlist/add-wishlist.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -52,6 +54,11 @@ export class UserProfileManagementService {
     return this.http.delete(url);
   }
 
+  setDefaultAddress(addressId:number){
+    let url = `${this.BaseApiUrl}api/UserProfile/SetDefaultAddress/${addressId}`;
+    return this.http.put(url,null);
+  }
+
   getAddress(addressId:string|null){
     let url = `${this.BaseApiUrl}api/UserProfile/GetAddress/${addressId}`
     return this.http.get<UserAddress>(url);
@@ -68,5 +75,20 @@ export class UserProfileManagementService {
         map(response => response.filter(userAddress => userAddress.isDefault == false))
     );
 }
+
+  getUserWishlist(userId:string){
+    let url =`${this.BaseApiUrl}api/UserProfile/GetUserAllWishlistProducts/${userId}`
+    return this.http.get<UserWishlist[]>(url)
+  }
+
+  addWishlistItem(userId:string, wishlistItem:AddWishlist){
+    let url =`${this.BaseApiUrl}api/UserProfile/AddToWishlist/${userId}`
+    return this.http.post(url,wishlistItem)
+  }
+
+  removeWishlistItem(addressId:number){
+    let url =`${this.BaseApiUrl}api/UserProfile/RemoveWishlistItem/${addressId}`
+    return this.http.delete(url)
+  }
 
 }

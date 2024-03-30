@@ -17,6 +17,7 @@ import { ProductShowcaseComponent } from './product-showcase/product-showcase.co
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { AddAddressComponent } from './user-profile/add-address/add-address.component';
 import { UpdateAddressComponent } from './user-profile/update-address/update-address.component';
+import { UserCartComponent } from './user-profile/user-cart/user-cart.component';
 
 const routes: Routes = [
   { path: "", redirectTo:"/Home",pathMatch: 'full'},
@@ -27,7 +28,9 @@ const routes: Routes = [
   { path: "userdashboard/addresses", component:AddressManagementComponent},
   { path: "userdashboard/addresses/addaddress", component:AddAddressComponent},
   { path: "userdashboard/addresses/editaddress/:addressid", component:UpdateAddressComponent},
+  { path: "userdashboard/wishlist", component:UserWishlistComponent},
   { path: "wishlist", component:UserWishlistComponent},
+  { path: "cart", component:UserCartComponent},
   { path: "Login/Register", component: RegisterComponent },
   { path: "UpdateProduct", component: UpdateProductComponent},
   { path: "products",component:ProductShowcaseComponent},

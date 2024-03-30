@@ -1,0 +1,66 @@
+<div class="relative md:h-screen md:w-screen pt-14 pb-6 px-2 md:px-14">
+  <div class="absolute hidden left-20 md:flex gap-2 top-20 font-medium text-lg text-slate-800">
+    <a routerLink="/Home"><i class="bi bi-house-fill"></i></a>
+    <p><</p>
+    <a routerLink="../">user dashboard</a>
+    <p><</p>
+    <a routerLink="/userdashboard/wishlist" routerLinkActive="active text-sky-700">wishlist</a>
+  </div>
+  <p class="px-10 text-3xl text-center text-slate-800 font-bold mt-10">My Cart</p>
+  <div class="flex flex-col md:flex-row mt-8 md:px-8 justify-evenly">
+    <div class=" grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 gap-1 md:gap-4 w-full md:w-3/6">
+      <div *ngFor="let product of userCartList" class="w-[450px] h-40 md:w-[590px] md:h-48 flex relative ">
+        <div class="w-28 h-40 md:h-36 ">
+          <img src="https://localhost:7248/{{product.imagePath}}" alt="product image" class="ml-auto mr-auto rounded-sm">
+        </div>
+        <div class="w-96 h-[90px] ml-4 flex flex-col gap-1">
+          <h1 class="text-slate-800 font-semibold">{{product.brandName}}</h1>
+          <h1 class="text-slate-500 font-medium">{{product.productName}}</h1>
+          <div class="flex gap-3 items-center">
+            <p class="text-slate-900 font-semibold">Quantity:</p>
+            <p class="text-slate-800 text-lg font-semibold">{{product.quantity}}</p>
+            <button (click)="saveCartId(product.userCartId)" (click)="toggleQuantityModal()" class="px-1 py-1 w-16 text-sm text-white transition-opacity ease-in-out duration-150 bg-slate-700 hover:bg-slate-900 rounded font-medium">Change</button>
+          </div>
+          <h1 class="text-slate-900 font-bold">Rs.{{product.price}}</h1>
+        </div>
+        <button (click)="removeCartItem(product.userCartId)" class="absolute rounded-full w-6 h-6 text-gray-800 text-xl bg-opacity-30 hover:bg-opacity-60 right-2 top-2"><i class="bi bi-x text-slate-950"></i></button>
+      </div>
+    </div>
+    <div class="w-full sm:w-full md:w-2/6 flex flex-col gap-2  ">
+      <h1 class="text-slate-800 text-lg text-center md:text-left font-semibold mb-4" >PRICE DETAILS <span class="text-slate-600">(2 Items)</span></h1>
+      <div class="flex text-slate-900 font-medium justify-between">
+        <p>Total MRP</p>
+        <p>₹{{totalMRP}}</p>
+      </div>
+      <div class="flex text-slate-900 font-medium justify-between">
+        <p>Platform Fee</p>
+        <p>₹20</p>
+      </div>
+      <div class="flex text-slate-900 font-medium justify-between">
+        <p>Shipping Fee</p>
+        <p>₹49</p>
+      </div>
+      <hr class="bg-slate-500 h-px">
+      <div class="flex text-slate-950 font-bold justify-between">
+        <p>Total Amount</p>
+        <p>₹{{totalAmmount}}</p>
+      </div>
+      <div class="flex justify-center mt-4">
+      <button class="px-4 py-2 w-2/3 text-xl text-white transition-opacity ease-in-out duration-150 bg-slate-700 hover:bg-slate-900 rounded font-semibold">Place Order</button>
+    </div>
+    </div>
+  </div>
+  <div *ngIf="showQuantityModal" 
+  class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/3  w-48 h-48 bg-white p-1 flex flex-col justify-center items-center rounded shadow-md 
+         md:w-56">
+      <h1 class="font-bold text-center text-slate-800 text-2xl">Select Quantity</h1>
+      <div class="flex-wrap justify-center">
+        <button (click)="updateQuantity(1)" (click)="toggleQuantityModal()" class="rounded-full h-12 w-12 text-lg font-semibold bg-white hover:bg-slate-300 text-slate-800">1</button>
+        <button (click)="updateQuantity(2)" (click)="toggleQuantityModal()" class="rounded-full h-12 w-12 text-lg font-semibold bg-white hover:bg-slate-300 text-slate-800">2</button>
+        <button (click)="updateQuantity(3)" (click)="toggleQuantityModal()" class="rounded-full h-12 w-12 text-lg font-semibold bg-white hover:bg-slate-300 text-slate-800">3</button>
+        <button (click)="updateQuantity(4)" (click)="toggleQuantityModal()" class="rounded-full h-12 w-12 text-lg font-semibold bg-white hover:bg-slate-300 text-slate-800">4</button>
+        <button (click)="updateQuantity(5)" (click)="toggleQuantityModal()" class="rounded-full h-12 w-12 text-lg font-semibold bg-white hover:bg-slate-300 text-slate-800">5</button>
+      </div>
+      <button (click)="toggleQuantityModal()" class="px-2 py-1 w-2/3 text-base text-white transition-opacity ease-in-out duration-150 bg-slate-700 hover:bg-slate-900 rounded font-semibold">Cancel</button>
+  </div>
+</div>

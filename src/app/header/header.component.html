@@ -4,32 +4,32 @@
         <a routerLink="Home" class="text-center md:text-left text-3xl md:text-2xl font-bold">Elliye</a>
     </div>
     <ul class="hidden md:flex gap-2 md:gap-16 md:justify-between items-center">
-        <a href="" class="font-semibold text-base md:text-xl text-slate-700 hover:text-slate-900">Categories</a>
-        <a href="" class="font-semibold text-base md:text-xl text-slate-700 hover:text-slate-900">New Arrival</a>
-        <a href="" class="font-semibold text-base md:text-xl text-slate-700 hover:text-slate-900">Collections</a> 
+        <a href="" class="font-semibold text-base md:text-xl text-slate-700 hover:text-slate-950">Categories</a>
+        <a href="" class="font-semibold text-base md:text-xl text-slate-700 hover:text-slate-950">New Arrival</a>
+        <a href="" class="font-semibold text-base md:text-xl text-slate-700 hover:text-slate-950">Collections</a> 
         <a routerLink="products" class="font-semibold text-base md:text-xl text-slate-700 hover:text-slate-900">Products</a>
         <!-- *ngIf="isUserAdmin" -->
-        <div  class="group font-semibold text-base md:text-xl text-slate-700 hover:text-slate-900 hover: cursor-pointer relative">
+        <div  class="group font-semibold text-base md:text-xl text-slate-700 hover:text-slate-950 hover: cursor-pointer relative">
             Admin<span><i class="ml-0.5 bi bi-caret-down-fill text-base"></i></span>
             <div id="child" class="absolute bg-white w-52 p-1 top-7 left-0 rounded hidden flex-col shadow-md group-hover:flex group-hover:z-20">
-                <a routerLink="ProductManager" class="font-semibold text-base md:text-lg text-slate-800 hover:text-slate-900 hover:font-bold">Manage Products</a>
-                <a routerLink="BrandManager" class="font-semibold text-base md:text-lg text-slate-800 hover:text-slate-950 hover:font-bold">Manage Brands</a>
-                <a routerLink="CategoryManager" class="font-semibold text-base md:text-lg text-slate-800 hover:text-slate-950 hover:font-bold">Manage Categories</a>
+                <a routerLink="ProductManager" class="font-semibold text-base md:text-lg text-slate-800 hover:text-slate-950 hover:underline">Manage Products</a>
+                <a routerLink="BrandManager" class="font-semibold text-base md:text-lg text-slate-800 hover:text-slate-950 hover:underline">Manage Brands</a>
+                <a routerLink="CategoryManager" class="font-semibold text-base md:text-lg text-slate-800 hover:text-slate-950 hover:underline">Manage Categories</a>
                 
             </div>
         </div>
     </ul>
     
     <div class="flex flex-row justify-center items-center gap-1 md:gap-4">
-        <button><i class="bi bi-cart2 text-slate-700 font-extrabold text-base md:text-2xl"></i></button>
+        <a routerLink="cart"><i class="bi bi-cart2 text-slate-700 font-extrabold text-base md:text-2xl"></i></a>
         <button (click)="openSearchBar()"><i class="bi bi-search text-slate-700 font-extrabold text-base md:text-2xl"></i></button>
         <ng-container *ngIf="showLoginLogout">
         <a *ngIf="!isLoggedIn" class="bg-slate-800 rounded text-white px-2 py-1 md:px-4 md:py-2 font-semibold" routerLink="Login">Login</a>
         <!--  -->
         <div *ngIf="isLoggedIn" class="relative group text-slate-800 bg-transparent text-2xl font-semibold"><i class="bi bi-person-circle"></i>
             <div id="child" class="absolute bg-white w-32 p-2 top-7 -right-2 gap-1 rounded hidden flex-col items-center shadow-md group-hover:flex group-hover:z-20 ">
-                <a routerLink="userdashboard" class="font-semibold text-base md:text-lg text-slate-800 hover:text-slate-900 hover:font-bold">Profile</a>
-                <button *ngIf="isLoggedIn" (click)="toggleLogoutModal()" class="bg-slate-700 hover:bg-slate-800 rounded ease-in-out duration-200 hover:text-lg text-white px-2 py-1 md:px-2 md:py-1 text-base font-semibold">Logout</button>
+                <a routerLink="userdashboard" class="font-semibold text-base md:text-lg text-slate-800 hover:text-slate-950 hover:underline">Profile</a>
+                <button *ngIf="isLoggedIn" (click)="toggleLogoutModal()" class="bg-slate-600 hover:bg-slate-800 rounded ease-in-out duration-150 text-white px-2 py-1 md:px-2 md:py-1 text-base font-semibold">Logout</button>
             </div>
         </div>
         </ng-container>
