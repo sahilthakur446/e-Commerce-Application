@@ -35,8 +35,9 @@ export class UserCartService {
   getPriceOfAllProductInCart(userId: string | null) {
     let url = `${this.BaseApiUrl}api/UserCart/GetUserCartProducts/${userId}`;
     return this.http.get<UserCart[]>(url).pipe(
-      map(response => response.map(x => x.price))
+      map(response => response.map(x => ({ price: x.price, quantity: x.quantity })))
     );
   }
+  
   
 }

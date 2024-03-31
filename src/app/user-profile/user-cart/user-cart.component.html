@@ -26,7 +26,7 @@
         <button (click)="removeCartItem(product.userCartId)" class="absolute rounded-full w-6 h-6 text-gray-800 text-xl bg-opacity-30 hover:bg-opacity-60 right-2 top-2"><i class="bi bi-x text-slate-950"></i></button>
       </div>
     </div>
-    <div class="w-full sm:w-full md:w-2/6 flex flex-col gap-2  ">
+    <div *ngIf="userCartList.length > 0" class="w-full sm:w-full md:w-2/6 flex flex-col gap-2  ">
       <h1 class="text-slate-800 text-lg text-center md:text-left font-semibold mb-4" >PRICE DETAILS <span class="text-slate-600">(2 Items)</span></h1>
       <div class="flex text-slate-900 font-medium justify-between">
         <p>Total MRP</p>

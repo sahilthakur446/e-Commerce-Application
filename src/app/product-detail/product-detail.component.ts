@@ -7,6 +7,7 @@ import { UserProfileManagementService } from '../services/user-profile-managemen
 import { AddWishlist } from '../models/wishlist/add-wishlist.model';
 import { UserCartService } from '../services/user-cart-service/user-cart.service';
 import { AddCart } from '../models/cart/add-cart.model';
+import { StorageService } from '../services/storage-service/storage.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -23,20 +24,23 @@ addedToCart:boolean = false;
 originalMRP:number = 0
 discount:number = 0
 constructor(route:ActivatedRoute ,private productShowcaseService:ProductShowcaseService, 
-  private userProfileService:UserProfileManagementService, private userCartService:UserCartService) {
-  this.userId = localStorage.getItem('userId')!
+  private userProfileService:UserProfileManagementService, private userCartService:UserCartService,
+  private storageService:StorageService) {
+  this.userId = this.storageService.getItem('userId')!
   this.productId = route.snapshot.paramMap.get('productid')
 }
   ngOnInit(): void {
-    this.productShowcaseService.getProduct(this.productId!).subscribe({
-      next:(response:ProductInfo)=> {this.productDetails = response
-        this.originalMRP = Math.floor(this.productDetails.price * (Math.random() + 1))
-        this.discount = Math.ceil((this.productDetails.price/this.originalMRP)*100) 
-      }
-    })
+    this.getProduct();
   }
 
-
+getProduct(){
+  this.productShowcaseService.getProduct(this.productId!).subscribe({
+    next:(response:ProductInfo)=> {this.productDetails = response
+      this.originalMRP = Math.floor(this.productDetails.price * (Math.random() + 1))
+      this.discount = Math.ceil((this.productDetails.price/this.originalMRP)*100) 
+    }
+  })
+}
   addToWishlist(){
     if (this.addedToWishList == false) {
       let wishlistItem:AddWishlist = {
@@ -60,6 +64,5 @@ constructor(route:ActivatedRoute ,private productShowcaseService:ProductShowcase
     this.userCartService.addCartItem(this.userId,carItem).subscribe({
       next:() => this.addedToCart = !this.addedToCart
     })
-    
   }
 }

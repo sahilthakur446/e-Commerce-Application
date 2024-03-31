@@ -14,14 +14,14 @@
 <div class="flex w-full">
     <div class="hidden md:block w-1/6  gap-3 border-r pl-7 py-3">
         <div class="flex flex-col gap-2 w-11/12">
-        <label for="" class="text-slate-900 font-semibold" >Categories</label>
-        <select name="" id="" class="outline-1 focus:outline-2 outline outline-slate-600 rounded p-0.5  text-slate-700">
+        <label for="category" class="text-slate-900 font-semibold" >Categories</label>
+        <select name="category" id="category" [(ngModel)]="categoryId" class="outline-1 focus:outline-2 outline outline-slate-600 rounded p-0.5  text-slate-700">
             <option value="">Select Category</option>
             <option *ngFor="let category of categoryList" value="{{category.categoryId}}">{{category.categoryName}}</option>
         </select>
     
-        <label for="" class="text-slate-800 font-semibold">Brands</label>
-        <select name="" id="" class="outline-1 focus:outline-2 outline outline-slate-600 rounded p-0.5 text-slate-700">
+        <label for="brand" class="text-slate-800 font-semibold">Brands</label>
+        <select name="brand" id="brand" [(ngModel)]="brandId" class="outline-1 focus:outline-2 outline outline-slate-600 rounded p-0.5 text-slate-700">
             <option value="">Select Brand</option>
             <option *ngFor="let brand of brandList" value="{{brand.brandId}}">{{brand.brandName}}</option>
         </select>
@@ -31,29 +31,40 @@
         <button class="text-start text-sm text-slate-700 rounded hover:text-slate-900 hover:font-medium ease-in duration-50">Under 299</button>
         <button class="text-start text-sm text-slate-700 rounded hover:text-slate-900 hover:font-medium ease-in duration-50">Under 299</button>
     </div>
+    <label for="gender" class="text-slate-800 font-semibold">For</label>
+        <select name="brand" id="brand" [(ngModel)]="gender" class="outline-1 focus:outline-2 outline outline-slate-600 rounded p-0.5 text-slate-700">
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Unisex">Unisex</option>
+        </select>
     <div class="flex w-full gap-3">
         <div class="flex flex-col w-5/12">
-            <label for="">Min</label>
-            <input class="outline-1 focus:outline-2 outline outline-slate-600 rounded p-0.5 text-slate-700" type="number" name="" id="">
+            <label for="min">Min</label>
+            <input class="outline-1 focus:outline-2 outline outline-slate-600 rounded p-0.5 text-slate-700" type="number" name="min" id="min" [(ngModel)]="minPrice">
         </div>
         <div class="flex flex-col w-5/12">
-            <label for="">Max</label>
-            <input class="outline-1 focus:outline-2 outline outline-slate-600 rounded p-0.5 text-slate-700" type="number" name="" id="">
+            <label for="max">Max</label>
+            <input class="outline-1 focus:outline-2 outline outline-slate-600 rounded p-0.5 text-slate-700" type="number" name="max" id="max" [(ngModel)]="maxPrice">
         </div>
     </div>
+    <div class="flex flex-col gap-2">
+        <button (click)="GetProductwithGivenFilter()"class="px-1 py-1 w-full text-sm text-white transition-opacity ease-in-out duration-150 bg-slate-700 hover:bg-slate-900 rounded font-medium">Apply Filters</button>
+        <button (click)="GetProductwithGivenFilter()"class="px-1 py-1 w-full text-sm text-white transition-opacity ease-in-out duration-150 bg-red-600 hover:bg-red-800 rounded font-medium">Reset</button>
     </div>
     </div>
-    <div class="relative w-full grid-cols-2 md:w-5/6 grid md:grid-cols-4 gap-4  sm:gap-2 px-7 py-4">
+    </div>
+    <div class="relative w-full grid-cols-2 md:w-5/6 grid md:grid-cols-4 gap-4 sm:gap-2 px-7 py-4">
         <ng-container *ngFor="let product of productList">
         <a routerLink="productdetail/{{product.productId}}" class=" h-80 w-52 relative">
            <img src="https://localhost:7248/{{product.imagePath}}" alt="a" class="h-64 w-48 ml-auto mr-auto rounded-sm block">
            <div class="px-3">
            <h1 class="font-medium">{{product.brandName}}</h1>
-           <p class="text-sm text-slate-900">{{product.productName}}</p>
+           <p class="text-sm text-slate-900 text-nowrap text-ellipsis overflow-hidden">{{product.productName}}</p>
            <p class="text-sm text-slate-900 font-bold">{{product.price}}</p>
             </div>
            <div class="absolute text-xs font-semibold left-3 rounded top-60 text-center bg-white bg-opacity-50 ">3.4</div>
-           <button class="absolute top-1 right-4"><i class="bi bi-heart-fill text-white opacity-50 hover:opacity-100"></i></button>
+           <button (click)="addToWishlist(product.productId); $event.preventDefault(); $event.stopPropagation()" class="absolute top-1 right-4"><i class="bi bi-heart-fill text-white opacity-50 hover:opacity-100"></i></button>
         </a>
     </ng-container>
     </div>

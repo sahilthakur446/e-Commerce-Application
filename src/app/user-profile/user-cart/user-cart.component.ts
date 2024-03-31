@@ -9,12 +9,14 @@ import { UserCartService } from 'src/app/services/user-cart-service/user-cart.se
 })
 export class UserCartComponent implements OnInit {
   userId: string | null;
-  cartId!:number;
-  totalMRP:number = 0
+  cartId!: number;
+  totalMRP: number = 0
   totalAmmount = 0
   userCartList!: UserCart[]
-  quantity:number =1;
-  showQuantityModal:boolean = false
+  quantity: number = 1;
+  showQuantityModal: boolean = false
+  private readonly SHIPPING_COST = 49;
+  private readonly PLATOFORM_FEE = 20;
   constructor(private userCartService: UserCartService) {
     this.userId = localStorage.getItem('userId')
   }
@@ -24,39 +26,50 @@ export class UserCartComponent implements OnInit {
     this.getPriceOfAllProductInCart()
   }
 
-  saveCartId(cartId:number){
+  saveCartId(cartId: number) {
     this.cartId = cartId
     console.log(this.cartId);
-    
+
   }
 
-  removeCartItem(cartId:number){
+  removeCartItem(cartId: number) {
     this.userCartService.removeCartItem(cartId).subscribe({
-      next:() => this.getUserCartList(),
-      error:(error) => console.log(error)
-      
+      next: () => {
+        this.getUserCartList()
+        this.getPriceOfAllProductInCart()
+      },
+      error: (error) => console.log(error)
+
     })
   }
 
-  updateQuantity(quantity:number){
-    this.userCartService.updateCartItem(this.cartId,quantity).subscribe({
-      next:() => this.getUserCartList(),
-      error:(error) => console.log(error)
+  updateQuantity(quantity: number) {
+    this.userCartService.updateCartItem(this.cartId, quantity).subscribe({
+      next: () => {
+        this.getUserCartList()
+        this.getPriceOfAllProductInCart()
+      },
+      error: (error) => console.log(error)
     })
   }
 
-  toggleQuantityModal(){
+  toggleQuantityModal() {
     this.showQuantityModal = !this.showQuantityModal
   }
 
-  getPriceOfAllProductInCart(){
+  getPriceOfAllProductInCart() {
+    this.totalMRP = 0
+    this.totalAmmount = 0
     this.userCartService.getPriceOfAllProductInCart(this.userId).subscribe({
-      next:(response:any) =>  {for(const price  of response) {
-        this.totalMRP += price
+      next: (response: any) => {
+        console.log(response);
+
+        for (const object of response) {
+          this.totalMRP += object.price * object.quantity
+        }
+        this.totalAmmount = this.totalMRP + this.SHIPPING_COST + this.PLATOFORM_FEE
+        console.log(this.totalAmmount, this.totalMRP);
       }
-      this.totalAmmount = this.totalMRP + 49 + 20
-    }
-      
     })
   }
 
@@ -66,7 +79,7 @@ export class UserCartComponent implements OnInit {
         console.log(response);
         this.userCartList = response
       },
-      error: (error:any) => console.log(error.message)
+      error: (error: any) => console.log(error.message)
     })
   }
 }
