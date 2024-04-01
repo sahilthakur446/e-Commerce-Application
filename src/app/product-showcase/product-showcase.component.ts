@@ -21,6 +21,7 @@ export class ProductShowcaseComponent implements OnInit {
   brandList: BrandList[] = []
   minPrice: number | undefined
   maxPrice: number | undefined
+  categoryName:string|undefined
   categoryId: number | undefined | string = ''
   brandId: number | undefined | string = ''
   gender: string | undefined = ''
@@ -40,7 +41,16 @@ export class ProductShowcaseComponent implements OnInit {
     private route:ActivatedRoute) {
   }
   ngOnInit(): void {
-  
+    
+    if (this.route.snapshot.paramMap.get('category')) {
+      this.categoryName = this.route.snapshot.paramMap.get('category')!
+      this.ApplyFilters();
+      this.getUserId()
+      this.getCategoryList()
+      this.getBrandList()
+      return;
+    }
+
     if (this.route.snapshot.paramMap.get('segment') === 'newarrival') {
       this.newArrival = true
       this.ApplyFilters();
@@ -89,6 +99,7 @@ export class ProductShowcaseComponent implements OnInit {
     this.isLoading = true
     this.productShowcaseService.minPrice = this.minPrice
     this.productShowcaseService.maxPrice = this.maxPrice
+    this.productShowcaseService.categoryName = this.categoryName
     this.productShowcaseService.categoryId = Number(this.categoryId)
     this.productShowcaseService.brandId = Number(this.brandId)
     this.productShowcaseService.targetGender = this.gender

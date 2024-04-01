@@ -35,6 +35,7 @@ const routes: Routes = [
   { path: "UpdateProduct", component: UpdateProductComponent},
   { path: "products",component:ProductShowcaseComponent},
   { path: "products/:segment",component:ProductShowcaseComponent},
+  { path: "products/category/:category",component:ProductShowcaseComponent},
   { path: "products/productdetail/:productid",component:ProductDetailComponent},
   { path: "ProductManager/UpdateProduct/:productid", component: UpdateProductComponent},
   { path: "ProductManager/AddProduct", component: AddProductComponent },

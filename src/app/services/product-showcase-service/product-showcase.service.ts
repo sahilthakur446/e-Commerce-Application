@@ -11,6 +11,7 @@ export class ProductShowcaseService{
 private baseUrl:string = 'https://localhost:7248/api/'
 minPrice:number|undefined;
 maxPrice:number|undefined;
+categoryName:string|undefined;
 categoryId:number|undefined;
 brandId:number|undefined;
 targetGender:string|undefined;
@@ -27,8 +28,9 @@ newArrival:boolean|undefined;
     let params = new HttpParams();
     if(this.minPrice) params = params.set("minPrice", this.minPrice);
     if(this.maxPrice) params = params.set("maxPrice", this.maxPrice);
-    if(this.categoryId) params = params.set("category", this.categoryId);
-    if(this.brandId) params = params.set("brand", this.brandId);
+    if(this.categoryName) params = params.set("category", this.categoryName);
+    if(this.categoryId) params = params.set("categoryId", this.categoryId);
+    if(this.brandId) params = params.set("brandId", this.brandId);
     if(this.targetGender) params = params.set("gender", this.targetGender);
     if(this.newArrival) params = params.set("isNew",this.newArrival)
     let apiUrl = `${this.baseUrl}Product/GetProductwithGivenFilter?${params.toString()}`
