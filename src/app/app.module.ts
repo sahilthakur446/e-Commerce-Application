@@ -26,6 +26,7 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { AddAddressComponent } from './user-profile/add-address/add-address.component';
 import { UpdateAddressComponent } from './user-profile/update-address/update-address.component';
 import { UserCartComponent } from './user-profile/user-cart/user-cart.component';
+import { ResponseModalComponent } from './response-modal/response-modal.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { UserCartComponent } from './user-profile/user-cart/user-cart.component'
     ProductDetailComponent,
     AddAddressComponent,
     UpdateAddressComponent,
-    UserCartComponent
+    UserCartComponent,
+    ResponseModalComponent
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AddCart } from 'src/app/models/cart/add-cart.model';
 import { UserWishlist } from 'src/app/models/wishlist/user-wishlist.model';
+import { UserCartService } from 'src/app/services/user-cart-service/user-cart.service';
 import { UserProfileManagementService } from 'src/app/services/user-profile-management-service/user-profile-management.service';
 
 @Component({
@@ -9,8 +11,9 @@ import { UserProfileManagementService } from 'src/app/services/user-profile-mana
 })
 export class UserWishlistComponent implements OnInit {
   userId!: string;
+  addedToCart:boolean = false
   userWishlistItems!: UserWishlist[]
-  constructor(private userProfileService: UserProfileManagementService) {
+  constructor(private userProfileService: UserProfileManagementService, private userCartService:UserCartService) {
     this.userId = localStorage.getItem('userId')!
   }
   ngOnInit(): void {
@@ -19,10 +22,7 @@ export class UserWishlistComponent implements OnInit {
 
   getUserWishlist(){
     this.userProfileService.getUserWishlist(this.userId).subscribe({
-      next: (response: UserWishlist[]) => {
-        console.log(response)
-        this.userWishlistItems = response
-      }
+      next: (response: UserWishlist[]) => this.userWishlistItems = response
     })
   }
 
@@ -35,5 +35,13 @@ export class UserWishlistComponent implements OnInit {
   }
 
   addToCart(productId:number){
+    let carItem:AddCart = {
+      productId: Number(productId),
+      userId:Number(this.userId)
+    }
+    this.userCartService.addCartItem(this.userId,carItem).subscribe({
+      next:(response) =>{ console.log(response);
+         this.addedToCart = !this.addedToCart}
+    })
   }
 }

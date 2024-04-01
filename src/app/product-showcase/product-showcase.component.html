@@ -49,8 +49,8 @@
         </div>
     </div>
     <div class="flex flex-col gap-2">
-        <button (click)="GetProductwithGivenFilter()"class="px-1 py-1 w-full text-sm text-white transition-opacity ease-in-out duration-150 bg-slate-700 hover:bg-slate-900 rounded font-medium">Apply Filters</button>
-        <button (click)="GetProductwithGivenFilter()"class="px-1 py-1 w-full text-sm text-white transition-opacity ease-in-out duration-150 bg-red-600 hover:bg-red-800 rounded font-medium">Reset</button>
+        <button (click)="ApplyFilters()"class="px-1 py-1 w-full text-sm text-white transition-opacity ease-in-out duration-150 bg-slate-700 hover:bg-slate-900 rounded font-medium">Apply Filters</button>
+        <button (click)="ApplyFilters()"class="px-1 py-1 w-full text-sm text-white transition-opacity ease-in-out duration-150 bg-red-600 hover:bg-red-800 rounded font-medium">Reset</button>
     </div>
     </div>
     </div>
@@ -72,5 +72,12 @@
 <div class="fixed flex sm:hidden items-center border-t bg-white bottom-0 h-12 w-full">
     <button class="w-1/2 h-full  text-slate-800 font-medium border-r">SORT</button>
     <button class="w-1/2 h-full border-slate-900 text-slate-800 font-medium">FILTER</button>
-</div>    
+</div>
+<app-response-modal [show]="isResponseModalVisible" 
+[message]="responseMessage" 
+[responseClass]="isSuccess ? 'text-lg md:text-3xl font-bold text-green-700' : 'text-lg md:text-3xl font-bold text-red-700'">
+</app-response-modal>
+</div>
+<div *ngIf="isLoading" class="w-full opacity-100 h-full top-0 left-0 fixed z-50 bg-white flex justify-center items-center gap-2">
+    <div *ngIf="this.isLoading" class="border-4 h-10 w-10 mr-3 ml-3 animate-spin border-l-red-600 border-y-white border-r-black rounded-full">
 </div>

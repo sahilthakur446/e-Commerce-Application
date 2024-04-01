@@ -4,21 +4,21 @@
       <p><</p>
       <a routerLink="../">user dashboard</a>
       <p><</p>
-      <a routerLink="/userdashboard/wishlist" routerLinkActive="active text-sky-700">cart</a>
+      <a routerLink="/userdashboard/wishlist" routerLinkActive="active text-sky-700">wishlist</a>
     </div>
-    <p class="px-10 text-3xl text-center text-slate-800 font-semibold mt-10">My Cart</p>
+    <p class="px-10 text-3xl text-center text-slate-800 font-semibold mt-10">My Wishlist</p>
     <div class="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 w-full justify-items-center">
      <div *ngFor="let product of userWishlistItems" class="w-56 h-[426px]">
       <div class="w-full h-72 relative">
         <img src="https://localhost:7248/{{product.imagePath}}" alt="product image" class="ml-auto mr-auto rounded-sm">
-        <button (click)="removeWishlistItem(product.userWishlistId)" class="absolute rounded-full w-6 h-6 text-gray-600  bg-white bg-opacity-30 hover:bg-opacity-60 right-2 top-2"><i class="bi bi-x text-slate-950"></i></button>
+        <button (click)="removeWishlistItem(product.userWishlistId)" class="absolute rounded-full w-6 h-6 text-gray-600  bg-white bg-opacity-50 hover:bg-opacity-90 right-2 top-2"><i class="bi bi-x text-black"></i></button>
       </div>
-        <div class="w-full h-[90px] flex flex-col justify-center items-center  box-border border-x border-gray-300">
-          <h1 class="text-slate-500 font-medium">{{product.brandName | uppercase}} {{product.productName | uppercase}}</h1>
+        <div class="w-full h-[90px] flex flex-col justify-center items-center   box-border border-x border-gray-300">
+          <h1 class="text-slate-600 text-center font-medium overflow-hidden text-ellipsis text-nowrap w-full">{{product.brandName | uppercase}} {{product.productName | uppercase}}</h1>
           <h1 class="text-slate-900 font-bold">Rs.{{product.price}}</h1>
         </div>
           <div class="w-full h-12 flex flex-col justify-center items-center box-border border border-gray-300">
-            <button (click)="addToCart(product.productId)" class="text-slate-700 font-bold" >MOVE TO CART</button>
+            <button (click)="addToCart(product.productId)" class="text-slate-700 font-bold w-full h-full" >MOVE TO CART</button>
           </div>
   </div>
 </div>

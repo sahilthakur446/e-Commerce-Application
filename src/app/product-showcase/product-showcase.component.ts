@@ -7,6 +7,7 @@ import { ProductShowcaseService } from '../services/product-showcase-service/pro
 import { StorageService } from '../services/storage-service/storage.service';
 import { AddWishlist } from '../models/wishlist/add-wishlist.model';
 import { UserProfileManagementService } from '../services/user-profile-management-service/user-profile-management.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-product-showcase',
@@ -23,17 +24,36 @@ export class ProductShowcaseComponent implements OnInit {
   categoryId: number | undefined | string = ''
   brandId: number | undefined | string = ''
   gender: string | undefined = ''
-  addedToWishList:boolean =false;
+  newArrival:boolean|undefined
+  isLoading: boolean = false;
+  showDeleteModal: boolean = false
+  responseClass=''
+  responseSuccessClass: string = 'text-3xl font-bold text-green-700';
+  responseFailureClass: string = 'text-3xl font-bold text-red-700';
+  isResponseModalVisible = false; 
+  isSuccess = false;
+  responseMessage = '';
   constructor(private productMngmntservice: ProductManagementService, 
     private productShowcaseService: ProductShowcaseService,
     private storageService: StorageService,
-    private userProfileService:UserProfileManagementService) {
+    private userProfileService:UserProfileManagementService,
+    private route:ActivatedRoute) {
   }
   ngOnInit(): void {
+  
+    if (this.route.snapshot.paramMap.get('segment') === 'newarrival') {
+      this.newArrival = true
+      this.ApplyFilters();
+      this.getUserId()
+      this.getCategoryList()
+      this.getBrandList()
+      return;
+    }
     this.getUserId()
-    this.getAllProducts()
     this.getCategoryList()
     this.getBrandList()
+    this.getAllProducts()
+    
   }
 
   getUserId(){
@@ -41,8 +61,10 @@ export class ProductShowcaseComponent implements OnInit {
   }
 
   getAllProducts() {
+    this.isLoading = true;
     this.productMngmntservice.getAllProducts().subscribe({
-      next: (response: ProductInfo[]) => this.productList = response,
+      next: (response: ProductInfo[]) => {this.productList = response
+        setTimeout(() => { this.isLoading = false }, 1000)},
       error: (error) => console.log(error)
     })
   }
@@ -54,6 +76,7 @@ export class ProductShowcaseComponent implements OnInit {
       )
     })
   }
+
   getBrandList() {
     this.productMngmntservice.getBrandsList().subscribe({
       next: (response: BrandList[]) => this.brandList = response,
@@ -62,30 +85,44 @@ export class ProductShowcaseComponent implements OnInit {
     })
   }
 
-  GetProductwithGivenFilter() {
+  ApplyFilters() {
+    this.isLoading = true
     this.productShowcaseService.minPrice = this.minPrice
     this.productShowcaseService.maxPrice = this.maxPrice
     this.productShowcaseService.categoryId = Number(this.categoryId)
     this.productShowcaseService.brandId = Number(this.brandId)
     this.productShowcaseService.targetGender = this.gender
+    this.productShowcaseService.newArrival = this.newArrival
     this.productShowcaseService.GetProductwithGivenFilter().subscribe({
-      next: (response: ProductInfo[]) => this.productList = response,
+      next: (response: ProductInfo[]) => {this.productList = response
+      this.isLoading = false
+      if (response.length == 0) {
+        this.showResponseModal(false,'No product found')
+      }},
       error: (error) => console.log(error)
     })
   }
 
   addToWishlist(productId:number){
-    if (this.addedToWishList == false) {
+    
       let wishlistItem:AddWishlist = {
         productId:Number(productId),
         userId:Number(this.userId)
       }
       this.userProfileService.addWishlistItem(this.userId,wishlistItem).subscribe({
         next:(response) => { console.log(response);
-          this.addedToWishList = true},
-          error:(error) => console.log(error)
-          
+          this.showResponseModal(true,'Added to wishlist')},
+          error:(error) => this.showResponseModal(false,error.error)
       })
     }
-  }
+  
+
+  showResponseModal(success: boolean, message: string) {
+    this.isResponseModalVisible = true;
+    this.isSuccess = success;
+    this.responseMessage = message;
+    setTimeout(() => {
+        this.isResponseModalVisible = false;
+    }, 3000); 
+}
 }

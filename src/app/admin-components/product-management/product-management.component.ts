@@ -7,6 +7,7 @@ import { GenderApplicability } from 'src/app/models/genderApplicability.enum';
 import { ProductManagementService } from 'src/app/services/product-management-service/product-management.service';
 import { categoryList } from 'src/app/models/category/category.model';
 import { BrandList } from 'src/app/models/brand/brand.model';
+import { ProductShowcaseService } from 'src/app/services/product-showcase-service/product-showcase.service';
 
 @Component({
   selector: 'app-product-management',
@@ -14,24 +15,32 @@ import { BrandList } from 'src/app/models/brand/brand.model';
   styleUrls: ['./product-management.component.css']
 })
 export class ProductManagementComponent implements OnInit {
-  productList: ProductInfo[] = [];
+  products: ProductInfo[] = [];
   categoryList: categoryList[] = [];
-  BrandList: BrandList[] = [];
-  deletingProductId: any;
+  brandList: BrandList[] = [];
+  minPrice: number | undefined
+  maxPrice: number | undefined
+  categoryId: number | undefined | string = ''
+  brandId: number | undefined | string = ''
+  gender: string | undefined = ''
+  productIdToDelete: any;
   selectedCategory: string = "";
   selectedBrand: string = "";
   isLoading: boolean = false;
   showDeleteModal: boolean = false
-  constructor(private http: HttpClient, private productManagementService: ProductManagementService, private router: Router) {
+  responseClass=''
+  responseSuccessClass: string = 'text-3xl font-bold text-green-700';
+  responseFailureClass: string = 'text-3xl font-bold text-red-700';
+  isResponseModalVisible = false; 
+  isSuccess = false;
+  responseMessage = '';
+  constructor(private productShowcaseService: ProductShowcaseService, private productManagementService: ProductManagementService, private router: Router) {
   }
 
   ngOnInit(): void {
-    this.getAllProduct();
-    this.productManagementService.getCategoryList().subscribe((response: any) => { this.categoryList = response });
-    this.productManagementService.getBrandsList().subscribe((response: any) => {
-      this.BrandList = response
-      console.log(this.BrandList)
-    });
+    this.getProducts();
+    this.getCategoryList();
+    this.getBrandList();
   }
 
   openDeleteModal() {
@@ -41,47 +50,91 @@ export class ProductManagementComponent implements OnInit {
     this.showDeleteModal = false;
   }
 
-  applyFilters() {
-    this.isLoading = true;
-    let url = `https://localhost:7248/api/Brand/GetBrandWithProducts/${this.selectedBrand}`;
-    setTimeout(() => {
-      this.http.get(url).pipe(
-        finalize(() => this.isLoading = false)
-      ).subscribe({
-        next: (response: any) => {
-          console.log(response);
-          this.productList = response.productDTOs;
-        },
-        error: (error) => console.log(error)
-      });
-    }, 1000);
-  }
-  getAllProduct() {
-    this.productManagementService.getAllProducts().subscribe({
-      next: (product: ProductInfo[]) => { this.productList = product 
-      console.log(this.productList);
-      },
-      error: (error) => console.log(error),
-      complete: () => console.log("Completed")
+  getCategoryList() {
+    this.productManagementService.getCategoryList().subscribe({
+      next: (response: categoryList[]) => this.categoryList = response,
+      error: (error) => (console.log(error)
+      )
     })
   }
+  getBrandList() {
+    this.productManagementService.getBrandsList().subscribe({
+      next: (response: BrandList[]) => this.brandList = response,
+      error: (error) => (console.log(error)
+      )
+    })
+  }
+
+  getProducts() {
+    this.isLoading = true;
+    this.productManagementService.getAllProducts().subscribe({
+      next: (product: ProductInfo[]) => {
+        console.log(product);
+        this.products = product
+        setTimeout(() => { this.isLoading = false }, 1000)
+      },
+      error: (error) =>{
+        console.log(error);
+      }
+    })
+  }
+
+  ApplyFilters() {
+    this.isLoading = true;
+    this.productShowcaseService.minPrice = this.minPrice
+    this.productShowcaseService.maxPrice = this.maxPrice
+    this.productShowcaseService.categoryId = Number(this.categoryId)
+    this.productShowcaseService.brandId = Number(this.brandId)
+    this.productShowcaseService.targetGender = this.gender
+    this.productShowcaseService.GetProductwithGivenFilter().subscribe({
+      next: (response: ProductInfo[]) => {
+        this.products = response;
+        this.isLoading = false;
+  
+        if (response.length == 0) {
+          this.showResponseModal(false,'No product found')
+        }
+      },
+      error: (error) => this.isLoading = true
+    });
+  }
+
+  Reset() {
+    this.minPrice = undefined;
+    this.maxPrice = undefined;
+    this.categoryId = '';
+    this.brandId = '';
+    this.gender = '';
+
+    this.ApplyFilters();
+  }
+
+
   editProduct(id: any) {
     this.router.navigate(['ProductManager', 'UpdateProduct', id])
   }
-  SavingProductId(id: any) {
-    console.log(id);
 
-    this.deletingProductId = id
+  SavingProductId(id: any) {
+    this.productIdToDelete = id
   }
+
   deleteProduct() {
-    console.log(this.deletingProductId);
-    this.productManagementService.deleteProduct(this.deletingProductId)
+    console.log(this.productIdToDelete);
+    this.productManagementService.deleteProduct(this.productIdToDelete)
       .subscribe({
         next: (response) => console.log(response),
         error: (error) => console.log(error),
         complete: () => console.log("completed")
       })
-    this.getAllProduct();
+    this.getProducts();
     this.closeDeleteModal()
   }
+  showResponseModal(success: boolean, message: string) {
+    this.isResponseModalVisible = true;
+    this.isSuccess = success;
+    this.responseMessage = message;
+    setTimeout(() => {
+        this.isResponseModalVisible = false;
+    }, 3000); 
+}
 }

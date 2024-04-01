@@ -14,6 +14,7 @@ maxPrice:number|undefined;
 categoryId:number|undefined;
 brandId:number|undefined;
 targetGender:string|undefined;
+newArrival:boolean|undefined;
   constructor(private http:HttpClient, private productManagementService:ProductManagementService) { }
  
   getProduct(productId:string)
@@ -29,6 +30,7 @@ targetGender:string|undefined;
     if(this.categoryId) params = params.set("category", this.categoryId);
     if(this.brandId) params = params.set("brand", this.brandId);
     if(this.targetGender) params = params.set("gender", this.targetGender);
+    if(this.newArrival) params = params.set("isNew",this.newArrival)
     let apiUrl = `${this.baseUrl}Product/GetProductwithGivenFilter?${params.toString()}`
     return this.http.get<ProductInfo[]>(apiUrl)
 }

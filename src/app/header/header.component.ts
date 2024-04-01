@@ -18,7 +18,7 @@ showLoginLogout:boolean = false;
 isUserAdmin:boolean =  false;
 isLogoutModalOpen = false;
   
-constructor(private authService:AuthService,private userService:UserService, private router:Router, private location:Location) {
+constructor(private authService:AuthService,private userService:UserService, private router:Router) {
   this.router.events.pipe(
     filter(event => event instanceof NavigationEnd)
   ).subscribe((event:any) => {
@@ -42,6 +42,10 @@ constructor(private authService:AuthService,private userService:UserService, pri
   this.authService.isLoggedIn()
   
   console.log(this.router.url);
+}
+
+navigateToProduct(){
+this.router.navigate(['products','newarrival'])
 }
 
 toggleUserModal() {

@@ -56,7 +56,7 @@ getProduct(){
     }
   }
 
-  toogleCartButton(){
+  AddtoCart(){
     let carItem:AddCart = {
       productId: Number(this.productId),
       userId:Number(this.userId)
