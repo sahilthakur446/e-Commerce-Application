@@ -27,7 +27,6 @@ import { AddAddressComponent } from './user-profile/add-address/add-address.comp
 import { UpdateAddressComponent } from './user-profile/update-address/update-address.component';
 import { UserCartComponent } from './user-profile/user-cart/user-cart.component';
 import { ResponseModalComponent } from './response-modal/response-modal.component';
-import { CheckoutAddressComponent } from './checkout/checkout-address/checkout-address.component';
 
 @NgModule({
   declarations: [
@@ -50,8 +49,7 @@ import { CheckoutAddressComponent } from './checkout/checkout-address/checkout-a
     AddAddressComponent,
     UpdateAddressComponent,
     UserCartComponent,
-    ResponseModalComponent,
-    CheckoutAddressComponent
+    ResponseModalComponent
   ],
   imports: [
     BrowserModule,

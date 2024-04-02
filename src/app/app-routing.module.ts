@@ -17,8 +17,7 @@ import { ProductShowcaseComponent } from './product-showcase/product-showcase.co
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { AddAddressComponent } from './user-profile/add-address/add-address.component';
 import { UpdateAddressComponent } from './user-profile/update-address/update-address.component';
-import { UserCartComponent } from './user-profile/user-cart/user-cart.component';
-import { CheckoutAddressComponent } from './checkout/checkout-address/checkout-address.component';
+import { UserCartComponent } from './user-profile/user-cart/user-cart.component'; 
 
 const routes: Routes = [
   { path: "", redirectTo:"/Home",pathMatch: 'full'},
@@ -32,7 +31,6 @@ const routes: Routes = [
   { path: "userdashboard/wishlist", component:UserWishlistComponent},
   { path: "wishlist", component:UserWishlistComponent},
   { path: "checkout/cart", component:UserCartComponent},
-  { path: "checkout/address", component:CheckoutAddressComponent},
   { path: "Login/Register", component: RegisterComponent },
   { path: "UpdateProduct", component: UpdateProductComponent},
   { path: "products",component:ProductShowcaseComponent},

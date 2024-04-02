@@ -33,16 +33,19 @@ export class CategoryManagerComponent implements OnInit {
   }
 
   fetchCategoriesWithProductCounts() {
+    this.isLoading = true;
     this.categoryManager.fetchCategoriesWithProductCounts()
       .pipe(
         map(response => response as categoryWithProductCount[])
       )
       .subscribe({
         next: (response) => {
-          console.log(response);
           this.categoryList = response;
+          this.isLoading = false;
         },
-        error: (error) => console.log(error),
+        error: (error) => {
+          this.isLoading = false;
+        },
         complete: () => console.log("completed")
       });
   }

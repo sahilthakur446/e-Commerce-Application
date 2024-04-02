@@ -33,6 +33,7 @@ export class BrandManagerComponent {
   }
 
   fetchCategoriesWithProductCounts() {
+    this.isLoading = true;
     this.brandManager.fetchCategoriesWithProductCounts()
       .pipe(
         map(response => response as brandWithProductCount[])
@@ -41,8 +42,10 @@ export class BrandManagerComponent {
         next: (response) => {
           console.log(response);
           this.brandList = response;
+          this.isLoading = false;
         },
-        error: (error) => console.log(error),
+        error: (error) => {console.log(error)
+        this.isLoading = false},
         complete: () => console.log("completed")
       });
   }
