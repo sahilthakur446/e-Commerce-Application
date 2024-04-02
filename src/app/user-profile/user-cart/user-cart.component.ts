@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { UserAddress } from 'src/app/models/address/getUserAddress.model';
 import { UserCart } from 'src/app/models/cart/user-cart.model';
 import { UserCartService } from 'src/app/services/user-cart-service/user-cart.service';
+import { UserProfileManagementService } from 'src/app/services/user-profile-management-service/user-profile-management.service';
 
 @Component({
   selector: 'app-user-cart',
@@ -8,78 +10,104 @@ import { UserCartService } from 'src/app/services/user-cart-service/user-cart.se
   styleUrls: ['./user-cart.component.css']
 })
 export class UserCartComponent implements OnInit {
-  userId: string | null;
+  userId: string = localStorage.getItem('userId') ?? '';
   cartId!: number;
-  totalMRP: number = 0
-  totalAmmount = 0
-  userCartList!: UserCart[]
+  totalMRP: number = 0;
+  totalAmount: number = 0;
+  userCartList: UserCart[] = [];
   quantity: number = 1;
-  showQuantityModal: boolean = false
-  private readonly SHIPPING_COST = 49;
-  private readonly PLATOFORM_FEE = 20;
-  constructor(private userCartService: UserCartService) {
-    this.userId = localStorage.getItem('userId')
-  }
+  defaultAddress!: UserAddress;
+  otherAddresses: UserAddress[] = [];
+  showQuantityModal: boolean = false;
+  selectAddress: boolean = false;
+  selectedAddress!: UserAddress;
+  private readonly SHIPPING_COST: number = 49;
+  private readonly PLATFORM_FEE: number = 20;
+
+  constructor(
+    private userCartService: UserCartService,
+    private userProfileService: UserProfileManagementService
+  ) {}
 
   ngOnInit(): void {
-    this.getUserCartList()
-    this.getPriceOfAllProductInCart()
+    this.getUserCartList();
+    this.getPriceOfAllProductInCart();
+    this.getAddresses();
   }
 
-  saveCartId(cartId: number) {
-    this.cartId = cartId
-    console.log(this.cartId);
-
+  saveCartId(cartId: number): void {
+    this.cartId = cartId;
   }
 
-  removeCartItem(cartId: number) {
+  removeCartItem(cartId: number): void {
     this.userCartService.removeCartItem(cartId).subscribe({
       next: () => {
-        this.getUserCartList()
-        this.getPriceOfAllProductInCart()
+        this.getUserCartList();
+        this.getPriceOfAllProductInCart();
+        this.userCartService.getUserCartCount();
       },
-      error: (error) => console.log(error)
-
-    })
+      error: (error) => console.error(error)
+    });
   }
 
-  updateQuantity(quantity: number) {
+  updateQuantity(quantity: number): void {
     this.userCartService.updateCartItem(this.cartId, quantity).subscribe({
       next: () => {
-        this.getUserCartList()
-        this.getPriceOfAllProductInCart()
+        this.getUserCartList();
+        this.getPriceOfAllProductInCart();
+        this.userCartService.getUserCartCount();
       },
-      error: (error) => console.log(error)
-    })
+      error: (error) => console.error(error)
+    });
   }
 
-  toggleQuantityModal() {
-    this.showQuantityModal = !this.showQuantityModal
+  toggleQuantityModal(): void {
+    this.showQuantityModal = !this.showQuantityModal;
   }
 
-  getPriceOfAllProductInCart() {
-    this.totalMRP = 0
-    this.totalAmmount = 0
+  getPriceOfAllProductInCart(): void {
+    this.totalMRP = 0;
+    this.totalAmount = 0;
     this.userCartService.getPriceOfAllProductInCart(this.userId).subscribe({
       next: (response: any) => {
-        console.log(response);
-
-        for (const object of response) {
-          this.totalMRP += object.price * object.quantity
-        }
-        this.totalAmmount = this.totalMRP + this.SHIPPING_COST + this.PLATOFORM_FEE
-        console.log(this.totalAmmount, this.totalMRP);
-      }
-    })
+        response.forEach((item: any) => {
+          this.totalMRP += item.price * item.quantity;
+        });
+        this.totalAmount = this.totalMRP + this.SHIPPING_COST + this.PLATFORM_FEE;
+      },
+      error: (error) => console.error(error)
+    });
   }
 
-  getUserCartList() {
+  getUserCartList(): void {
     this.userCartService.getUserCart(this.userId).subscribe({
       next: (response: UserCart[]) => {
-        console.log(response);
-        this.userCartList = response
+        this.userCartList = response;
       },
-      error: (error: any) => console.log(error.message)
-    })
+      error: (error) => console.error(error.message)
+    });
+  }
+
+  getAddresses(): void {
+    this.userProfileService.getUserDefaultAddress(this.userId).subscribe({
+      next: (response: UserAddress) => {
+        this.defaultAddress = response;
+        this.selectedAddress = this.defaultAddress
+      },
+      error: (error) => console.error(error)
+    });
+    this.userProfileService.getUserAddressesExcludingDefault(this.userId).subscribe({
+      next: (response: UserAddress[]) => {
+        this.otherAddresses = response;
+        console.log(response);
+      },
+      error: (error) => console.error(error)
+    });
+  }
+
+  choosenAddress(addressId:number, address:UserAddress){
+    this.selectedAddress = address
+    console.log(this.selectedAddress);
+    
   }
 }

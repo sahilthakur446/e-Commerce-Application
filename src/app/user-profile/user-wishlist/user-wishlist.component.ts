@@ -41,7 +41,8 @@ export class UserWishlistComponent implements OnInit {
     }
     this.userCartService.addCartItem(this.userId,carItem).subscribe({
       next:(response) =>{ console.log(response);
-         this.addedToCart = !this.addedToCart}
+         this.addedToCart = !this.addedToCart
+          this.userCartService.getUserCartCount()}
     })
   }
 }

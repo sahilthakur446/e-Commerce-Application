@@ -25,7 +25,7 @@
             <i class="bi bi-heart-fill text-slate-700 font-extrabold text-base md:text-2xl"></i>
           </a>
           
-        <a routerLink="/userdashboard/cart"><i class="bi bi-cart2 text-slate-700 font-extrabold text-base md:text-2xl"></i></a>
+        <a routerLink="checkout/cart"><i class="bi bi-cart2 text-slate-700 font-extrabold text-base md:text-2xl"></i><span class="text-slate-600 font-medium text-base md:text-xl" *ngIf="cartCount$">({{cartCount$ | async}})</span></a>
         <button (click)="openSearchBar()"><i class="bi bi-search text-slate-700 font-extrabold text-base md:text-2xl"></i></button>
         <ng-container *ngIf="showLoginLogout">
         <a *ngIf="!isLoggedIn" class="bg-slate-800 rounded text-white px-2 py-1 md:px-4 md:py-2 font-semibold" routerLink="Login">Login</a>

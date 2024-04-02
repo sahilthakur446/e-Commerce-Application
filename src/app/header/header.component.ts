@@ -3,7 +3,8 @@ import { AuthService } from '../services/auth-service/auth.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { UserService } from '../services/user-profile-service/user.service';
-import { delay, filter } from 'rxjs';
+import { Observable, delay, filter } from 'rxjs';
+import { UserCartService } from '../services/user-cart-service/user-cart.service';
 
 @Component({
   selector: 'app-header',
@@ -17,8 +18,9 @@ showLogoutModal:boolean = false;
 showLoginLogout:boolean = false;
 isUserAdmin:boolean =  false;
 isLogoutModalOpen = false;
-  
-constructor(private authService:AuthService,private userService:UserService, private router:Router) {
+cartCount$!:Observable<number>; 
+constructor(private authService:AuthService,private userService:UserService,
+   private router:Router, private userCartService: UserCartService) {
   this.router.events.pipe(
     filter(event => event instanceof NavigationEnd)
   ).subscribe((event:any) => {
@@ -33,6 +35,7 @@ constructor(private authService:AuthService,private userService:UserService, pri
     }
   } 
  })
+ this.cartCount$ = this.userCartService.getCartCount();
 }
 
  ngOnInit(): void {
@@ -40,13 +43,13 @@ constructor(private authService:AuthService,private userService:UserService, pri
     this.isLoggedIn = isLoggedIn;
   });
   this.authService.isLoggedIn()
-  
-  console.log(this.router.url);
 }
 
 navigateToProduct(){
 this.router.navigate(['products','newarrival'])
 }
+
+
 
 toggleUserModal() {
   this.isLogoutModalOpen = !this.isLogoutModalOpen;
