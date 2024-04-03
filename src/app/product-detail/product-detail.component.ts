@@ -25,6 +25,7 @@ export class ProductDetailComponent implements OnInit {
   isResponseModalVisible:boolean = false;
   isSuccess:boolean =false;
   responseMessage:string =''
+  isLoading:boolean = false;
   constructor(route: ActivatedRoute, private productShowcaseService: ProductShowcaseService,
     private userProfileService: UserProfileManagementService, private userCartService: UserCartService,
     private storageService: StorageService) {
@@ -36,14 +37,18 @@ export class ProductDetailComponent implements OnInit {
   }
 
   getProduct() {
+    this.isLoading = true;
     this.productShowcaseService.getProduct(this.productId!).subscribe({
       next: (response: ProductInfo) => {
         this.productDetails = response
         this.originalMRP = Math.floor(this.productDetails.price * (Math.random() + 1))
         this.discount = Math.ceil((this.productDetails.price / this.originalMRP) * 100)
-      }
+        this.isLoading = false;
+      },
+      error:() => this.showResponseModal(false,"Some error occured")
     })
   }
+
   addToWishlist() {
     if (this.addedToWishList == false) {
       let wishlistItem: AddWishlist = {

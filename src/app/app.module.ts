@@ -52,6 +52,7 @@ import { PaymentComponent } from './payment/payment.component';
     UserCartComponent,
     ResponseModalComponent,
     PaymentComponent,
+    ResponseModalComponent
   ],
   imports: [
     BrowserModule,
