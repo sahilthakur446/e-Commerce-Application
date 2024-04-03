@@ -1,9 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { UserAddress } from 'src/app/models/address/getUserAddress.model';
 import { UserCart } from 'src/app/models/cart/user-cart.model';
 import { UserCartService } from 'src/app/services/user-cart-service/user-cart.service';
 import { UserProfileManagementService } from 'src/app/services/user-profile-management-service/user-profile-management.service';
-
+declare var Razorpay:any;
 @Component({
   selector: 'app-user-cart',
   templateUrl: './user-cart.component.html',
@@ -26,7 +27,8 @@ export class UserCartComponent implements OnInit {
 
   constructor(
     private userCartService: UserCartService,
-    private userProfileService: UserProfileManagementService
+    private userProfileService: UserProfileManagementService,
+    private httpClient: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -110,4 +112,51 @@ export class UserCartComponent implements OnInit {
     console.log(this.selectedAddress);
     
   }
+
+  initPayment(){
+    let totalCost = this.totalAmount * 100
+    let url = `https://localhost:7248/api/Payment/initialize?amount=${totalCost}`
+    this.httpClient.get<string>(url).subscribe({
+      next:(orderId) => {console.log(orderId)
+        this.payWithRazor(orderId,totalCost)}
+    })
+  }
+
+  payWithRazor(orderId:string,totalCost:number) {
+    let options = {
+      "key": "rzp_test_JAwkgU8QccgoVb", // Enter the Key ID generated from the Dashboard
+      "amount": totalCost, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      "currency": "INR",
+      "name": "Your Company Name",
+      "description": "Test Transaction",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw8ya9YncOZfbiDJIlq8UDM5cEzz8TBd9eSMZm2UlyJQ&s",
+      "order_id": orderId,
+      handler: async function (response:any) {
+        const data = {
+            razorpayPaymentId: response.razorpay_payment_id,
+            razorpayOrderId: response.razorpay_order_id,
+            razorpaySignature: response.razorpay_signature,
+        };
+        console.log("data = ",data)
+    },
+      "prefill": {
+          "name": "Gaurav Kumar",
+          "email": "gaurav.kumar@example.com",
+          "contact": "9999999999"
+      },
+      "notes": {
+          "address": "Razorpay Corporate Office"
+      },
+      "theme": {
+          "color": "#334155"
+      }
+    };
+    
+    
+    let rzp = new Razorpay(options);
+    rzp.open();
+  }
+
+
 }
+

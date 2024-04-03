@@ -12,9 +12,11 @@ constructor(private http: HttpClient) {
  
 }
   ngOnInit(): void {
-    let url = 'https://localhost:7248/api/Payment/Payment'
+    let url = 'https://localhost:7248/api/Payment/initialize?amount=50000'
     this.http.get<string>(url).subscribe({
-      next:(response) => this.orderId = response
+      next:(response) => {this.orderId = response
+      console.log(response);}
+      
     })
     this.payWithRazor()
   }
@@ -26,10 +28,12 @@ constructor(private http: HttpClient) {
       "currency": "INR",
       "name": "Your Company Name",
       "description": "Test Transaction",
-      "image": "https://example.com/your_logo",
-      "order_id": this.orderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-      "handler": function (response:any){
-          // Handle the payment success
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw8ya9YncOZfbiDJIlq8UDM5cEzz8TBd9eSMZm2UlyJQ&s",
+      "order_id": this.orderId,
+      "handler": (response:any) => {
+        this.http.post('https://localhost:7248/api/Payment/confirm',response)
+          console.log(response.razorpay_payment_id, response.razorpay_order_id,response.razorpay_signature);
+          
           alert(response.razorpay_payment_id);
           alert(response.razorpay_order_id);
           alert(response.razorpay_signature);
