@@ -16,17 +16,18 @@ constructor(private http: HttpClient) {
     this.http.get<string>(url).subscribe({
       next:(response) => this.orderId = response
     })
+    this.payWithRazor()
   }
 
   payWithRazor() {
     let options = {
-      "key": "YOUR_RAZORPAY_KEY", // Enter the Key ID generated from the Dashboard
+      "key": "rzp_test_JAwkgU8QccgoVb", // Enter the Key ID generated from the Dashboard
       "amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
       "currency": "INR",
       "name": "Your Company Name",
       "description": "Test Transaction",
       "image": "https://example.com/your_logo",
-      "order_id": "ORDER_ID", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      "order_id": this.orderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
       "handler": function (response:any){
           // Handle the payment success
           alert(response.razorpay_payment_id);
