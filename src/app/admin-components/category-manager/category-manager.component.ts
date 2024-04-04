@@ -25,6 +25,7 @@ export class CategoryManagerComponent implements OnInit {
   responseClass: string = '';
   responseSuccessClass: string = 'text-3xl font-bold text-green-700';
   responseFailureClass: string = 'text-3xl font-bold text-red-700';
+  isCategoriesLoading:boolean = false;
 
   constructor(private categoryManager: CategoryManagerService) { }
 
@@ -33,7 +34,7 @@ export class CategoryManagerComponent implements OnInit {
   }
 
   fetchCategoriesWithProductCounts() {
-    this.isLoading = true;
+    this.isCategoriesLoading = true;
     this.categoryManager.fetchCategoriesWithProductCounts()
       .pipe(
         map(response => response as categoryWithProductCount[])
@@ -41,10 +42,10 @@ export class CategoryManagerComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.categoryList = response;
-          this.isLoading = false;
+          this.isCategoriesLoading = false;
         },
         error: (error) => {
-          this.isLoading = false;
+          this.isCategoriesLoading = false;
         },
         complete: () => console.log("completed")
       });

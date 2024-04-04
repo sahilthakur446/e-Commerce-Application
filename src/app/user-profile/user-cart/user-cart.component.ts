@@ -1,17 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UserAddress } from 'src/app/models/address/getUserAddress.model';
 import { UserCart } from 'src/app/models/cart/user-cart.model';
+import { AddUserOrder } from 'src/app/models/userOrder/addorder.model';
+import { StorageService } from 'src/app/services/storage-service/storage.service';
 import { UserCartService } from 'src/app/services/user-cart-service/user-cart.service';
 import { UserProfileManagementService } from 'src/app/services/user-profile-management-service/user-profile-management.service';
-declare var Razorpay:any;
+declare var Razorpay: any;
 @Component({
   selector: 'app-user-cart',
   templateUrl: './user-cart.component.html',
   styleUrls: ['./user-cart.component.css']
 })
 export class UserCartComponent implements OnInit {
-  userId: string = localStorage.getItem('userId') ?? '';
+  userId: string
+  userEmail: string
   cartId!: number;
   totalMRP: number = 0;
   totalAmount: number = 0;
@@ -21,26 +25,31 @@ export class UserCartComponent implements OnInit {
   otherAddresses: UserAddress[] = [];
   showQuantityModal: boolean = false;
   selectAddress: boolean = false;
+  paymentId: any;
   selectedAddress!: UserAddress;
+  paymentSuccess: boolean = false
   private readonly SHIPPING_COST: number = 49;
   private readonly PLATFORM_FEE: number = 20;
-
   constructor(
     private userCartService: UserCartService,
     private userProfileService: UserProfileManagementService,
-    private httpClient: HttpClient
-  ) {}
-
+    private httpClient: HttpClient,
+    private storageService:StorageService,
+    private router: Router
+  ) {
+    this.userId = this.storageService.getItem('userId') ?? ''
+    console.log(this.userId);
+    this.userEmail = this.storageService.getItem('userEmail') ?? ''
+    console.log(this.userEmail);
+   }
   ngOnInit(): void {
     this.getUserCartList();
     this.getPriceOfAllProductInCart();
     this.getAddresses();
   }
-
   saveCartId(cartId: number): void {
     this.cartId = cartId;
   }
-
   removeCartItem(cartId: number): void {
     this.userCartService.removeCartItem(cartId).subscribe({
       next: () => {
@@ -51,7 +60,6 @@ export class UserCartComponent implements OnInit {
       error: (error) => console.error(error)
     });
   }
-
   updateQuantity(quantity: number): void {
     this.userCartService.updateCartItem(this.cartId, quantity).subscribe({
       next: () => {
@@ -62,11 +70,9 @@ export class UserCartComponent implements OnInit {
       error: (error) => console.error(error)
     });
   }
-
   toggleQuantityModal(): void {
     this.showQuantityModal = !this.showQuantityModal;
   }
-
   getPriceOfAllProductInCart(): void {
     this.totalMRP = 0;
     this.totalAmount = 0;
@@ -80,7 +86,6 @@ export class UserCartComponent implements OnInit {
       error: (error) => console.error(error)
     });
   }
-
   getUserCartList(): void {
     this.userCartService.getUserCart(this.userId).subscribe({
       next: (response: UserCart[]) => {
@@ -89,7 +94,6 @@ export class UserCartComponent implements OnInit {
       error: (error) => console.error(error.message)
     });
   }
-
   getAddresses(): void {
     this.userProfileService.getUserDefaultAddress(this.userId).subscribe({
       next: (response: UserAddress) => {
@@ -106,57 +110,79 @@ export class UserCartComponent implements OnInit {
       error: (error) => console.error(error)
     });
   }
-
-  choosenAddress(addressId:number, address:UserAddress){
+  choosenAddress(addressId: number, address: UserAddress) {
     this.selectedAddress = address
     console.log(this.selectedAddress);
-    
   }
-
-  initPayment(){
+  saveOrderDetails(){
+    let userOrderDetails:AddUserOrder = {
+      userId :Number(this.userId),
+      userCartItems: this.userCartList,
+      paymentId: this.paymentId,
+      totalAmount:this.totalAmount,
+      userAddressId:this.selectedAddress.userAddressId
+    }
+    this.httpClient.post(`https://localhost:7248/api/UserOrder/AddUserOrder/${this.userId}`,userOrderDetails).subscribe({
+      next:(response) => {console.log(response)
+    },
+      error:(error) => console.log(error)
+    })
+  }
+  initPayment() {
     let totalCost = this.totalAmount * 100
     let url = `https://localhost:7248/api/Payment/initialize?amount=${totalCost}`
     this.httpClient.get<string>(url).subscribe({
-      next:(orderId) => {console.log(orderId)
-        this.payWithRazor(orderId,totalCost)}
+      next: (orderId) => {
+        console.log(orderId)
+        this.payWithRazor(orderId, totalCost)
+      }
     })
   }
-
-  payWithRazor(orderId:string,totalCost:number) {
+  payWithRazor(orderId: string, totalCost: number) {
     let options = {
-      "key": "rzp_test_JAwkgU8QccgoVb", // Enter the Key ID generated from the Dashboard
-      "amount": totalCost, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      "key": "rzp_test_JAwkgU8QccgoVb",
+      "amount": totalCost,
       "currency": "INR",
-      "name": "Your Company Name",
+      "name": "Elliye",
       "description": "Test Transaction",
       "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw8ya9YncOZfbiDJIlq8UDM5cEzz8TBd9eSMZm2UlyJQ&s",
       "order_id": orderId,
-      handler: async function (response:any) {
+      handler: async (response: any) => {
+        this.paymentId = response.razorpay_payment_id;
         const data = {
-            razorpayPaymentId: response.razorpay_payment_id,
-            razorpayOrderId: response.razorpay_order_id,
-            razorpaySignature: response.razorpay_signature,
+          razorpayPaymentId: response.razorpay_payment_id,
+          razorpayOrderId: response.razorpay_order_id,
+          razorpaySignature: response.razorpay_signature,
         };
-        console.log("data = ",data)
-    },
+        console.log("data = ", data)
+        this.httpClient.get(`https://localhost:7248/api/Payment/confirm?paymentId=${this.paymentId}`).subscribe({
+          next: (response: any) => {
+            if (response.paymentstatus === 'captured') {
+              console.log('hello');
+              this.saveOrderDetails()
+            }
+          }
+        })
+      },
       "prefill": {
-          "name": "Gaurav Kumar",
-          "email": "gaurav.kumar@example.com",
-          "contact": "9999999999"
+        "name": this.selectedAddress.fullName,
+        "email": this.userEmail,
+        "contact": this.selectedAddress.mobileNumber
       },
       "notes": {
-          "address": "Razorpay Corporate Office"
+        "address": "Razorpay Corporate Office"
       },
       "theme": {
-          "color": "#334155"
+        "color": "#334155"
       }
     };
-    
-    
     let rzp = new Razorpay(options);
     rzp.open();
   }
-
-
+  paymentSuccessModal() {
+    this.paymentSuccess = true;
+    setTimeout(() => {
+      this.router.navigate(['Home'])
+    }, 3000);
+  }
 }
-

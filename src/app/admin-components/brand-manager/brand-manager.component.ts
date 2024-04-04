@@ -25,7 +25,7 @@ export class BrandManagerComponent {
   responseClass: string = '';
   responseSuccessClass: string = 'text-3xl font-bold text-green-700';
   responseFailureClass: string = 'text-3xl font-bold text-red-700';
-
+  isBrandsLoading:boolean = false;
   constructor(private brandManager: BrandManagerService) { }
 
   ngOnInit() {
@@ -33,7 +33,7 @@ export class BrandManagerComponent {
   }
 
   fetchCategoriesWithProductCounts() {
-    this.isLoading = true;
+    this.isBrandsLoading = true;
     this.brandManager.fetchCategoriesWithProductCounts()
       .pipe(
         map(response => response as brandWithProductCount[])
@@ -42,10 +42,10 @@ export class BrandManagerComponent {
         next: (response) => {
           console.log(response);
           this.brandList = response;
-          this.isLoading = false;
+          this.isBrandsLoading = false;
         },
         error: (error) => {console.log(error)
-        this.isLoading = false},
+        this.isBrandsLoading = false},
         complete: () => console.log("completed")
       });
   }

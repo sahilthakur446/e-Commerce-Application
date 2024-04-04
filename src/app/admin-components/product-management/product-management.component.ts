@@ -71,10 +71,11 @@ export class ProductManagementComponent implements OnInit {
       next: (product: ProductInfo[]) => {
         console.log(product);
         this.products = product
-        setTimeout(() => { this.isLoading = false }, 1000)
+        this.isLoading =false;
       },
       error: (error) =>{
-        console.log(error);
+        console.log(error)
+        this.isLoading =false;
       }
     })
   }

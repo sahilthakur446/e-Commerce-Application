@@ -71,7 +71,6 @@ export class ProductShowcaseComponent implements OnInit {
   }
 
   getAllProducts() {
-    this.isLoading = true;
     this.productMngmntservice.getAllProducts().subscribe({
       next: (response: ProductInfo[]) => {
         this.productList = response
