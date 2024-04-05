@@ -17,9 +17,11 @@
               <div class="flex flex-col">
                 <div class="flex gap-2 mb-1">
                     <label class="text-slate-700 font-semibold mb-1" for="email">Email</label>
-                    <span class="text-red-600 font-semibold" *ngIf="(mail.invalid && mail.touched)">*Required</span>
+                    <span class="text-red-600 font-semibold" *ngIf="mail.touched && mail.errors">
+                    {{ mail.errors['required'] ? '*Required' : '*Please enter a valid email' }}
+                    </span>
                     </div>
-                <input class="p-1 block w-full rounded border border-gray-600" type="text" name="email" id="email" #mail="ngModel" required  [(ngModel)]="email">
+                <input class="p-1 block w-full rounded border border-gray-600" type="text" name="email" id="email" [pattern]="emailRegex" #mail="ngModel" required  [(ngModel)]="email">
             </div>
             <div class="flex flex-col">
                 <div class="flex gap-2 mb-1">
@@ -33,9 +35,14 @@
                 </select>
               </div>
             <div class="flex flex-col">
+                <div class="flex gap-2 mb-1">
                 <label class="text-slate-700 font-semibold mb-1" for="password">Password</label>
+                    <span class="text-red-600 font-semibold" *ngIf="pswd.errors && pswd.touched">
+                    {{pswd.errors['required'] ? '*Required' : 'Must include mixed case, special char, number, min 8 chars'}}
+                    </span>
+                    </div>
                 <div class="flex justify-center items-center">
-                    <input class="p-1 block w-full rounded border border-gray-600" [type]="passwordFieldType" required #pswd="ngModel" name="passwordd" id="password" [(ngModel)]="password">
+                    <input class="p-1 block w-full rounded border border-gray-600" [type]="passwordFieldType" required #pswd="ngModel" name="passwordd" id="password" [pattern]="passwordRegex" required [(ngModel)]="password">
                 </div>
             </div>  
             <div class="flex flex-col">
@@ -43,13 +50,17 @@
                 <div class="flex justify-center rounded border p-0.5 border-gray-600 bg-white items-center">
                     <input class="p block w-full focus:outline-none" [type]="passwordFieldType" required #confirmpswd="ngModel" name="confirmPassword" id="confirmPassword" [(ngModel)]="confirmpassword">
                     <button (click)="togglePasswordVisibility()"><i [ngClass]="passwordViewIconClass"></i></button>
-                    
                 </div>
                 <div *ngIf="(pswd.value != confirmpswd.value) && pswd.touched && confirmpswd.touched">
                     <p class="text-base text-red-600 font-semibold">Password and Confirm Password does not match</p>
                 </div>
             </div>            
-            <button type="submit" (click)="onSubmit()" [disabled]="form.invalid" class="bg-slate-800 font-medium text-white px-4 py-1 rounded text-xl hover:shadow-2xl hover:bg-slate-900">Signup</button>          
+            <button *ngIf="!isLoading" type="submit" (click)="onSubmit()" [disabled]="form.invalid" class="bg-slate-800 font-medium text-white px-4 py-1 rounded text-xl hover:shadow-2xl hover:bg-slate-900">Signup</button>
+            <div *ngIf="isLoading" class="w-full bg-slate-800 flex justify-center py-1 items-center rounded">
+                <div  class="border-4 h-7 w-7 mr-3 ml-3 animate-spin border-l-white border-t-white border-r-slate-800 border-b-slate-800  rounded-full">
+                    </div>
+                </div> 
+                <a routerLink="/login" class="bg-transparent transition duration-200 hover:ease-in-out hover:bg-indigo-950 text-center text-slate-800 font-bold px-4 py-1 rounded text-xl hover:text-white" [ngClass]="{'pointer-events-none opacity-80':isLoading}">Login</a>         
         </div>
         </form>
     </div>

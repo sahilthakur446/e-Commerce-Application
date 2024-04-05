@@ -25,7 +25,7 @@ import { OrdersManagementComponent } from './admin-components/orders-management/
 const routes: Routes = [
   { path: "", redirectTo:"/Home",pathMatch: 'full'},
   { path: "Home", component: HomepageComponent},
-  { path: "Login", component: LoginComponent,pathMatch:'full' },
+  { path: "login", component: LoginComponent,pathMatch:'full' },
   { path: "userdashboard",component:UserDashboardComponent},
   { path: "userdashboard/accountdetails", component: UserDetailsComponent },
   { path: "userdashboard/addresses", component:AddressManagementComponent},
@@ -36,7 +36,7 @@ const routes: Routes = [
   { path: "wishlist", component:UserWishlistComponent},
   { path: "checkout/cart", component:UserCartComponent},
   { path: "checkout/cart/payment", component:PaymentComponent},
-  { path: "Login/Register", component: RegisterComponent },
+  { path: "register", component: RegisterComponent },
   { path: "UpdateProduct", component: UpdateProductComponent},
   { path: "products",component:ProductShowcaseComponent},
   { path: "products/:segment",component:ProductShowcaseComponent},

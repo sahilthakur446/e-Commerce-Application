@@ -29,8 +29,7 @@
         <a routerLink="checkout/cart"><i class="bi bi-cart2 text-slate-700 font-extrabold text-base md:text-2xl"></i><span class="text-slate-600 font-medium text-base md:text-xl" *ngIf="cartCount$">({{cartCount$ | async}})</span></a>
         <button (click)="openSearchBar()"><i class="bi bi-search text-slate-700 font-extrabold text-base md:text-2xl"></i></button>
         <ng-container *ngIf="showLoginLogout">
-        <a *ngIf="!isLoggedIn" class="bg-slate-800 rounded text-white px-2 py-1 md:px-4 md:py-2 font-semibold" routerLink="Login">Login</a>
-        <!--  -->
+        <a *ngIf="!isLoggedIn" class="bg-slate-800 rounded text-white px-2 py-1 md:px-4 md:py-2 font-semibold" routerLink="/login">Login</a>
         <div  class="relative group text-slate-800 bg-transparent text-2xl font-semibold"><i class="bi bi-person-circle"></i>
             <div id="child" class="absolute bg-white w-32 p-2 top-7 -right-2 gap-1 rounded hidden flex-col items-center shadow-md group-hover:flex group-hover:z-20 ">
                 <a routerLink="userdashboard" class="font-semibold text-base md:text-lg text-slate-800 hover:text-slate-950 hover:underline">Profile</a>

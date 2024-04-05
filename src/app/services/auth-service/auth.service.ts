@@ -10,14 +10,32 @@ import { StorageService } from '../storage-service/storage.service';
 export class AuthService {
   registerApiUrl = "https://localhost:7248/api/Users/Register";
   loginApiUrl = "https://localhost:7248/api/Users/Login";
+  registeredUserEmail$ = new BehaviorSubject<string>('') 
+  registeredUserPassword$ = new BehaviorSubject<string>('')
   private userRole:string =''
   constructor(private http: HttpClient, private userService: UserService, private storageService:StorageService) { }
-  registerUser(registrationFormData: FormData) {
-    return this.http.post(this.registerApiUrl, registrationFormData);
-  }
+  
   loginUser(loginFormData: FormData) {
     return this.http.post(this.loginApiUrl, loginFormData);
   }
+  
+  registerUser(registrationFormData: FormData) {
+    return this.http.post(this.registerApiUrl, registrationFormData);
+  }
+  
+  setNewRegisteredEmailAndPassword(email:string, password:string){
+    this.registeredUserEmail$.next(email)
+    this.registeredUserPassword$.next(password)
+  }
+
+  getNewRegisteredEmail(){
+    return this.registeredUserEmail$.asObservable()
+  }
+
+  getNewRegisteredPassword(){
+    return this.registeredUserPassword$.asObservable()
+  }
+
   storeJwtToken(token: string) {
     localStorage.setItem('jwtToken', token);
   }

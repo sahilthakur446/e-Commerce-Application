@@ -189,7 +189,7 @@ export class UserDetailsComponent implements OnInit {
       this.closeDeleteModal();
       setTimeout(() => {
         this.isResponseModalVisible = false;
-        this.router.navigate(['Login']);
+        this.router.navigate(['login']);
       }, 2000);
 
     } else {

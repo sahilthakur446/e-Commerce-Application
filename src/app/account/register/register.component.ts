@@ -13,9 +13,11 @@ firstName:string = ""
 lastName:string = ""
 gender:string = ""
 email:string = ""
+emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/;
 password:string = ""
 confirmpassword:string = "" 
 passwordFieldType:string = "password"
+passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z])(.{8,})$/;
 passwordViewIconClass  = "bi bi-eye-slash-fill text-slate-700 text-xl px-1"
 isPasswordVisible:boolean = false;
 isModalVisible:boolean = false;
@@ -43,8 +45,6 @@ togglePasswordVisibility()
 
 onSubmit()
 {
-  console.log("Password ", this.password);
-  
   const formData = new FormData();
   formData.append('FirstName',this.firstName)
   formData.append('LastName',this.lastName)
@@ -54,12 +54,13 @@ onSubmit()
   formData.append('ConfirmPassword',this.confirmpassword)
   
   this.authService.registerUser(formData).subscribe({
-    next: (response: any) => {console.log(response)
+    next: (response: any) => {
       this.responseMessage = response.message
+      this.authService.setNewRegisteredEmailAndPassword(this.email,this.password);
       this.responseClass = this.responseSuccessClass;
       this.displayResponseModal('success');
       },
-      error: (response) => {console.log(response)
+      error: (response) => {
         response.error.message?this.responseMessage = response.error.message:this.responseMessage = "Signup Failed Due to Internal Server Issue"
         this.displayResponseModal('failure');
         },
@@ -73,7 +74,7 @@ onSubmit()
         this.isLoading = false;
         setTimeout(() => {
           this.isModalVisible = false;
-          this.router.navigate(['Login'])
+          this.router.navigate(['login'])
         }, 2000);
         
       }else{

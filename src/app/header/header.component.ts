@@ -57,7 +57,7 @@ toggleUserModal() {
 
 logout(){
   this.authService.removeJwtToken()
-  this.router.navigate(['Login'])
+  this.router.navigate(['login'])
   this.userService.getIsLoggedIn().subscribe({
     next:(response)=> response == true?this.isLoggedIn=true:this.isLoggedIn=false
   })

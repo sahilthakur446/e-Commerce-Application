@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth-service/auth.service';
 import { UserService } from 'src/app/services/user-profile-service/user.service';
@@ -9,8 +9,7 @@ import { WelcomeService } from 'src/app/services/welcome-service/welcome.service
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
-  number:string = '1'
+export class LoginComponent implements OnInit{
 email:string = ""
 password:string = ""
 passwordFieldType:string = "password"
@@ -26,6 +25,21 @@ responseFailureClass: string = 'text-3xl font-bold text-red-700';
 
 constructor(private authService: AuthService,private welcomeService:WelcomeService, private router:Router) {
 }
+  ngOnInit(): void {
+    this.getNewlyRegisteredUserEmailAndPassword()
+  }
+
+  getNewlyRegisteredUserEmailAndPassword(){
+    this.authService.getNewRegisteredEmail().subscribe({
+      next:(email) => this.email = email ?? '',
+      error:(error) => console.log(error)
+    })
+
+    this.authService.getNewRegisteredPassword().subscribe({
+      next:(password) => this.password = password ?? '',
+      error:(error) => console.log(error)
+    })
+  }
 
 togglePasswordVisibility()
 {
