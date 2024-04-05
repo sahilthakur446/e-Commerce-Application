@@ -6,6 +6,7 @@ import { UserCart } from 'src/app/models/cart/user-cart.model';
 import { AddUserOrder } from 'src/app/models/userOrder/addorder.model';
 import { StorageService } from 'src/app/services/storage-service/storage.service';
 import { UserCartService } from 'src/app/services/user-cart-service/user-cart.service';
+import { UserOrderService } from 'src/app/services/user-order-service/user-order.service';
 import { UserProfileManagementService } from 'src/app/services/user-profile-management-service/user-profile-management.service';
 declare var Razorpay: any;
 @Component({
@@ -34,14 +35,15 @@ export class UserCartComponent implements OnInit {
     private userCartService: UserCartService,
     private userProfileService: UserProfileManagementService,
     private httpClient: HttpClient,
-    private storageService:StorageService,
+    private storageService: StorageService,
+    private userOrderService: UserOrderService,
     private router: Router
   ) {
     this.userId = this.storageService.getItem('userId') ?? ''
     console.log(this.userId);
     this.userEmail = this.storageService.getItem('userEmail') ?? ''
     console.log(this.userEmail);
-   }
+  }
   ngOnInit(): void {
     this.getUserCartList();
     this.getPriceOfAllProductInCart();
@@ -110,22 +112,31 @@ export class UserCartComponent implements OnInit {
       error: (error) => console.error(error)
     });
   }
-  choosenAddress(addressId: number, address: UserAddress) {
+  choosenAddress(address: UserAddress) {
     this.selectedAddress = address
     console.log(this.selectedAddress);
   }
-  saveOrderDetails(){
-    let userOrderDetails:AddUserOrder = {
-      userId :Number(this.userId),
+
+  removeCart(){
+    this.userCartService.removeCart(this.userId).subscribe({
+      next:() =>{
+        this.userCartService.getCartCount()
+        this.router.navigate(['/userdashboard/orders'])
+      }
+    })
+  }
+
+  saveOrderDetails() {
+    let userOrderDetails: AddUserOrder = {
+      userId: Number(this.userId),
       userCartItems: this.userCartList,
       paymentId: this.paymentId,
-      totalAmount:this.totalAmount,
-      userAddressId:this.selectedAddress.userAddressId
+      totalAmount: this.totalAmount,
+      userAddressId: this.selectedAddress.userAddressId
     }
-    this.httpClient.post(`https://localhost:7248/api/UserOrder/AddUserOrder/${this.userId}`,userOrderDetails).subscribe({
-      next:(response) => {console.log(response)
-    },
-      error:(error) => console.log(error)
+    this.userOrderService.addUserOrder(this.userId, userOrderDetails).subscribe({
+      next: (response) => this.removeCart(),
+      error: (error) => console.log(error)
     })
   }
   initPayment() {
@@ -158,7 +169,6 @@ export class UserCartComponent implements OnInit {
         this.httpClient.get(`https://localhost:7248/api/Payment/confirm?paymentId=${this.paymentId}`).subscribe({
           next: (response: any) => {
             if (response.paymentstatus === 'captured') {
-              console.log('hello');
               this.saveOrderDetails()
             }
           }

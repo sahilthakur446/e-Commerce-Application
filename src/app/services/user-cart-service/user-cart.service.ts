@@ -24,8 +24,6 @@ export class UserCartService {
     this.cartCount$.next(value);
   }
 
-
-
   getCartCount():Observable<number>{
     return this.cartCount$.asObservable()
   }
@@ -34,7 +32,6 @@ export class UserCartService {
     let url = `${this.BaseApiUrl}api/UserCart/GetUserCartCount/${this.userId}`
     this.http.get<number>(url).subscribe({
       next:(count) => {this.setCartCount(count)
-      this.cartCountUpdated.emit(count)
       }
     })
   }
@@ -60,6 +57,11 @@ export class UserCartService {
 
   removeCartItem(userCartId:number){
     let url = `${this.BaseApiUrl}api/UserCart/RemoveProductInCart/${userCartId}`
+    return this.http.delete(url)
+  }
+
+  removeCart(userId:string|null){
+    let url = `${this.BaseApiUrl}api/UserCart/RemoveUserCart/${userId}`
     return this.http.delete(url)
   }
 

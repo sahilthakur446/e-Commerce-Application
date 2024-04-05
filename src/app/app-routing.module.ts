@@ -19,6 +19,8 @@ import { AddAddressComponent } from './user-profile/add-address/add-address.comp
 import { UpdateAddressComponent } from './user-profile/update-address/update-address.component';
 import { UserCartComponent } from './user-profile/user-cart/user-cart.component';
 import { PaymentComponent } from './payment/payment.component';
+import { UserOrdersComponent } from './user-profile/user-orders/user-orders/user-orders.component';
+import { OrdersManagementComponent } from './admin-components/orders-management/orders-management.component';
 
 const routes: Routes = [
   { path: "", redirectTo:"/Home",pathMatch: 'full'},
@@ -30,6 +32,7 @@ const routes: Routes = [
   { path: "userdashboard/addresses/addaddress", component:AddAddressComponent},
   { path: "userdashboard/addresses/editaddress/:addressid", component:UpdateAddressComponent},
   { path: "userdashboard/wishlist", component:UserWishlistComponent},
+  { path: "userdashboard/orders", component:UserOrdersComponent},
   { path: "wishlist", component:UserWishlistComponent},
   { path: "checkout/cart", component:UserCartComponent},
   { path: "checkout/cart/payment", component:PaymentComponent},
@@ -44,6 +47,7 @@ const routes: Routes = [
   { path: "ProductManager", component: ProductManagementComponent },
   { path: "CategoryManager", component: CategoryManagerComponent, canActivate:[authGuard]},
   { path: "BrandManager", component: BrandManagerComponent, canActivate:[authGuard] },
+  { path: "orderslist", component: OrdersManagementComponent },
   { path: "**", component: HomepageComponent }
 ];
 

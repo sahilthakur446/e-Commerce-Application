@@ -28,6 +28,8 @@ import { UpdateAddressComponent } from './user-profile/update-address/update-add
 import { UserCartComponent } from './user-profile/user-cart/user-cart.component';
 import { ResponseModalComponent } from './response-modal/response-modal.component';
 import { PaymentComponent } from './payment/payment.component';
+import { UserOrdersComponent } from './user-profile/user-orders/user-orders/user-orders.component';
+import { OrdersManagementComponent } from './admin-components/orders-management/orders-management.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import { PaymentComponent } from './payment/payment.component';
     UpdateAddressComponent,
     UserCartComponent,
     ResponseModalComponent,
-    PaymentComponent
+    PaymentComponent,
+    UserOrdersComponent,
+    OrdersManagementComponent
   ],
   imports: [
     BrowserModule,

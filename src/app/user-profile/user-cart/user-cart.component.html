@@ -33,7 +33,7 @@
       </ng-container>
       <ng-template #addresses>
         <h1 class="text-gray-900 font-bold">Default Address</h1>
-        <div (click)="choosenAddress(defaultAddress.userAddressId, defaultAddress)"
+        <div (click)="choosenAddress(defaultAddress)"
           class="w-[450px] h-40 md:w-[590px] md:h-36 flex flex-col rounded shadow-md p-2 hover:bg-slate-100"
           [ngClass]="{'ring-2 ring-slate-800 bg-slate-100':selectedAddress == defaultAddress}"
           >
@@ -45,7 +45,7 @@
           <p class="text-slate-800 font-semibold">{{defaultAddress.mobileNumber}}</p>
         </div>
         <h1 class="text-gray-900 font-bold">Other Address</h1>
-        <div (click)="choosenAddress(address.userAddressId, address)" *ngFor="let address of otherAddresses"
+        <div (click)="choosenAddress(address)" *ngFor="let address of otherAddresses"
           class="w-[450px] h-40 md:w-[590px] md:h-36 flex flex-col shadow-md p-2 rounded hover:bg-slate-100"
           [ngClass]="{'ring-2 ring-slate-800 bg-slate-100':selectedAddress == address}"
           >
