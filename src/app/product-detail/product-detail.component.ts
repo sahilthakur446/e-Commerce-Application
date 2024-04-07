@@ -22,10 +22,10 @@ export class ProductDetailComponent implements OnInit {
   addedToCart: boolean = false;
   originalMRP: number = 0
   discount: number = 0
-  isResponseModalVisible:boolean = false;
-  isSuccess:boolean =false;
-  responseMessage:string =''
-  isLoading:boolean = false;
+  isResponseModalVisible: boolean = false;
+  isSuccess: boolean = false;
+  responseMessage: string = ''
+  isLoading: boolean = false;
   constructor(route: ActivatedRoute, private productShowcaseService: ProductShowcaseService,
     private userProfileService: UserProfileManagementService, private userCartService: UserCartService,
     private storageService: StorageService) {
@@ -42,10 +42,10 @@ export class ProductDetailComponent implements OnInit {
       next: (response: ProductInfo) => {
         this.productDetails = response
         this.originalMRP = Math.floor(this.productDetails.price * (Math.random() + 1))
-        this.discount = Math.ceil((this.productDetails.price / this.originalMRP) * 100)
+        this.discount = Math.ceil(((this.originalMRP - this.productDetails.price) / this.originalMRP) * 100)
         this.isLoading = false;
       },
-      error:() => this.showResponseModal(false,"Some error occured")
+      error: () => this.showResponseModal(false, "Some error occured")
     })
   }
 
@@ -56,12 +56,12 @@ export class ProductDetailComponent implements OnInit {
         userId: Number(this.userId)
       }
       this.userProfileService.addWishlistItem(this.userId, wishlistItem).subscribe({
-        next: (response) => {
+        next: () => {
           this.addedToWishList = true
           this.wishlistText = this.wishlistText == 'Wishlist' ? 'Wishlisted' : 'Wishlist'
 
         },
-        error:(error) => this.showResponseModal(false,error.error)
+        error: (error) => this.showResponseModal(false, error.error)
       })
     }
   }
@@ -72,12 +72,12 @@ export class ProductDetailComponent implements OnInit {
       userId: Number(this.userId)
     }
     this.userCartService.addCartItem(this.userId, carItem).subscribe({
-      next: (response:any) => {
+      next: (response: any) => {
         this.addedToCart = !this.addedToCart
         this.userCartService.getUserCartCount()
-        this.showResponseModal(true,response.message)
+        this.showResponseModal(true, response.message)
       },
-      error:(error) => this.showResponseModal(false,error.error)
+      error: (error) => this.showResponseModal(false, error.error)
     })
   }
 

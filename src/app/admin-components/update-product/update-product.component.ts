@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UpdateProduct } from 'src/app/models/product/product.model';
 import { ProductManagementService } from 'src/app/services/product-management-service/product-management.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-update-product',
@@ -47,7 +48,7 @@ export class UpdateProductComponent {
     this.fetchedProductId = productId
     console.log("fetchedId: ",this.fetchedProductId);
     
-    let url = `https://localhost:7248/api/Product/GetProduct/${productId}`
+    let url = `${environment.apiUrl}api/Product/GetProduct/${productId}`
     this.http.get(url).subscribe({
       next:(response:any)=>{console.log(response)
         this.brand = response.brandId;

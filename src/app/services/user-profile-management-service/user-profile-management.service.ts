@@ -9,11 +9,12 @@ import { AddAddress } from 'src/app/models/address/add-address.model';
 import { UpdateAddress } from 'src/app/models/address/update_address.model';
 import { UserWishlist } from 'src/app/models/wishlist/user-wishlist.model';
 import { AddWishlist } from 'src/app/models/wishlist/add-wishlist.model';
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class UserProfileManagementService {
-  private BaseApiUrl:string ='https://localhost:7248/';
+  private BaseApiUrl:string =`${environment.apiUrl}`;
  
   constructor(private http:HttpClient, private authService:AuthService) { 
    

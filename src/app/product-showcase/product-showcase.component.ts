@@ -9,6 +9,7 @@ import { AddWishlist } from '../models/wishlist/add-wishlist.model';
 import { UserProfileManagementService } from '../services/user-profile-management-service/user-profile-management.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-product-showcase',
@@ -37,6 +38,7 @@ export class ProductShowcaseComponent implements OnInit {
   isResponseModalVisible = false;
   isSuccess = false;
   responseMessage = '';
+  environment = `${environment.apiUrl}`
   routeParamSubscription!: Subscription;
 
   constructor(private productMngmntservice: ProductManagementService,

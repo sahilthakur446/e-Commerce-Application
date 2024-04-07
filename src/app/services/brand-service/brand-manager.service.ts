@@ -1,15 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { createUpdateBrand } from 'src/app/models/brand/brand.model';
-
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class BrandManagerService {
-  private getBrandsWithProductCountsApiUrl = 'https://localhost:7248/api/Brand/GetBrandsWithProductCounts';
-  private addBrandApiUrl = 'https://localhost:7248/api/Brand/AddBrand';
-  private updateBrandApiUrl = 'https://localhost:7248/api/Brand/UpdateBrand/';
-  private deleteBrandApiUrl = 'https://localhost:7248/api/Brand/DeleteBrand/';
+  private getBrandsWithProductCountsApiUrl = `${environment.apiUrl}api/Brand/GetBrandsWithProductCounts`;
+  private addBrandApiUrl = `${environment.apiUrl}api/Brand/AddBrand`;
+  private updateBrandApiUrl = `${environment.apiUrl}api/Brand/UpdateBrand/`;
+  private deleteBrandApiUrl = `${environment.apiUrl}api/Brand/DeleteBrand/`;
 
   constructor(private httpClient: HttpClient) { }
 

@@ -5,12 +5,13 @@ import { AddCart } from 'src/app/models/cart/add-cart.model';
 import { UpdateCart } from 'src/app/models/cart/update-cart-item';
 import { UserCart } from 'src/app/models/cart/user-cart.model';
 import { StorageService } from '../storage-service/storage.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserCartService {
-  private BaseApiUrl:string ='https://localhost:7248/';
+  private BaseApiUrl:string =`${environment.apiUrl}`;
   private cartCount$ = new BehaviorSubject(0)
   cartCountUpdated = new EventEmitter<number>();
   constructor(private http:HttpClient,private storageService:StorageService) 

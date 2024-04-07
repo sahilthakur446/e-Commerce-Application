@@ -1,15 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { addCategory, updateCategory } from 'src/app/models/category/category.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryManagerService {
-  private getCategoriesWithProductCountsApiUrl = 'https://localhost:7248/api/Category/GetCategoriesWithProductCounts';
-  private addCategoryApiUrl = 'https://localhost:7248/api/Category/AddCategory';
-  private updateCategoryApiUrl = 'https://localhost:7248/api/Category/UpdateCategory/';
-  private deleteCategoryApiUrl = 'https://localhost:7248/api/Category/DeleteCategory/';
+  private getCategoriesWithProductCountsApiUrl = `${environment.apiUrl}api/Category/GetCategoriesWithProductCounts`;
+  private addCategoryApiUrl = `${environment.apiUrl}api/Category/AddCategory`;
+  private updateCategoryApiUrl = `${environment.apiUrl}api/Category/UpdateCategory/`;
+  private deleteCategoryApiUrl = `${environment.apiUrl}api/Category/DeleteCategory/`;
 
   constructor(private httpClient: HttpClient) { }
 

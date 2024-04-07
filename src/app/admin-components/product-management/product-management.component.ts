@@ -8,6 +8,7 @@ import { ProductManagementService } from 'src/app/services/product-management-se
 import { categoryList } from 'src/app/models/category/category.model';
 import { BrandList } from 'src/app/models/brand/brand.model';
 import { ProductShowcaseService } from 'src/app/services/product-showcase-service/product-showcase.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-product-management',
@@ -34,6 +35,7 @@ export class ProductManagementComponent implements OnInit {
   isResponseModalVisible = false; 
   isSuccess = false;
   responseMessage = '';
+  environment = `${environment.apiUrl}`
   constructor(private productShowcaseService: ProductShowcaseService, private productManagementService: ProductManagementService, private router: Router) {
   }
 

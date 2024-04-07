@@ -5,13 +5,14 @@ import { map } from 'rxjs';
 import { BrandList } from 'src/app/models/brand/brand.model';
 import { categoryList } from 'src/app/models/category/category.model';
 import { AddProduct, ProductInfo, ProductsForPagination } from 'src/app/models/product/product.model';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductManagementService {
-  private BaseUrl:string = 'https://localhost:7248/api/'
+  private BaseUrl:string = `${environment.apiUrl}api/`
   constructor(private http: HttpClient) { }
 
   getAllProducts(){

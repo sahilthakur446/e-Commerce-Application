@@ -85,7 +85,7 @@
         </div>
         </div>
     <div  *ngIf="this.products ">
-        <img src="https://localhost:7248/{{item.imagePath}}" alt="" class="rounded-sm" style="width: 100%; height: auto; max-height: 200px; object-fit: contain;">
+        <img src="{{environment}}{{item.imagePath}}" alt="" class="rounded-sm" style="width: 100%; height: auto; max-height: 200px; object-fit: contain;">
     </div>
 </div>
 <hr class="my-4 h-0.5 bg-slate-300 ">

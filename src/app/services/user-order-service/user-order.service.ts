@@ -7,7 +7,7 @@ import { OrderDetails, OrderDetailsWithPaymentStatus } from 'src/app/models/user
   providedIn: 'root'
 })
 export class UserOrderService {
-  baseApiUrl = "https://localhost:7248/api/"
+  baseApiUrl = "${environment.apiUrl}api/"
   constructor(private http: HttpClient) { }
 
   addUserOrder(userId:number|string,userOrderDetails:AddUserOrder){

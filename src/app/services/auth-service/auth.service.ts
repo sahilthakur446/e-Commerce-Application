@@ -4,12 +4,13 @@ import { JwtHelperService } from '@auth0/angular-jwt'
 import { UserService } from '../user-profile-service/user.service';
 import { BehaviorSubject } from 'rxjs';
 import { StorageService } from '../storage-service/storage.service';
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
-  registerApiUrl = "https://localhost:7248/api/Users/Register";
-  loginApiUrl = "https://localhost:7248/api/Users/Login";
+export class AuthService { 
+  registerApiUrl = `${environment.apiUrl}api/Users/Register`;
+  loginApiUrl = `${environment.apiUrl}api/Users/Login`;
   jwtHelperService = new JwtHelperService();
   registeredUserEmail$ = new BehaviorSubject<string>('')
   registeredUserPassword$ = new BehaviorSubject<string>('')
@@ -17,6 +18,8 @@ export class AuthService {
   constructor(private http: HttpClient, private userService: UserService, private storageService: StorageService) { }
 
   loginUser(loginFormData: FormData) {
+    console.log(this.loginApiUrl);
+    
     return this.http.post(this.loginApiUrl, loginFormData);
   }
 

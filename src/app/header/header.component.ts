@@ -14,6 +14,7 @@ import { StorageService } from '../services/storage-service/storage.service';
 })
 export class HeaderComponent implements OnInit{
 isLoggedIn:boolean = false;
+userFirstName: string = ''
 isSearchBarVisible:boolean = false;
 showLogoutModal:boolean = false;
 showLoginLogout:boolean = false;
@@ -44,6 +45,10 @@ constructor(private authService:AuthService,private userService:UserService,
   this.userService.getIsLoggedIn().subscribe(isLoggedIn => { 
     this.isLoggedIn = isLoggedIn;
   });
+  this.userService.getUserName().subscribe((userName) =>
+  {
+    this.userFirstName = userName.split(' ')[0]
+  })
   this.authService.isLoggedIn()
 }
 

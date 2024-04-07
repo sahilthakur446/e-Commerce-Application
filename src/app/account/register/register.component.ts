@@ -64,8 +64,7 @@ onSubmit(){
         response.error.message?this.responseMessage = response.error.message:this.responseMessage = "Signup Failed Due to Internal Server Issue"
         this.isLoading = false;
         this.displayResponseModal('failure');
-        },
-      complete: () => console.log("Completed")  
+        }
     });
   }
     displayResponseModal(result:string){

@@ -2,13 +2,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ProductInfo, ProductsForPagination } from 'src/app/models/product/product.model';
 import { ProductManagementService } from '../product-management-service/product-management.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductShowcaseService{
 
-private baseUrl:string = 'https://localhost:7248/api/'
+private baseUrl:string = `${environment.apiUrl}api/`
 minPrice:number|undefined;
 maxPrice:number|undefined;
 categoryName:string|undefined;

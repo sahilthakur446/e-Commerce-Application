@@ -8,6 +8,7 @@ import { StorageService } from 'src/app/services/storage-service/storage.service
 import { UserCartService } from 'src/app/services/user-cart-service/user-cart.service';
 import { UserOrderService } from 'src/app/services/user-order-service/user-order.service';
 import { UserProfileManagementService } from 'src/app/services/user-profile-management-service/user-profile-management.service';
+import { environment } from 'src/environments/environment';
 declare var Razorpay: any;
 @Component({
   selector: 'app-user-cart',
@@ -144,7 +145,7 @@ export class UserCartComponent implements OnInit {
   }
   initPayment() {
     let totalCost = this.totalAmount * 100
-    let url = `https://localhost:7248/api/Payment/initialize?amount=${totalCost}`
+    let url = `${environment.apiUrl}api/Payment/initialize?amount=${totalCost}`
     this.httpClient.get<string>(url).subscribe({
       next: (orderId) => {
         console.log(orderId)
@@ -169,7 +170,7 @@ export class UserCartComponent implements OnInit {
           razorpaySignature: response.razorpay_signature,
         };
         console.log("data = ", data)
-        this.httpClient.get(`https://localhost:7248/api/Payment/confirm?paymentId=${this.paymentId}`).subscribe({
+        this.httpClient.get(`${environment.apiUrl}api/Payment/confirm?paymentId=${this.paymentId}`).subscribe({
           next: (response: any) => {
             if (response.paymentstatus === 'captured') {
               this.saveOrderDetails()
