@@ -18,8 +18,9 @@ import { environment } from 'src/environments/environment';
 })
 export class ProductShowcaseComponent implements OnInit {
   userId!: string
-  currentPage:number = 1
-  totalPages!:number
+  currentPage: number = 1
+  currentPageForFilter: number = 1
+  totalPages!: number
   productList: ProductInfo[] = [];
   categoryList: categoryList[] = [];
   brandList: BrandList[] = []
@@ -38,6 +39,7 @@ export class ProductShowcaseComponent implements OnInit {
   isResponseModalVisible = false;
   isSuccess = false;
   responseMessage = '';
+  isfilterApplied: boolean = false;
   environment = `${environment.apiUrl}`
   routeParamSubscription!: Subscription;
 
@@ -89,26 +91,45 @@ export class ProductShowcaseComponent implements OnInit {
   getProducts() {
     this.isLoading = true;
     this.productMngmntservice.getAllProductsWithPagination(this.currentPage).subscribe({
-      next: (response: ProductsForPagination) =>
-        {this.productList = response.productList
-          this.totalPages = response.totalPages
-          this.isLoading = false;
-        },
+      next: (response: ProductsForPagination) => {
+        this.productList = response.productList
+        this.totalPages = response.totalPages
+        this.isLoading = false;
+      },
       error: (error) => {
-        this.isLoading =false;
-        console.log(error)}
+        this.isLoading = false;
+        console.log(error)
+      }
     })
   }
 
-  nextPage(){
-    this.currentPage ++
-    this.getProducts()
+  nextPage() {
+    if (this.isfilterApplied) {
+      console.log("hello");
+      
+      this.currentPageForFilter++
+      this.applyFilters()
+    }
+    else {
+      this.currentPage++
+      this.getProducts()
+    }
+    console.log(this.currentPage);
+    console.log(this.currentPageForFilter);
   }
 
-  previousPage(){
-    this.currentPage --
-    this.getProducts()
+  previousPage() {
+    if (this.isfilterApplied) {
+      
+      this.currentPageForFilter--
+      this.applyFilters()
+    }
+    else {
+      this.currentPage--
+      this.getProducts()
+    }
   }
+
 
   getCategoryList() {
     this.productMngmntservice.getCategoryList().subscribe({
@@ -128,6 +149,7 @@ export class ProductShowcaseComponent implements OnInit {
 
   applyFilters() {
     this.isLoading = true
+    this.isfilterApplied = true;
     this.productShowcaseService.minPrice = this.minPrice
     this.productShowcaseService.maxPrice = this.maxPrice
     this.productShowcaseService.categoryName = this.categoryName
@@ -135,26 +157,29 @@ export class ProductShowcaseComponent implements OnInit {
     this.productShowcaseService.brandId = Number(this.brandId)
     this.productShowcaseService.targetGender = this.gender
     this.productShowcaseService.newArrival = this.newArrival
-    this.productShowcaseService.GetFilteredProductsWithPagination(this.currentPage).subscribe({
-      next: (response: ProductsForPagination) =>
-        {this.productList = response.productList
-          this.totalPages = response.totalPages
+    this.productShowcaseService.GetFilteredProductsWithPagination(this.currentPageForFilter).subscribe({
+      next: (response: ProductsForPagination) => {
+        this.productList = response.productList
+        this.totalPages = response.totalPages
         if (this.productList.length == 0) {
           this.showResponseModal(false, 'No product found')
         }
-        this.isLoading =false;
+        this.isLoading = false;
       },
       error: (error) => console.log(error)
     })
   }
 
   reset() {
+    this.currentPage = 1;
+    this.currentPageForFilter = 1;
+    this.isfilterApplied = false;
     this.minPrice = undefined;
     this.maxPrice = undefined;
     this.categoryId = '';
     this.brandId = '';
     this.gender = '';
-    this.applyFilters();
+    this.getProducts()
   }
 
   addToWishlist(productId: number) {

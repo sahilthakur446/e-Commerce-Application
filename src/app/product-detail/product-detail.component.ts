@@ -35,7 +35,6 @@ export class ProductDetailComponent implements OnInit {
   ngOnInit(): void {
     this.getProduct();
   }
-
   getProduct() {
     this.isLoading = true;
     this.productShowcaseService.getProduct(this.productId!).subscribe({
@@ -43,7 +42,7 @@ export class ProductDetailComponent implements OnInit {
         this.productDetails = response
         this.originalMRP = Math.floor(this.productDetails.price * (Math.random() + 1))
         this.discount = Math.ceil(((this.originalMRP - this.productDetails.price) / this.originalMRP) * 100)
-        this.isLoading = false;
+        this.isLoading =false;
       },
       error: () => this.showResponseModal(false, "Some error occured")
     })
@@ -82,6 +81,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   showResponseModal(success: boolean, message: string) {
+    this.isLoading = false;
     this.isResponseModalVisible = true;
     this.isSuccess = success;
     this.responseMessage = message;

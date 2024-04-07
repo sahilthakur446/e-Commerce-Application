@@ -17,13 +17,12 @@
     </div>
 </div>
 </div>
-<div *ngIf="isLoading" class="w-full opacity-100 h-full top-0 left-0 fixed z-50 bg-white flex justify-center items-center gap-2">
-    <div *ngIf="this.isLoading" class="border-4 h-10 w-10 mr-3 ml-3 animate-spin border-l-red-600 border-y-white border-r-black rounded-full">
-</div>
 </div>
 <app-response-modal
 [show]="isResponseModalVisible"
 [responseClass]="isSuccess ? 'text-lg md:text-3xl font-bold text-green-700' : 'text-lg md:text-3xl font-bold text-red-700'"
 [message]="responseMessage">    
 </app-response-modal>
-
+<div *ngIf="isLoading" class="w-full opacity-100 h-full top-0 left-0 fixed z-50 bg-white flex justify-center items-center gap-2">
+    <div class="border-4 h-10 w-10 mr-3 ml-3 animate-spin border-l-red-600 border-y-white border-r-black rounded-full">
+</div>

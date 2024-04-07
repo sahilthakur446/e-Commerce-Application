@@ -155,7 +155,7 @@ export class UserCartComponent implements OnInit {
   }
   payWithRazor(orderId: string, totalCost: number) {
     let options = {
-      "key": "rzp_test_JAwkgU8QccgoVb",
+      "key": "rzp_test_SH4KOjIGMWaY7K",
       "amount": totalCost,
       "currency": "INR",
       "name": "Elliye",

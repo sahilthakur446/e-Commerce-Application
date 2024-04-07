@@ -25,12 +25,7 @@
             <option value="">Select Brand</option>
             <option *ngFor="let brand of brandList" value="{{brand.brandId}}">{{brand.brandName}}</option>
         </select>
-        <div class="flex flex-col">
-        <p class="text-slate-800 font-semibold" >Price</p>
-        <button class="text-start text-sm text-slate-700 rounded hover:text-slate-900 hover:font-medium ease-in duration-50">Under 299</button>
-        <button class="text-start text-sm text-slate-700 rounded hover:text-slate-900 hover:font-medium ease-in duration-50">Under 299</button>
-        <button class="text-start text-sm text-slate-700 rounded hover:text-slate-900 hover:font-medium ease-in duration-50">Under 299</button>
-    </div>
+        
     <label for="gender" class="text-slate-800 font-semibold">For</label>
         <select name="brand" id="brand" [(ngModel)]="gender" class="outline-1 focus:outline-2 outline outline-slate-600 rounded p-0.5 text-slate-700">
             <option value="">Select Gender</option>
@@ -38,6 +33,19 @@
             <option value="Female">Female</option>
             <option value="Unisex">Unisex</option>
         </select>
+        <p class="text-slate-800 font-semibold" >Price</p>
+        <div class="flex justify-between">
+        <div class="flex flex-col">
+            <button (click)='reset(); maxPrice = 499; applyFilters()'  class="text-start text-sm text-slate-700 rounded hover:text-slate-900 hover:font-medium ease-in duration-50">Under 499</button>
+            <button (click)='reset(); maxPrice = 999; applyFilters()' class="text-start text-sm text-slate-700 rounded hover:text-slate-900 hover:font-medium ease-in duration-50">Under 999</button>
+            <button (click)='reset(); maxPrice = 1999; applyFilters()' class="text-start text-sm text-slate-700 rounded hover:text-slate-900 hover:font-medium ease-in duration-50">Under 1999</button>
+        </div>
+        <div class="flex flex-col">
+            <button (click)='reset(); minPrice = 499; applyFilters()'  class="text-start text-sm text-slate-700 rounded hover:text-slate-900 hover:font-medium ease-in duration-50">Above 499</button>
+            <button (click)='reset(); minPrice = 999; applyFilters()' class="text-start text-sm text-slate-700 rounded hover:text-slate-900 hover:font-medium ease-in duration-50">Above 999</button>
+            <button (click)='reset(); minPrice = 1999; applyFilters()' class="text-start text-sm text-slate-700 rounded hover:text-slate-900 hover:font-medium ease-in duration-50">Above 1999</button>
+        </div>
+    </div>
     <div class="flex w-full gap-3">
         <div class="flex flex-col w-5/12">
             <label for="min">Min</label>
@@ -68,8 +76,14 @@
         </a>
     </ng-container>
     <div class="col-span-2 md:col-span-4 flex justify-center gap-4">
+        <ng-container *ngIf="!isfilterApplied" else filterButtons>
         <button *ngIf="currentPage != 1" (click)="previousPage()" class="bg-slate-800 w-28 h-10 rounded text-white font-semibold px-3 py-1"><i class="bi bi-chevron-left"></i> Previous</button>
         <button *ngIf="currentPage != totalPages" (click)="nextPage()" class="bg-slate-800 w-24 h-10 rounded text-white font-semibold px-3 py-1">Next <i class="bi bi-chevron-right"></i></button>
+        </ng-container>
+        <ng-template #filterButtons>
+        <button *ngIf="currentPageForFilter != 1" (click)="previousPage()" class="bg-slate-800 w-28 h-10 rounded text-white font-semibold px-3 py-1"><i class="bi bi-chevron-left"></i> Previous</button>
+        <button *ngIf="currentPageForFilter != totalPages" (click)="nextPage()" class="bg-slate-800 w-24 h-10 rounded text-white font-semibold px-3 py-1">Next <i class="bi bi-chevron-right"></i></button>
+        </ng-template>
     </div>
     </div>
 </div>
