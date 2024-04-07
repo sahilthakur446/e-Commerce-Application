@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AddAddress } from 'src/app/models/address/add-address.model';
 import { AddProduct } from 'src/app/models/product/product.model';
 import { AuthService } from 'src/app/services/auth-service/auth.service';
+import { StorageService } from 'src/app/services/storage-service/storage.service';
 import { UserProfileManagementService } from 'src/app/services/user-profile-management-service/user-profile-management.service';
 
 @Component({
@@ -27,8 +28,8 @@ export class AddAddressComponent {
   responseClass: string = '';
   responseSuccessClass: string = 'text-3xl font-bold text-green-700';
   responseFailureClass: string = 'text-3xl font-bold text-red-700';
-  constructor(private userProfileService: UserProfileManagementService, private router: Router, private authService: AuthService) {
-    this.userId = this.authService.retrieveJwtToken('userId')!
+  constructor(private userProfileService: UserProfileManagementService, private router: Router,private storageService:StorageService) {
+    this.userId = this.storageService.getItem('userId')!
   }
   addAddress() {
     let address: AddAddress = {

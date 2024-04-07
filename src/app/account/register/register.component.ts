@@ -43,8 +43,8 @@ togglePasswordVisibility()
   }
 }
 
-onSubmit()
-{
+onSubmit(){
+  this.isLoading = true;
   const formData = new FormData();
   formData.append('FirstName',this.firstName)
   formData.append('LastName',this.lastName)
@@ -52,16 +52,17 @@ onSubmit()
   formData.append('Email',this.email)
   formData.append('Password',this.password)
   formData.append('ConfirmPassword',this.confirmpassword)
-  
   this.authService.registerUser(formData).subscribe({
     next: (response: any) => {
       this.responseMessage = response.message
       this.authService.setNewRegisteredEmailAndPassword(this.email,this.password);
       this.responseClass = this.responseSuccessClass;
+      this.isLoading = false;
       this.displayResponseModal('success');
       },
       error: (response) => {
         response.error.message?this.responseMessage = response.error.message:this.responseMessage = "Signup Failed Due to Internal Server Issue"
+        this.isLoading = false;
         this.displayResponseModal('failure');
         },
       complete: () => console.log("Completed")  
@@ -85,8 +86,5 @@ onSubmit()
             this.isModalVisible = false;
           }, 2000);
       }
-    
     }
-
-
 }

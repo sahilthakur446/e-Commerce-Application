@@ -4,7 +4,7 @@ import { Form } from '@angular/forms';
 import { map } from 'rxjs';
 import { BrandList } from 'src/app/models/brand/brand.model';
 import { categoryList } from 'src/app/models/category/category.model';
-import { AddProduct, ProductInfo } from 'src/app/models/product/product.model';
+import { AddProduct, ProductInfo, ProductsForPagination } from 'src/app/models/product/product.model';
 
 
 @Injectable({
@@ -19,6 +19,11 @@ export class ProductManagementService {
     return this.http.get<ProductInfo[]>(apiUrl).pipe(
       map(response => response as ProductInfo[])
     );
+  }
+
+  getAllProductsWithPagination(currentPage:number){
+    let apiUrl = `${this.BaseUrl}Product/GetProductsWithPagination?currentPage=${currentPage}&pageSize=20`
+    return this.http.get<ProductsForPagination>(apiUrl)
   }
 
   GetProductsAbovePriceAsync(minPrice:number){

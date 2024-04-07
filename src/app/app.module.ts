@@ -27,7 +27,6 @@ import { AddAddressComponent } from './user-profile/add-address/add-address.comp
 import { UpdateAddressComponent } from './user-profile/update-address/update-address.component';
 import { UserCartComponent } from './user-profile/user-cart/user-cart.component';
 import { ResponseModalComponent } from './response-modal/response-modal.component';
-import { PaymentComponent } from './payment/payment.component';
 import { UserOrdersComponent } from './user-profile/user-orders/user-orders/user-orders.component';
 import { OrdersManagementComponent } from './admin-components/orders-management/orders-management.component';
 
@@ -53,7 +52,6 @@ import { OrdersManagementComponent } from './admin-components/orders-management/
     UpdateAddressComponent,
     UserCartComponent,
     ResponseModalComponent,
-    PaymentComponent,
     UserOrdersComponent,
     OrdersManagementComponent
   ],

@@ -11,12 +11,11 @@ import { StorageService } from '../storage-service/storage.service';
 })
 export class UserCartService {
   private BaseApiUrl:string ='https://localhost:7248/';
-  private userId:string|null
   private cartCount$ = new BehaviorSubject(0)
   cartCountUpdated = new EventEmitter<number>();
   constructor(private http:HttpClient,private storageService:StorageService) 
   {
-    this.userId = storageService.getItem('userId') 
+    
     this.getUserCartCount()
   }
 
@@ -29,10 +28,13 @@ export class UserCartService {
   }
 
   getUserCartCount(){
-    let url = `${this.BaseApiUrl}api/UserCart/GetUserCartCount/${this.userId}`
+    let userId = this.storageService.getItem('userId') 
+    let url = `${this.BaseApiUrl}api/UserCart/GetUserCartCount/${userId}`
     this.http.get<number>(url).subscribe({
       next:(count) => {this.setCartCount(count)
-      }
+        console.log(`count: ${count}, userID: ${userId}`);
+      },
+      error:() => this.setCartCount(0)
     })
   }
 

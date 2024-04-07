@@ -11,6 +11,11 @@ export interface ProductInfo {
     brandId: number;
     brandName:string;
   }
+
+  export interface ProductsForPagination{
+    productList:ProductInfo[]
+    totalPages:number
+  }
   
   export interface AddProduct {
     productName: string;

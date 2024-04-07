@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ProductInfo } from 'src/app/models/product/product.model';
+import { ProductInfo, ProductsForPagination } from 'src/app/models/product/product.model';
 import { ProductManagementService } from '../product-management-service/product-management.service';
 
 @Injectable({
@@ -33,7 +33,20 @@ newArrival:boolean|undefined;
     if(this.brandId) params = params.set("brandId", this.brandId);
     if(this.targetGender) params = params.set("gender", this.targetGender);
     if(this.newArrival) params = params.set("isNew",this.newArrival)
-    let apiUrl = `${this.baseUrl}Product/GetProductwithGivenFilter?${params.toString()}`
+    let apiUrl = `${this.baseUrl}Product/GetFilteredProducts?${params.toString()}`
     return this.http.get<ProductInfo[]>(apiUrl)
+}
+
+GetFilteredProductsWithPagination(currentPage:number){
+  let params = new HttpParams();
+  if(this.minPrice) params = params.set("minPrice", this.minPrice);
+  if(this.maxPrice) params = params.set("maxPrice", this.maxPrice);
+  if(this.categoryName) params = params.set("category", this.categoryName);
+  if(this.categoryId) params = params.set("categoryId", this.categoryId);
+  if(this.brandId) params = params.set("brandId", this.brandId);
+  if(this.targetGender) params = params.set("gender", this.targetGender);
+  if(this.newArrival) params = params.set("isNew",this.newArrival)
+  let apiUrl = `${this.baseUrl}Product/GetFilteredProductsWithPagination?currentPage=${currentPage}&pageSize=20&${params.toString()}`
+  return this.http.get<ProductsForPagination>(apiUrl)
 }
 }

@@ -26,6 +26,7 @@ export class UserCartComponent implements OnInit {
   otherAddresses: UserAddress[] = [];
   showQuantityModal: boolean = false;
   selectAddress: boolean = false;
+  isLoading:boolean =false;
   paymentId: any;
   selectedAddress!: UserAddress;
   paymentSuccess: boolean = false
@@ -89,11 +90,13 @@ export class UserCartComponent implements OnInit {
     });
   }
   getUserCartList(): void {
+    this.isLoading = true;
     this.userCartService.getUserCart(this.userId).subscribe({
       next: (response: UserCart[]) => {
         this.userCartList = response;
+        this.isLoading = false;
       },
-      error: (error) => console.error(error.message)
+      error: (error) => this.isLoading = false
     });
   }
   getAddresses(): void {

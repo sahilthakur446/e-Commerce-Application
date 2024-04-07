@@ -5,6 +5,7 @@ import { Location } from '@angular/common';
 import { UserService } from '../services/user-profile-service/user.service';
 import { Observable, delay, filter } from 'rxjs';
 import { UserCartService } from '../services/user-cart-service/user-cart.service';
+import { StorageService } from '../services/storage-service/storage.service';
 
 @Component({
   selector: 'app-header',
@@ -20,11 +21,12 @@ isUserAdmin:boolean =  false;
 isLogoutModalOpen = false;
 cartCount$!:Observable<number>; 
 constructor(private authService:AuthService,private userService:UserService,
-   private router:Router, private userCartService: UserCartService) {
+   private router:Router, private userCartService: UserCartService,
+  private storageService: StorageService) {
   this.router.events.pipe(
     filter(event => event instanceof NavigationEnd)
   ).subscribe((event:any) => {
-    this.showLoginLogout = event.url !== '/Login';
+    this.showLoginLogout = event.url !== '/login';
   });
  this.userService.getUserRole().pipe(delay(2000)).subscribe({
   next:(response)=> {
@@ -45,8 +47,16 @@ constructor(private authService:AuthService,private userService:UserService,
   this.authService.isLoggedIn()
 }
 
-navigateToProduct(){
-this.router.navigate(['products','newarrival'])
+navigateToProduct(segment:string){
+  if (segment === 'newarrival') {
+    this.router.navigate(['products', segment])
+  }
+  if (segment === 'men') {
+    this.router.navigate(['products', segment])
+  }
+  if (segment === 'women') {
+    this.router.navigate(['products', segment])
+  }
 }
 
 
@@ -57,6 +67,8 @@ toggleUserModal() {
 
 logout(){
   this.authService.removeJwtToken()
+  this.storageService.clear();
+  this.userCartService.getUserCartCount()
   this.router.navigate(['login'])
   this.userService.getIsLoggedIn().subscribe({
     next:(response)=> response == true?this.isLoggedIn=true:this.isLoggedIn=false

@@ -22,7 +22,7 @@
                     <button (click)="togglePasswordVisibility()"><i [ngClass]="passwordViewIconClass"></i></button>
                 </div>
             </div>  
-            <button *ngIf="!isLoading" type="submit" (click)="onSubmit()" class="bg-slate-800 text-white px-4 py-1 rounded text-xl font-medium hover:shadow-2xl hover:bg-slate-900" [ngClass]="{'pointer-events-none':isLoading}">Login</button>
+            <button *ngIf="!isLoading" type="submit" (click)="onSubmit()" (keydown)="handleKeydown($event)" class="bg-slate-800 text-white px-4 py-1 rounded text-xl font-medium hover:shadow-2xl hover:bg-slate-900" [ngClass]="{'pointer-events-none':isLoading}">Login</button>
             <div *ngIf="isLoading" class="w-full bg-slate-800 flex justify-center py-1 items-center rounded">
             <div  class="border-4 h-7 w-7 mr-3 ml-3 animate-spin border-l-white border-t-white border-r-slate-800 border-b-slate-800  rounded-full">
                 </div>

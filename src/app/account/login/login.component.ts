@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { keyboard } from 'ngx-bootstrap-icons';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth-service/auth.service';
+import { UserCartService } from 'src/app/services/user-cart-service/user-cart.service';
 import { UserService } from 'src/app/services/user-profile-service/user.service';
 import { WelcomeService } from 'src/app/services/welcome-service/welcome.service';
 
@@ -22,15 +25,20 @@ responseMessage:string = '';
 responseClass: string = '';
 responseSuccessClass: string = 'text-3xl font-bold text-green-700';
 responseFailureClass: string = 'text-3xl font-bold text-red-700';
+emailAndPasswordSubscription!:Subscription;
 
-constructor(private authService: AuthService,private welcomeService:WelcomeService, private router:Router) {
+constructor(private authService: AuthService,private welcomeService:WelcomeService, private router:Router, private userCartService: UserCartService) {
 }
   ngOnInit(): void {
-    this.getNewlyRegisteredUserEmailAndPassword()
+   this.getNewlyRegisteredUserEmailAndPassword()
+  }
+
+  ngOndestroy(){
+    this.emailAndPasswordSubscription.unsubscribe();
   }
 
   getNewlyRegisteredUserEmailAndPassword(){
-    this.authService.getNewRegisteredEmail().subscribe({
+    this.emailAndPasswordSubscription = this.authService.getNewRegisteredEmail().subscribe({
       next:(email) => this.email = email ?? '',
       error:(error) => console.log(error)
     })
@@ -69,6 +77,7 @@ onSubmit(){
     this.authService.decodeJwtToken()
     this.authService.isLoggedIn()
     this.authService.isUserAdmin()
+    this.userCartService.getUserCartCount()
     this.responseMessage = response.message;
     this.welcomeService.setShowWelcome(true)
     this.displayResponseModal('success')
@@ -80,6 +89,14 @@ onSubmit(){
       },
     complete: () => console.log("Completed")  
   })
+}
+
+handleKeydown(event:KeyboardEvent){
+  console.log('hello');
+  
+if (event.key === 'Enter') {
+  this.onSubmit()
+}
 }
 
 displayResponseModal(result:string){

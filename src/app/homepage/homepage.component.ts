@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth-service/auth.service';
 import { UserService } from '../services/user-profile-service/user.service';
 import { WelcomeService } from '../services/welcome-service/welcome.service';
+import { UserCartService } from '../services/user-cart-service/user-cart.service';
 
 @Component({
   selector: 'app-homepage',
@@ -12,7 +13,7 @@ export class HomepageComponent implements OnInit{
 welcome:boolean = false
 userName:string = ''
 userRole:string =''
-constructor(private userService:UserService, private welcomeService:WelcomeService) {
+constructor(private userService:UserService, private welcomeService:WelcomeService, private userCartService: UserCartService) {
   this.welcomeService.getShowWelcome().subscribe({
     next:(response)=> {response == true?this.welcome=true:this.welcome=false
     console.log(response);
@@ -21,7 +22,7 @@ constructor(private userService:UserService, private welcomeService:WelcomeServi
 }
 
   ngOnInit(): void {
-   
+   this.userCartService.getUserCartCount();
   this.userService.getUserName().subscribe({
     next:(response)=> {this.userName = response
     }

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { changePassword } from 'src/app/models/user/change-password.model';
 import { updateUser } from 'src/app/models/user/update-user.model';
 import { AuthService } from 'src/app/services/auth-service/auth.service';
+import { StorageService } from 'src/app/services/storage-service/storage.service';
 import { UserProfileManagementService } from 'src/app/services/user-profile-management-service/user-profile-management.service';
 
 @Component({
@@ -30,7 +31,7 @@ export class UserDetailsComponent implements OnInit {
   responseClass: string = '';
   responseSuccessClass: string = 'text-3xl font-bold text-green-700';
   responseFailureClass: string = 'text-3xl font-bold text-red-700';
-  constructor(private userProfileManagement: UserProfileManagementService, private authService: AuthService, private router:Router) {
+  constructor(private userProfileManagement: UserProfileManagementService,private storageService:StorageService, private authService: AuthService, private router:Router) {
   }
   ngOnInit(): void {
     this.getUserInfo();
@@ -44,7 +45,7 @@ export class UserDetailsComponent implements OnInit {
     }
   }
   getUserInfo() {
-    let userId: string = this.authService.retrieveJwtToken('userId')!
+    let userId: string = this.storageService.getItem('userId')!
     this.userId = userId
     this.userProfileManagement.getUserInfo(userId).subscribe({
       next: (userInfo: any) => {

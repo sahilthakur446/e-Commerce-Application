@@ -56,6 +56,7 @@ export class UserWishlistComponent implements OnInit {
   }
 
   showResponseModal(success: boolean, message: string) {
+    this.isLoading = false;
     this.isResponseModalVisible = true;
     this.isSuccess = success;
     this.responseMessage = message;

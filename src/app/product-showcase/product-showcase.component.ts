@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductManagementService } from '../services/product-management-service/product-management.service';
-import { ProductInfo } from '../models/product/product.model';
+import { ProductInfo, ProductsForPagination } from '../models/product/product.model';
 import { categoryList } from '../models/category/category.model';
 import { BrandList } from '../models/brand/brand.model';
 import { ProductShowcaseService } from '../services/product-showcase-service/product-showcase.service';
@@ -8,6 +8,7 @@ import { StorageService } from '../services/storage-service/storage.service';
 import { AddWishlist } from '../models/wishlist/add-wishlist.model';
 import { UserProfileManagementService } from '../services/user-profile-management-service/user-profile-management.service';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-product-showcase',
@@ -16,6 +17,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ProductShowcaseComponent implements OnInit {
   userId!: string
+  currentPage:number = 1
+  totalPages!:number
   productList: ProductInfo[] = [];
   categoryList: categoryList[] = [];
   brandList: BrandList[] = []
@@ -34,6 +37,8 @@ export class ProductShowcaseComponent implements OnInit {
   isResponseModalVisible = false;
   isSuccess = false;
   responseMessage = '';
+  routeParamSubscription!: Subscription;
+
   constructor(private productMngmntservice: ProductManagementService,
     private productShowcaseService: ProductShowcaseService,
     private storageService: StorageService,
@@ -41,43 +46,66 @@ export class ProductShowcaseComponent implements OnInit {
     private route: ActivatedRoute) {
   }
   ngOnInit(): void {
+    this.routeParamSubscription = this.route.paramMap.subscribe(params => {
+      let segment = params.get('segment')
+      this.reset()
+      switch (segment) {
+        case 'newarrival':
+          this.newArrival = true
+          this.applyFilters();
+          break;
+        case 'men':
+          this.gender = 'Male'
+          this.applyFilters();
+          break;
+        case 'women':
+          this.gender = 'Female'
+          this.applyFilters();
+          break;
+        default:
+          break;
+      }
+    })
 
-    if (this.route.snapshot.paramMap.get('category')) {
-      this.categoryName = this.route.snapshot.paramMap.get('category')!
-      this.applyFilters();
-      this.getUserId()
-      this.getCategoryList()
-      this.getBrandList()
-      return;
-    }
-
-    if (this.route.snapshot.paramMap.get('segment') === 'newarrival') {
-      this.newArrival = true
-      this.applyFilters();
-      this.getUserId()
-      this.getCategoryList()
-      this.getBrandList()
-      return;
-    }
     this.getUserId()
     this.getCategoryList()
     this.getBrandList()
-    this.getAllProducts()
+    this.getProducts()
 
+  }
+
+  ngOnDestroy() {
+    if (this.routeParamSubscription) {
+      this.routeParamSubscription.unsubscribe();
+    }
   }
 
   getUserId() {
     this.userId = this.storageService.getItem('userId')!
   }
 
-  getAllProducts() {
-    this.productMngmntservice.getAllProducts().subscribe({
-      next: (response: ProductInfo[]) => {
-        this.productList = response
-        setTimeout(() => { this.isLoading = false }, 1000)
-      },
-      error: (error) => console.log(error)
+  getProducts() {
+    this.isLoading = true;
+    this.productMngmntservice.getAllProductsWithPagination(this.currentPage).subscribe({
+      next: (response: ProductsForPagination) =>
+        {this.productList = response.productList
+          this.totalPages = response.totalPages
+          this.isLoading = false;
+        },
+      error: (error) => {
+        this.isLoading =false;
+        console.log(error)}
     })
+  }
+
+  nextPage(){
+    this.currentPage ++
+    this.getProducts()
+  }
+
+  previousPage(){
+    this.currentPage --
+    this.getProducts()
   }
 
   getCategoryList() {
@@ -105,13 +133,14 @@ export class ProductShowcaseComponent implements OnInit {
     this.productShowcaseService.brandId = Number(this.brandId)
     this.productShowcaseService.targetGender = this.gender
     this.productShowcaseService.newArrival = this.newArrival
-    this.productShowcaseService.GetProductwithGivenFilter().subscribe({
-      next: (response: ProductInfo[]) => {
-        this.productList = response
-        this.isLoading = false
-        if (response.length == 0) {
+    this.productShowcaseService.GetFilteredProductsWithPagination(this.currentPage).subscribe({
+      next: (response: ProductsForPagination) =>
+        {this.productList = response.productList
+          this.totalPages = response.totalPages
+        if (this.productList.length == 0) {
           this.showResponseModal(false, 'No product found')
         }
+        this.isLoading =false;
       },
       error: (error) => console.log(error)
     })
@@ -123,7 +152,6 @@ export class ProductShowcaseComponent implements OnInit {
     this.categoryId = '';
     this.brandId = '';
     this.gender = '';
-
     this.applyFilters();
   }
 
