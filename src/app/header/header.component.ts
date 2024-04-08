@@ -73,6 +73,7 @@ toggleUserModal() {
 logout(){
   this.authService.removeJwtToken()
   this.storageService.clear();
+  this.isUserAdmin = false;
   this.userCartService.getUserCartCount()
   this.router.navigate(['login'])
   this.userService.getIsLoggedIn().subscribe({

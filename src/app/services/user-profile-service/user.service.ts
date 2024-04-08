@@ -18,7 +18,7 @@ export class UserService {
 
   getIsLoggedIn() { 
     return this.loggedInStatus$.asObservable();
-  }
+  } 
 
   getUserName() {
     return this.userName$.asObservable();

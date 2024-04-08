@@ -105,8 +105,6 @@ export class ProductShowcaseComponent implements OnInit {
 
   nextPage() {
     if (this.isfilterApplied) {
-      console.log("hello");
-      
       this.currentPageForFilter++
       this.applyFilters()
     }

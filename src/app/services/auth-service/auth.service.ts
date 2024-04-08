@@ -18,8 +18,6 @@ export class AuthService {
   constructor(private http: HttpClient, private userService: UserService, private storageService: StorageService) { }
 
   loginUser(loginFormData: FormData) {
-    console.log(this.loginApiUrl);
-    
     return this.http.post(this.loginApiUrl, loginFormData);
   }
 
@@ -55,7 +53,7 @@ export class AuthService {
 
   isUserAdmin(): boolean {
     if (this.userRole == 'Admin') {
-      console.log('Admin');
+      console.log('Admin'); 
       return true;
     }
     else {
