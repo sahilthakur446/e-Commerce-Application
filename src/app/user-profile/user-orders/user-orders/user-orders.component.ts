@@ -5,7 +5,7 @@ import { StorageService } from 'src/app/services/storage-service/storage.service
 import { UserCartService } from 'src/app/services/user-cart-service/user-cart.service';
 import { UserOrderService } from 'src/app/services/user-order-service/user-order.service';
 import { UserProfileManagementService } from 'src/app/services/user-profile-management-service/user-profile-management.service';
-
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-user-orders',
   templateUrl: './user-orders.component.html',
@@ -16,7 +16,7 @@ export class UserOrdersComponent implements OnInit {
   userOrders: OrderDetails[] = []
   userAddress!: UserAddress;
   isLoading:boolean = false;
-
+  environmentVariable = environment.apiUrl;
   constructor(private userOrderService: UserOrderService, storageService: StorageService, private userProfileService: UserProfileManagementService, private userCartService:UserCartService) {
     this.userId = storageService.getItem('userId')
   }

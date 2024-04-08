@@ -30,7 +30,8 @@ export class UserCartComponent implements OnInit {
   isLoading:boolean =false;
   paymentId: any;
   selectedAddress!: UserAddress;
-  paymentSuccess: boolean = false
+  paymentSuccess: boolean = false;
+  environmentVariable:string = environment.apiUrl
   private readonly SHIPPING_COST: number = 49;
   private readonly PLATFORM_FEE: number = 20;
   constructor(

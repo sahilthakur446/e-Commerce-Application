@@ -3,7 +3,7 @@ import { AddCart } from 'src/app/models/cart/add-cart.model';
 import { UserWishlist } from 'src/app/models/wishlist/user-wishlist.model';
 import { UserCartService } from 'src/app/services/user-cart-service/user-cart.service';
 import { UserProfileManagementService } from 'src/app/services/user-profile-management-service/user-profile-management.service';
-
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-user-wishlist',
   templateUrl: './user-wishlist.component.html',
@@ -17,6 +17,7 @@ export class UserWishlistComponent implements OnInit {
   isResponseModalVisible:boolean = false
   isSuccess:boolean = false;
   responseMessage :string = ''
+  environmentVariable:string = environment.apiUrl
   constructor(private userProfileService: UserProfileManagementService, private userCartService:UserCartService) {
     this.userId = localStorage.getItem('userId')!
   }

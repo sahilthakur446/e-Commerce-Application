@@ -12,7 +12,7 @@
       <ng-container *ngIf="!selectAddress;else addresses">
         <div *ngFor="let product of userCartList" class="w-[450px] h-40 md:w-[590px] md:h-48 flex">
           <div class="w-28 h-40 md:h-36 ">
-            <img src="https://localhost:7248/{{product.imagePath}}" alt="product image"
+            <img src="{{environmentVariable}}{{product.imagePath}}" alt="product image"
               class="ml-auto mr-auto rounded-sm">
           </div>
           <div class="w-96 h-[90px] ml-4 flex flex-col gap-1">

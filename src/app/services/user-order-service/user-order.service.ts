@@ -2,12 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AddUserOrder } from 'src/app/models/userOrder/addorder.model';
 import { OrderDetails, OrderDetailsWithPaymentStatus } from 'src/app/models/userOrder/order-details.model';
-
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class UserOrderService {
-  baseApiUrl = "${environment.apiUrl}api/"
+  baseApiUrl = `${environment.apiUrl}api/`
   constructor(private http: HttpClient) { }
 
   addUserOrder(userId:number|string,userOrderDetails:AddUserOrder){

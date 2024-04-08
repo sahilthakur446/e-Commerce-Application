@@ -1,7 +1,7 @@
 <div class="pb-4 sm:pb-0 pt-20 md:w-screen md:h-screen">
 <div class="grid grid-cols-1 sm:place-items-stretch gap-2 sm:gap-0 md:grid-cols-2">
 <div>
-    <img src="https://localhost:7248/{{productDetails.imagePath}}" alt="product image" class="h-[500px] sm:w-96 ml-auto mr-auto rounded-sm">
+    <img src="{{environmentVariable}}{{productDetails.imagePath}}" alt="product image" class="h-[500px] sm:w-96 ml-auto mr-auto rounded-sm">
 </div>
 <div class="ml-14 sm:ml-0">
     <h1 class="text-3xl text-slate-700 font-bold">{{productDetails.brandName | uppercase}}</h1>

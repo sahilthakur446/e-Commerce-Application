@@ -10,7 +10,7 @@
     <div class="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 w-full justify-items-center">
      <div *ngFor="let product of userWishlistItems" class="w-56 h-[426px]">
       <div class="w-full h-72 relative">
-        <img src="https://localhost:7248/{{product.imagePath}}" alt="product image" class="ml-auto mr-auto rounded-sm">
+        <img src="{{environmentVariable}}{{product.imagePath}}" alt="product image" class="ml-auto mr-auto rounded-sm">
         <button (click)="removeWishlistItem(product.userWishlistId)" class="absolute rounded-full w-6 h-6 text-gray-600  bg-white bg-opacity-50 hover:bg-opacity-90 right-2 top-2"><i class="bi bi-x text-black"></i></button>
       </div>
         <div class="w-full h-[90px] flex flex-col justify-center items-center   box-border border-x border-gray-300">

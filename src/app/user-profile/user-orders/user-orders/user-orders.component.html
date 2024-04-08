@@ -37,7 +37,7 @@
         <ng-container *ngFor="let orderItem of order.orderItems">
       <div class="flex justify-between ">
         <div class="w-28 h-40 md:h-36">
-            <img src="https://localhost:7248/{{orderItem.imagePath}}" alt="productImage" class="ml-auto mr-auto rounded-sm">
+            <img src="{{environmentVariable}}{{orderItem.imagePath}}" alt="productImage" class="ml-auto mr-auto rounded-sm">
         </div>
         <div class=" w-2/4 flex-col flex ">
             <p class="font-medium text-slate-950">{{orderItem.brandName}}</p>

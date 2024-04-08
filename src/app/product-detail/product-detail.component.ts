@@ -7,6 +7,7 @@ import { AddWishlist } from '../models/wishlist/add-wishlist.model';
 import { UserCartService } from '../services/user-cart-service/user-cart.service';
 import { AddCart } from '../models/cart/add-cart.model';
 import { StorageService } from '../services/storage-service/storage.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-product-detail',
@@ -26,6 +27,7 @@ export class ProductDetailComponent implements OnInit {
   isSuccess: boolean = false;
   responseMessage: string = ''
   isLoading: boolean = false;
+  environmentVariable:string = environment.apiUrl
   constructor(route: ActivatedRoute, private productShowcaseService: ProductShowcaseService,
     private userProfileService: UserProfileManagementService, private userCartService: UserCartService,
     private storageService: StorageService) {
